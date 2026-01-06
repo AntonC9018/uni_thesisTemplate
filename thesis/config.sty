@@ -81,7 +81,8 @@
 \newfontfamily\cyrillicfonttt{Liberation Mono}[Scale=MatchLowercase]
 
 % Language-specific quote config
-\RequirePackage{csquotes}
+\RequirePackage[autostyle=true]{csquotes}
+
 
 % Counters
 \RequirePackage{totcount}
@@ -431,4 +432,12 @@
   \begin{minted}[linenos=false]{text}%
 }{%
   \end{minted}%
+}
+
+% Force English quotes in bibliography, then restore
+\AtBeginBibliography{%
+  \setquotestyle{english}%
+}
+\AfterEndEnvironment{bibliography}{%
+  \setquotestyle{\mainLanguage}%
 }
