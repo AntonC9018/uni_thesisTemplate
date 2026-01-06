@@ -17,3 +17,4 @@ output
 *.xdv
 *.bcf
 *.run.xml
+*.cpt
