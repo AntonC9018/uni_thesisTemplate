@@ -74,6 +74,9 @@ git clone https://github.com/AntonC9018/uni_thesisTemplate
 cd uni_thesisTemplate
 ```
 
+> Note that it is very important to have the project be a git repository!
+> Some features may not work otherwise.
+
 ## Compiling the Thesis
 
 1. **Choose Your Language:** Rename the main `.tex` file 
@@ -102,4 +105,21 @@ this source file with what you see in the PDF.
 Play around with it, see how changes in the source file affect the PDF, 
 see what errors the compiler gives.
 You will be able to learn most of what you need to write your work like this.
+
+## Notes on prompting the AI
+
+I know most of you won't even bother looking through the examples in the file
+and will go straight into copy-pasting AI generated text into your document.
+If you do, at least add the example file into the context 
+by copy-pasting it into the prompt alongside yours.
+This will significantly improve the chances of your document compiling properly.
+
+## The compile script doesn't work after changes
+
+In this case, you should clear the latex cache.
+To recompile having cleared the cache, run `./render.sh -f`.
+
+> Note that clearing the cache relies on `git`, 
+> so you **must have your project be a git repository.**
+
 
