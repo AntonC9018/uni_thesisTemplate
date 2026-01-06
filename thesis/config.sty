@@ -420,3 +420,15 @@
 
 \RequirePackage[useregional=text]{datetime2}
 
+\RequirePackage{etoolbox}
+
+% Redefine verbatim to minted
+\let\oldverbatim\verbatim
+\let\endoldverbatim\endverbatim
+
+\renewenvironment{verbatim}{%
+  \VerbatimEnvironment
+  \begin{minted}[linenos=false]{text}%
+}{%
+  \end{minted}%
+}
