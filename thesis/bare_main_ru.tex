@@ -289,6 +289,22 @@ int main()
 
 \inputMintedSegment{../src/sourcefile.zig}{example}
 
+\subsection{Вставка текста на много строк как код}
+
+\begin{minted}{text}
+Regular text
+Multiline
+With any characters |||
+\end{minted}
+
+Чтобы вставить только текст, без номера строки, необходимо добавить \verb|[linenos=false]|.
+
+\begin{minted}[linenos=false]{text}
+Regular text
+Multiline
+With any characters |||
+\end{minted}
+
 \section{Изображения}
 
 \subsection{Введение}

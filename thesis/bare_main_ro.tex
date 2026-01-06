@@ -295,6 +295,22 @@ Pentru a configura limbajul, modificați \texttt{findSegment.py}.
 
 \inputMintedSegment{../src/sourcefile.zig}{example}
 
+\subsection{Inserarea textului pe mai multe rânduri ca cod}
+
+\begin{minted}{text}
+Regular text
+Multiline
+With any characters |||
+\end{minted}
+
+Pentru a insera doar text, fără numărul de rând, este necesar să adăugați \verb|[linenos=false]|
+
+\begin{minted}[linenos=false]{text}
+Regular text
+Multiline
+With any characters |||
+\end{minted}
+
 \section{Imagini}
 
 \subsection{Introducere}
