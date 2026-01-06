@@ -308,8 +308,8 @@
 
 % Make figures use Fig. instead of Figura.
 % Has to be set per-language, otherwise it gets overridden.
-\addto\captionsromanian{\renewcommand{\figurename}{\figureShortLabel}}
-% \addto\captionsrussian{\renewcommand{\figurename}{\figureShortLabel}}
+\addto\captionsromanian{\renewcommand{\figurename}{Fig.}}
+\addto\captionsrussian{\renewcommand{\figurename}{Фиг.}}
 % Their numbering has to use the chapter number.
 \renewcommand{\thefigure}{\arabic{chapter}.\arabic{figure}}
 
@@ -339,7 +339,7 @@
 
 % Short figure reference.
 % TODO: Add helper for long figure reference?
-\newcommand\refFigure[1]{\MakeLowercase{\figureShortLabel} \ref{fig:#1}}
+\newcommand\refFigure[1]{\MakeLowercase{\figurename} \ref{fig:#1}}
 
 % See the python script.
 % It inserts the minted listing text.
@@ -416,5 +416,7 @@
   \markpage{usefulStuffBegin}
 }
 
-\usepackage[useregional=text]{datetime2}
+\RequirePackage{cprotect}
+
+\RequirePackage[useregional=text]{datetime2}
 

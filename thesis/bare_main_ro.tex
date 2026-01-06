@@ -231,11 +231,19 @@ Ordonate. Folosiți de exemplu pentru o listă de pași consecutivi:
 
 Puteți să le \textbf{aplicați} \textit{într-o propoziție}, sau să le \texttt{\textit{\textbf{combinați}}}.
 
+Puteți sublinia codul, de exemplu \verb|#include<iostrea> int a{~8};|.
+
+Când \verb|\verb| este utilizat pentru \verb|\subsection|,
+este necesar să aplicați \verb|\cprotect| la acea \verb|\subsection|.
+
+De asemenea, \verb|\verb| poate fi utilizat nu doar cu \verb!|! pentru a marca începutul și sfârșitul,
+adică \verb!\verb|code|!, ci și, de exemplu, \verb|\verb!code!|.
+Utilizați simbolul care nu este folosit în codul ce trebuie inserat ca atare.
 
 \subsection{Tabele}
 
 Când aveți un tabel, trebuie să dați referința la el.
-Exemplu\refFigure{pixel_order_table} de un tabel: 
+Exemplu \refFigure{pixel_order_table} de un tabel: 
 
 \begin{figure}[!ht]
 \centering
@@ -254,7 +262,7 @@ Exemplu\refFigure{pixel_order_table} de un tabel:
 \end{figure}
 
 
-\section{Librăria \verb|minted| pentru cod}
+\cprotect\section{Librăria \verb|minted| pentru cod}
 
 \subsection{Informații generale}
 
