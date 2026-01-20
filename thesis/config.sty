@@ -329,14 +329,15 @@
 \newlength{\imgwidth}
 \newcommand{\imageWithCaption}[2]{%
   \begin{figure}[H]
-      \centering
-      % This limits the max width, while not letting smaller images
-      % scale past their width.
-      \settowidth{\imgwidth}{\includegraphics{#1}}%
-      \setlength{\imgwidth}{\minof{\imgwidth}{\textwidth}}%
-      \includegraphics[width=\imgwidth,keepaspectratio]{#1}
-      \caption{#2}\label{fig:#1}
-  \end{figure}}
+    \centering
+    \settowidth{\imgwidth}{\includegraphics{#1}}%
+    \ifdim\imgwidth>\textwidth
+      \setlength{\imgwidth}{\textwidth}%
+    \fi
+    \includegraphics[width=\imgwidth,keepaspectratio]{#1}
+    \caption{#2}\label{fig:#1}
+  \end{figure}%
+}
 
 % Short figure reference.
 % TODO: Add helper for long figure reference?
