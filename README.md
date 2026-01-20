@@ -1,7 +1,6 @@
 # USM Latex Template
 
-This repository contains a Latex template 
-configured according to USM standards.
+This repository contains an opinionated Latex template configured according to USM standards.
 
 # Usage
 
@@ -39,7 +38,7 @@ Latex on Linux is more stable in this regard.
 
 Run `sudo ./setup.sh`.
 
-> The intallation will take 10-15 minutes and will take up around 6GB of storage.
+> The installation will take 10-15 minutes and will take up around 6GB of storage.
 >
 > The reason is that dealing with texlive dependencies comes with a lot of complexity,
 > there being no standard solution for having a needed set of packages be installed automatically.
