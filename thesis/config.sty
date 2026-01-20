@@ -450,15 +450,11 @@
 
 
 % Center and name image figures
-\newlength{\imgwidth}
+\usepackage[Export]{adjustbox}
 \newcommand{\imageWithCaption}[2]{%
   \begin{figure}[H]
     \centering
-    \settowidth{\imgwidth}{\includegraphics{#1}}%
-    \ifdim\imgwidth>\textwidth
-      \setlength{\imgwidth}{\textwidth}%
-    \fi
-    \includegraphics[width=\imgwidth,keepaspectratio]{#1}
+    \includegraphics[max width=\textwidth, max height=0.5\textheight]{#1}
     \caption{#2}\label{fig:#1}
   \end{figure}%
 }

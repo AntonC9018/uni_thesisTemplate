@@ -19,3 +19,4 @@ output
 *.run.xml
 *.cpt
 *.data.minted
+*-SAVE-ERROR
