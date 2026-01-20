@@ -1,7 +1,7 @@
 set -e
 
 sudo apt update
-sudo apt install perl
+sudo apt install perl python3
 
 if [ -d temp ]; then
     rm -rf temp

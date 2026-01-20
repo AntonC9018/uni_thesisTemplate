@@ -288,10 +288,13 @@ int main()
 
 \subsection{Inserarea unui segment din fișier}
 
-Această funcționalitate este realizată datorită script-ului \texttt{findSegment.py}.
-\verb|minted| poate adăuga așa funcționalitate în viitor (sau deja este?).
+Această funcționalitate este implementată cu ajutorul scriptului \texttt{findSegment.py}.
 
-Pentru a configura limbajul, modificați \texttt{findSegment.py}.
+\verb|minted| oferă o funcționalitate similară (\verb|rangestartafterstring|, \verb|rangestopbeforestring|),
+însă nu suportă afișarea numerelor de linie din fișier și inserează o linie goală la începutul segmentului.
+
+Limbajul de programare este determinat pe baza extensiei fișierului.
+Pentru a adăuga extensii care nu sunt încă suportate, modificați \texttt{findSegment.py}.
 
 \inputMintedSegment{../src/sourcefile.zig}{example}
 
