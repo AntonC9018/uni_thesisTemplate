@@ -228,10 +228,17 @@ The obtained results were reported at \textbf{\conferencesList}\cite{self}.
 
 Можно \textbf{применять} \textit{в предложении}, или \texttt{\textit{\textbf{комбинировать}}}.
 
+Можно подчеркивать код, например \verb|#include<iostream> int a{~8};|.
+
+Когда \verb|\verb| используется для \verb|\subsection|, необходимо применить \verb|\cprotect| к этой \verb|\subsection|.
+
+Также, \verb|\verb| можно использовать не только с \verb!|! для обозначения начала и конца, то есть \verb!\verb|code|!, но можно и, например, \verb|\verb!code!|. 
+Используйте тот символ, который не используется в коде, который необходимо вставить как есть.
+
 \subsection{Таблицы}
 
 Когда у вас есть таблица, необходимо дать на неё ссылку.
-Пример\refFigure{pixel_order_table} таблицы:
+Пример \refFigure{pixel_order_table} таблицы:
 
 \begin{figure}[!ht]
 \centering
@@ -249,11 +256,11 @@ The obtained results were reported at \textbf{\conferencesList}\cite{self}.
 \label{fig:pixel_order_table}
 \end{figure}
 
-\section{Библиотека \texttt{minted} для кода}
+\cprotect\section{Библиотека \verb|minted| для кода}
 
 \subsection{Общая информация}
 
-Библиотека \texttt{minted} используется для стилизации кода.
+Библиотека \verb|minted| используется для стилизации кода.
 
 \subsection{Прямая вставка блока кода}
 
@@ -276,11 +283,38 @@ int main()
 \subsection{Вставка сегмента из файла}
 
 Эта функциональность реализована благодаря скрипту \texttt{findSegment.py}.
-\texttt{minted} возможно добавит такой функционал в будущем (или уже добавил?).
 
-Для настройки языка программирования файлов, изменяйте \texttt{findSegment.py}.
+\verb|minted| добавляет подобный функционал (\verb|rangestartafterstring|, \verb|rangestopbeforestring|),
+однако не поддерживает отображение номера строки из файла и вставляет пустую строку в начало сегмента.
+
+Язык программирования определяется из расширения файла. 
+Для добаления расширений, которые еще не поддерживаются, изменяйте \texttt{findSegment.py}.
 
 \inputMintedSegment{../src/sourcefile.zig}{example}
+
+\subsection{Вставка текста на много строк как код}
+
+\begin{minted}{text}
+Regular text
+Multiline
+With any characters |||
+\end{minted}
+
+Чтобы вставить только текст, без номера строки, необходимо добавить \verb|[linenos=false]|.
+
+\begin{minted}[linenos=false]{text}
+Regular text
+Multiline
+With any characters |||
+\end{minted}
+
+Также можно использовать \verb|\begin{verbatim}|, который переопределен на использование \verb|minted|.
+
+\begin{verbatim}
+Regular text
+Multiline
+With any characters |||
+\end{verbatim}
 
 \section{Изображения}
 
@@ -298,6 +332,15 @@ int main()
 На \refFigure{interface_sketch.png} представлен эскиз графического интерфейса.
 
 \imageWithCaption{interface_sketch.png}{Эскиз графического интерфейса}
+
+Этот метод ограничивает максимальную ширину и высоту изображений, 
+не давая им выйти за экран и не изменяя их соотношений.
+Например, на \refFigure{wide.png} широкая картинка не выйдет за пределы, 
+а \refFigure{long.png} она не уйдет за страницу.
+
+\imageWithCaption{wide.png}{Широкая полоса}
+
+\imageWithCaption{long.png}{Длинная полоса}
 
 \section{Приложения}
 

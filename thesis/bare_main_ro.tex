@@ -231,11 +231,19 @@ Ordonate. Folosiți de exemplu pentru o listă de pași consecutivi:
 
 Puteți să le \textbf{aplicați} \textit{într-o propoziție}, sau să le \texttt{\textit{\textbf{combinați}}}.
 
+Puteți sublinia codul, de exemplu \verb|#include<iostrea> int a{~8};|.
+
+Când \verb|\verb| este utilizat pentru \verb|\subsection|,
+este necesar să aplicați \verb|\cprotect| la acea \verb|\subsection|.
+
+De asemenea, \verb|\verb| poate fi utilizat nu doar cu \verb!|! pentru a marca începutul și sfârșitul,
+adică \verb!\verb|code|!, ci și, de exemplu, \verb|\verb!code!|.
+Utilizați simbolul care nu este folosit în codul ce trebuie inserat ca atare.
 
 \subsection{Tabele}
 
 Când aveți un tabel, trebuie să dați referința la el.
-Exemplu\refFigure{pixel_order_table} de un tabel: 
+Exemplu \refFigure{pixel_order_table} de un tabel: 
 
 \begin{figure}[!ht]
 \centering
@@ -254,11 +262,11 @@ Exemplu\refFigure{pixel_order_table} de un tabel:
 \end{figure}
 
 
-\section{Librăria \texttt{minted} pentru cod}
+\cprotect\section{Librăria \verb|minted| pentru cod}
 
 \subsection{Informații generale}
 
-Librăria \texttt{minted} se folosește pentru a stiliza codul.
+Librăria \verb|minted| se folosește pentru a stiliza codul.
 
 \subsection{Inserarea directă a unui bloc de cod}
 
@@ -280,12 +288,39 @@ int main()
 
 \subsection{Inserarea unui segment din fișier}
 
-Această funcționalitate este realizată datorită script-ului \texttt{findSegment.py}.
-\texttt{minted} poate adăuga așa funcționalitate în viitor (sau deja este?).
+Această funcționalitate este implementată cu ajutorul scriptului \texttt{findSegment.py}.
 
-Pentru a configura limbajul, modificați \texttt{findSegment.py}.
+\verb|minted| oferă o funcționalitate similară (\verb|rangestartafterstring|, \verb|rangestopbeforestring|),
+însă nu suportă afișarea numerelor de linie din fișier și inserează o linie goală la începutul segmentului.
+
+Limbajul de programare este determinat pe baza extensiei fișierului.
+Pentru a adăuga extensii care nu sunt încă suportate, modificați \texttt{findSegment.py}.
 
 \inputMintedSegment{../src/sourcefile.zig}{example}
+
+\subsection{Inserarea textului pe mai multe rânduri ca cod}
+
+\begin{minted}{text}
+Regular text
+Multiline
+With any characters |||
+\end{minted}
+
+Pentru a insera doar text, fără numărul de rând, este necesar să adăugați \verb|[linenos=false]|
+
+\begin{minted}[linenos=false]{text}
+Regular text
+Multiline
+With any characters |||
+\end{minted}
+
+Se mai poate folosi \verb|\begin{verbatim}|, care este redefinit să folosească \verb|minted|.
+
+\begin{verbatim}
+Regular text
+Multiline
+With any characters |||
+\end{verbatim}
 
 \section{Imagini}
 
@@ -302,6 +337,15 @@ Când dați o imagine, la ea numaidecât să faceți și referința.
 În \refFigure{interface_sketch.png} este prezentată o schiță a interfeței grafice.
 
 \imageWithCaption{interface_sketch.png}{Schița interfeței grafice}
+
+Această metodă limitează lățimea și înălțimea maximă ale imaginilor,
+fără a le permite să iasă în afara paginii și fără a le modifica raportul de aspect.
+De exemplu, în \refFigure{wide.png} o imagine lată nu va depăși limitele paginii,
+iar în \refFigure{long.png} nu va ieși în afara paginii.
+
+\imageWithCaption{wide.png}{Bandă lată}
+
+\imageWithCaption{long.png}{Bandă lungă}
 
 \section{Anexe}
 

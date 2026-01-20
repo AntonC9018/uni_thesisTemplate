@@ -17,3 +17,6 @@ output
 *.xdv
 *.bcf
 *.run.xml
+*.cpt
+*.data.minted
+*-SAVE-ERROR

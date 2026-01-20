@@ -81,7 +81,8 @@
 \newfontfamily\cyrillicfonttt{Liberation Mono}[Scale=MatchLowercase]
 
 % Language-specific quote config
-\RequirePackage{csquotes}
+\RequirePackage[autostyle=true]{csquotes}
+
 
 % Counters
 \RequirePackage{totcount}
@@ -107,8 +108,11 @@
 ]{biblatex}
 \addbibresource{bibliography.bib}
 
+\setcounter{biburlnumpenalty}{100}
+\setcounter{biburlucpenalty}{100}
+\setcounter{biburllcpenalty}{100}
+
 % Count bibliography entries.
-% NOTE: Only works if you don't clone, as mentioned in the answer:
 % https://tex.stackexchange.com/a/536720
 \newcommand*{\listcounted}{}
 \makeatletter
@@ -122,57 +126,176 @@
 
 % Removes Address: or Adresa: before the url
 \DefineBibliographyStrings{\mainLanguage}{url = {}}
-\DeclareFieldFormat{url}{\url{#1}}
+\DeclareFieldFormat*{url}{\url{#1}}
+\DeclareFieldFormat*{labelnumberwidth}{\mkbibbold{[#1]}}
 
-% "{title}", with quotes specific to the language
-\DeclareFieldFormat{title}{\mkbibquote{#1}}
+\DeclareFieldFormat*{title}{\textit{#1}}
+\DeclareFieldFormat*{subtitle}{\textit{#1}}
 % Accesat în {date}
 % This removes the parentheses around.
-\DeclareFieldFormat{urldate}{\bibstring{urlseen}~#1}
+\DeclareFieldFormat*{urldate}{\bibstring{urlseen}~#1}
+\DeclareFieldFormat*{pagetotal}{#1~p.}
+\DeclareFieldFormat*{isbn}{ISBN: #1}
 
-% if 1 author: CURMANSCHII Anton
-% if 2 authors: CURMANSCHII Anton; another author
-% if >2 authors: CURMANSCHII Anton et al.
+% if 1 author: CURMANSCHII, A.
+% if 2 authors: CURMANSCHII, A., another author
+% if >2 authors: CURMANSCHII, A. et al.
 \def\authorNameHelper{
   \MakeUppercase{\namepartfamily}%
-  \ifdefvoid{\namepartgiven}{}{\space\namepartgiven}%
-}
-\DeclareNameFormat{author}{%
-  \ifnum\value{listtotal}=1
-    \authorNameHelper
-  \else
-    \ifnum\value{listtotal}=2
-      \authorNameHelper
-      \ifnum\value{listcount}=1
-        \addsemicolon\space
-      \fi
-    \else
+  \ifdefvoid{\namepartgiven}{}{\space\MakeUppercase{\namepartgiveni}}%
+}%
+\def\authorNamesHelper{%
+  \ifnum\value{listtotal}=1%
+    \authorNameHelper%
+  \else%
+    \ifnum\value{listtotal}=2%
+      \authorNameHelper%
+      \ifnum\value{listcount}=1%
+        \addcomma\space%
+      \fi%
+    \else%
       % Three or more authors
-      \ifnum\value{listcount}=1
-        \authorNameHelper
-        \addspace et al.%
-      \fi
-    \fi
-  \fi
-}
+      \ifnum\value{listcount}=1%
+        \authorNameHelper\addspace et al.%
+      \fi%
+    \fi%
+  \fi%
+}%
 
-% Configure the order that the info appears.
-% I'm not sure which format must be used.
-% NOTE: other types of documents will have the default format.
+\DeclareNameFormat{author}{\mkbibbold{\authorNamesHelper}}
+\DeclareNameFormat{editor}{\mkbibbold{\authorNamesHelper}}
+
 \def\helperFormat{%
-  \printnames{author}%
-  \newunit\newblock
+  \usebibmacro{begentry}%
+  % Authors/Editors/Contributors
+  \usebibmacro{author/editor}%
+  \setunit{\addperiod\space}%
+  \printnames{translator}%
+  \setunit{\addperiod\space}%
+  \printnames{annotator}%
+  \setunit{\addperiod\space}%
+  \printnames{commentator}%
+  \setunit{\addperiod\space}%
+  % Title and subtitle
   \printfield{title}%
-  \newunit\newblock
-  \printfield{url}%
-  \newunit\newblock
+  \setunit{\addperiod\space}%
+  \printfield{subtitle}%
+  \setunit{\addperiod\space}%
+  \printfield{titleaddon}%
+  \setunit{\addperiod\space}%
+  % Main title (for multi-volume works)
+  \printfield{maintitle}%
+  \setunit{\addperiod\space}%
+  \printfield{mainsubtitle}%
+  \setunit{\addperiod\space}%
+  % Book title (for parts of books/proceedings)
+  \printfield{booktitle}%
+  \setunit{\addperiod\space}%
+  \printfield{booksubtitle}%
+  \setunit{\addperiod\space}%
+  % Journal title (for articles)
+  \printfield{journaltitle}%
+  \setunit{\addperiod\space}%
+  \printfield{issuetitle}%
+  \setunit{\addperiod\space}%
+  % Event information (for conferences)
+  \printfield{eventtitle}%
+  \setunit{\addperiod\space}%
+  \printfield{eventdate}%
+  \setunit{\addperiod\space}%
+  \printfield{venue}%
+  \setunit{\addperiod\space}%
+  % Edition
+  \printfield{edition}%
+  \setunit{\addperiod\space}%
+  % Volume/Part/Chapter information
+  \printfield{volume}%
+  \setunit{\addperiod\space}%
+  \printfield{volumes}%
+  \setunit{\addperiod\space}%
+  \printfield{part}%
+  \setunit{\addperiod\space}%
+  \printfield{issue}%
+  \setunit{\addperiod\space}%
+  \printfield{chapter}%
+  \setunit{\addperiod\space}%
+  \printfield{type}%
+  \setunit{\addperiod\space}%
+  % Series
+  \printfield{series}%
+  \setunit{\addperiod\space}%
+  \printfield{number}%
+  \setunit{\addperiod\space}%
+  % Publication info
+  \printlist{location}%
+  \setunit{\addcolon\space}%
+  \printlist{publisher}%
+  \printlist{institution}%
+  \setunit{\addcomma\space}%
   \printfield{year}%
-  \addperiod\space
-  \printurldate%
-  \finentry
+  \setunit{\addperiod\space}%
+  \printfield{month}%
+  \setunit{\addperiod\space}%
+  \printfield{pubstate}%
+  \setunit{\addperiod\space}%
+  % Physical description
+  \printfield{pages}%
+  \setunit{\addperiod\space}%
+  \printfield{pagetotal}%
+  \setunit{\addperiod\space}%
+  \printfield{eid}%
+  \setunit{\addperiod\space}%
+  % Version/Language
+  \printfield{version}%
+  \setunit{\addperiod\space}%
+  \printfield{language}%
+  \setunit{\addperiod\space}%
+  % Original publication info (for translations)
+  \printfield{origlanguage}%
+  \setunit{\addperiod\space}%
+  \printfield{origtitle}%
+  \setunit{\addperiod\space}%
+  % Identifiers
+  \printfield{isbn}%
+  \setunit{\addperiod\space}%
+  \printfield{issn}%
+  \setunit{\addperiod\space}%
+  \printfield{isrn}%
+  \setunit{\addperiod\space}%
+  \printfield{doi}%
+  \setunit{\addperiod\space}%
+  \printfield{eprint}%
+  \setunit{\addperiod\space}%
+  \printfield{url}%
+  \setunit{\addperiod\space}%
+  \usebibmacro{urldate}%
+  \setunit{\addperiod\space}%
+  % Additional information
+  \printfield{howpublished}%
+  \setunit{\addperiod\space}%
+  \printfield{note}%
+  \setunit{\addperiod\space}%
+  \printfield{addendum}%
+  \usebibmacro{finentry}%
 }
-\DeclareBibliographyDriver{online}{\helperFormat}
+\DeclareBibliographyDriver{article}{\helperFormat}
+\DeclareBibliographyDriver{book}{\helperFormat}
+\DeclareBibliographyDriver{booklet}{\helperFormat}
+\DeclareBibliographyDriver{collection}{\helperFormat}
+\DeclareBibliographyDriver{inbook}{\helperFormat}
+\DeclareBibliographyDriver{incollection}{\helperFormat}
+\DeclareBibliographyDriver{inproceedings}{\helperFormat}
 \DeclareBibliographyDriver{manual}{\helperFormat}
+\DeclareBibliographyDriver{misc}{\helperFormat}
+\DeclareBibliographyDriver{online}{\helperFormat}
+\DeclareBibliographyDriver{patent}{\helperFormat}
+\DeclareBibliographyDriver{periodical}{\helperFormat}
+\DeclareBibliographyDriver{proceedings}{\helperFormat}
+\DeclareBibliographyDriver{report}{\helperFormat}
+\DeclareBibliographyDriver{thesis}{\helperFormat}
+\DeclareBibliographyDriver{unpublished}{\helperFormat}
+
+\appto{\bibsetup}{\sloppy} 
 
 % Appendices
 \RequirePackage[toc,page]{appendix}
@@ -184,6 +307,8 @@
 % Must be after biblatex
 % \RequirePackage{url}
 \RequirePackage{hyperref}
+\renewcommand{\UrlFont}{\small\ttfamily}
+
 % Clickable table of contents
 \hypersetup{linktoc=all}
 
@@ -308,8 +433,8 @@
 
 % Make figures use Fig. instead of Figura.
 % Has to be set per-language, otherwise it gets overridden.
-\addto\captionsromanian{\renewcommand{\figurename}{\figureShortLabel}}
-% \addto\captionsrussian{\renewcommand{\figurename}{\figureShortLabel}}
+\addto\captionsromanian{\renewcommand{\figurename}{Fig.}}
+\addto\captionsrussian{\renewcommand{\figurename}{Фиг.}}
 % Their numbering has to use the chapter number.
 \renewcommand{\thefigure}{\arabic{chapter}.\arabic{figure}}
 
@@ -325,21 +450,18 @@
 
 
 % Center and name image figures
-\newlength{\imgwidth}
+\usepackage[Export]{adjustbox}
 \newcommand{\imageWithCaption}[2]{%
   \begin{figure}[H]
-      \centering
-      % This limits the max width, while not letting smaller images
-      % scale past their width.
-      \settowidth{\imgwidth}{\includegraphics{#1}}%
-      \setlength{\imgwidth}{\minof{\imgwidth}{\textwidth}}%
-      \includegraphics[width=\imgwidth,keepaspectratio]{#1}
-      \caption{#2}\label{fig:#1}
-  \end{figure}}
+    \centering
+    \includegraphics[max width=\textwidth, max height=0.5\textheight]{#1}
+    \caption{#2}\label{fig:#1}
+  \end{figure}%
+}
 
 % Short figure reference.
 % TODO: Add helper for long figure reference?
-\newcommand\refFigure[1]{\MakeLowercase{\figureShortLabel} \ref{fig:#1}}
+\newcommand\refFigure[1]{\MakeLowercase{\figurename} \ref{fig:#1}}
 
 % See the python script.
 % It inserts the minted listing text.
@@ -348,7 +470,7 @@
 % output already formatted for minted use.
 % Good thing I don't use more settings for that command, am I right or am I right?
 \newcommand\inputMintedSegment[2]{%
-    \input{|python3 findSegment.py #1 #2}%
+    \input{|python3 findSegment.py "#1" "#2"}%
 }
 
 \def\appendixChapter{%
@@ -416,5 +538,27 @@
   \markpage{usefulStuffBegin}
 }
 
-\usepackage[useregional=text]{datetime2}
+\RequirePackage{cprotect}
 
+\RequirePackage[useregional=text]{datetime2}
+
+\RequirePackage{etoolbox}
+
+% Redefine verbatim to minted
+\let\oldverbatim\verbatim
+\let\endoldverbatim\endverbatim
+
+\renewenvironment{verbatim}{%
+  \VerbatimEnvironment
+  \begin{minted}[linenos=false]{text}%
+}{%
+  \end{minted}%
+}
+
+% Force English quotes in bibliography, then restore
+\AtBeginBibliography{%
+  \setquotestyle{english}%
+}
+\AfterEndEnvironment{bibliography}{%
+  \setquotestyle{\mainLanguage}%
+}

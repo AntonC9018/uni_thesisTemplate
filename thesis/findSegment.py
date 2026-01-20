@@ -1,9 +1,24 @@
 import sys
+import os
 
 filePath = sys.argv[1]
 segmentName = sys.argv[2]
-segmentBeginString = "// Segment " + segmentName + " begin"
-segmentEndString = "// Segment " + segmentName + " end"
+language = os.path.splitext(filePath)[1].lstrip('.').lower()
+
+if language in ['zig', 'js', 'cpp', 'c', 'java']:
+    commentStringStart = '//'
+    commentStringEnd = ''
+elif language in ['bash', 'py']:
+    commentStringStart = '#'
+    commentStringEnd = ''
+elif language in ['lua']:
+    commentStringStart = '%'
+    commentStringEnd = ''
+else:
+    raise Exception(f"Unsupported language {language}")
+
+segmentBeginString = f"{commentStringStart} Segment {segmentName} begin{commentStringEnd}"
+segmentEndString = f"{commentStringStart} Segment {segmentName} end{commentStringEnd}"
 
 # Search for start and end of segment in the file
 segmentBegin = -1
@@ -22,7 +37,7 @@ try:
         print(f"Segment {segmentName} not found in file {filePath}")
         exit(-1) # not actually sure this affects the error.
 
-    print(f"\\inputminted[firstline={segmentBegin + 2},lastline={segmentEnd}]{{zig}}{{{filePath}}}", flush=True)
+    print(f"\\inputminted[firstline={segmentBegin + 2},lastline={segmentEnd}]{{{language}}}{{{filePath}}}", flush=True)
 
 # This error floods the output if you don't close the stderr at the end.
 except (BrokenPipeError):
