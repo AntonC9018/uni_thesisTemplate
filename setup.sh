@@ -8,7 +8,8 @@ if [ -d temp ]; then
 fi
 
 mkdir temp
-temp_dir="$PWD/temp"
+repo_dir="$PWD"
+temp_dir="$repo_dir/temp"
 
 # Latex
 cd -- "$temp_dir"
@@ -28,7 +29,7 @@ sudo perl ./install-tl -profile "$temp_dir/texlive.profile"
 echo 'export PATH=/usr/local/texlive/2025/bin/x86_64-linux:$PATH' >> ~/.bashrc
 
 # Fonts
-cd -- "$temp_dir"
-sudo apt install fonts-liberation xz-utils
-sudo cp ../fonts/*.ttf /usr/share/fonts/
+cd -- "$repo_dir"
+sudo apt install fonts-liberation
+sudo cp fonts/*.ttf /usr/share/fonts/
 fc-cache -f -v
