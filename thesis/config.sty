@@ -10,6 +10,7 @@
   \newcommand{\introLabel}{Introducere}%
   \newcommand{\titlePage}{\input{parts/foaie_de_titlu_ro}}%
   \newcommand{\declarationPage}{\input{parts/declaratie_ro}}%
+  \newcommand{\appendixChapterName}{Anexe}%
 }
 \DeclareOption{russian}{%
   \newcommand{\mainLanguage}{russian}%
@@ -25,6 +26,7 @@
     \input{parts/foaie_de_titlu_ru}
   }%
   \newcommand{\declarationPage}{\input{parts/declaratie_ru}}%
+  \newcommand{\appendixChapterName}{Приложения}%
 }
 \DeclareOption*{\PackageError{config}{Invalid option '\CurrentOption'}{Pass the language option}}
 \ProcessOptions\relax
@@ -492,7 +494,7 @@
   \def\oldsection{} \let\oldsection=\section{}%
   \def\section{\stepcounter{num_appendices}\oldsection}%
 
-  \unnumberedChapter{Anexe}
+  \unnumberedChapter{\appendixChapterName}
 }
 
 % Helper for the title pages
