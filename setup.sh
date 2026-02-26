@@ -26,7 +26,9 @@ option_doc 0
 option_src 0
 EOF
 sudo perl ./install-tl -profile "$temp_dir/texlive.profile"
-echo 'export PATH=/usr/local/texlive/2025/bin/x86_64-linux:$PATH' >> ~/.bashrc
+export_cmd='export PATH=/usr/local/texlive/2025/bin/x86_64-linux:$PATH'
+echo "$export_cmd" >> ~/.bashrc
+eval "$export_cmd"
 
 # Fonts
 cd -- "$repo_dir"
