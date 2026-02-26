@@ -22,7 +22,7 @@ cd uni_thesisTemplate
 
 ### Windows
 
-> [There's a video in russian.](https://youtu.be/TGKnbUBJUOU)
+> [There's a video in russian.](https://youtu.be/UCardvw13-s)
 
 For Windows users, it is highly recommended to use WSL.
 For installation instructions, see [this](https://learn.microsoft.com/en-us/windows/wsl/install).
