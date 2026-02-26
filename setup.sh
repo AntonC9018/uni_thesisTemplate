@@ -30,6 +30,5 @@ echo 'export PATH=/usr/local/texlive/2025/bin/x86_64-linux:$PATH' >> ~/.bashrc
 # Fonts
 cd -- "$temp_dir"
 sudo apt install fonts-liberation xz-utils
-curl -L -O https://notabug.org/ArtikusHG/times-new-roman/raw/master/times.tar.xz
-sudo tar -xf times.tar.xz -C /usr/share/fonts/
+sudo cp ../fonts/*.ttf /usr/share/fonts/
 fc-cache -f -v
