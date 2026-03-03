@@ -19,15 +19,24 @@
     \vspace{1.5cm}
 
     \Large
-    \textbf{\MakeUppercase{\thesisTitleRu}}
+    \ifdefined\isPractica
+      \textbf{\MakeUppercase{Отчет по \docTypeRuDatelny}}
+    \else
+      \textbf{\MakeUppercase{\docTitleRu}}
+    \fi
     \vspace{0.75cm}
 
     \large
-    \textbf{\MakeUppercase{\identificatorulCursuluiRu}}
+    \textbf{\MakeUppercase{\identificatorulCursuluiRu{}}}
     \vspace{0.5cm}
 
     \normalsize
-    \textbf{\capfirst{\thesisTypeRuPredlozhny{}}}
+
+    \ifdefined\isPractica
+      \vspace{\baselineskip}
+    \else
+      \textbf{\capfirst{\docTypeRuPredlozhny{}}}
+    \fi
 
   \end{center}
   \vfill

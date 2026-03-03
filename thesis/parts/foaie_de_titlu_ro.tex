@@ -22,15 +22,23 @@
       \vspace{1.5cm}
 
       \Large
-      \textbf{\MakeUppercase{\thesisTitleRo}}
+      \ifdefined\isPractica
+        \textbf{\MakeUppercase{Raport la \docTypeRoNedefinit}}
+      \else
+        \textbf{\MakeUppercase{\docTitleRo}}
+      \fi
       \vspace{0.75cm}
 
       \large
-      \textbf{\MakeUppercase{\identificatorulCursului}, \programulDeStudiiRo}
+      \textbf{\MakeUppercase{\identificatorulCursului{} \programulDeStudiiRo{}}}
       \vspace{0.5cm}
 
       \normalsize
-      \textbf{\capfirst{\thesisTypeRoNedefinit}}
+      \ifdefined\isPractica
+        \vspace{\baselineskip}
+      \else
+        \textbf{\capfirst{\docTypeRoNedefinit}}
+      \fi
   
     \end{center}
   \vfill

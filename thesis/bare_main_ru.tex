@@ -2,28 +2,47 @@
 
 \usepackage[russian]{config}
 
-% Description
+% Метаданные.
 \newcommand{\uniGroupName}{MIA2201}
 
-\newcommand{\thesisTitleEng}{Thesis Name} % Doar pentru master
-\newcommand{\thesisTypeEng}{master thesis}
-\newcommand{\programulDeStudiiEng}{master} % licență / master
+% Необходимо только для аннотации, для магистратуры.
+\newcommand{\docTitleEng}{Thesis Name} % Doar pentru master
+\newcommand{\docTypeEng}{master thesis}
+\newcommand{\programulDeStudiiEng}{master}
 
-\newcommand{\authorName}{Nume Prenume} % Fără patronimic
-\newcommand{\thesisTitleRo}{Explorarea formatului PNG}
-\newcommand{\thesisTypeRoNedefinit}{teză de master} % an / licență / master
-\newcommand{\thesisTypeRoDefinit}{teza de master} % an / licență / master
+\newcommand{\authorName}{Nume Prenume}
 \newcommand{\programulDeStudiiRo}{master} % licență / master
 \newcommand{\identificatorulCursului}{0613.5 Informatică aplicată} % 0211.7 Design jocurilor
 \newcommand{\conducatorName}{Nume Prenume}
 
 \newcommand{\authorNameRu}{Фамилия Имя Отчество}
-\newcommand{\thesisTitleRu}{Исследование формата PNG}
-\newcommand{\thesisTypeRuPredlozhny}{магистерская работа} % бакалаврская / курсовая
-\newcommand{\thesisTypeRuDatelny}{магистерской работе}
 \newcommand{\programulDeStudiiRu}{магистра} % бакалавриата
 \newcommand{\identificatorulCursuluiRu}{0613.5 Прикладная информатика} % 0211.7 Гейм дизайн
 \newcommand{\conducatorNameRu}{Фамилия Имя}
+
+% Если этот документ по практике, уберите % снизу.
+\newcommand{\isPractica}{}
+
+% Игнорируются для практики:
+\newcommand{\docTitleRo}{Explorarea formatului PNG}
+\newcommand{\docTitleRu}{Исследование формата PNG}
+
+% Для практики: 
+% I licență - ознакомительная практика
+% II licență - производственная практика
+% III licență - научно-исследовательская практика
+% II master - производственная практика
+% курсовая / бакалаврская / магистерская (с разными склонениями)
+\newcommand{\docTypeRuPredlozhny}{магистерская работа} 
+\newcommand{\docTypeRuDatelny}{магистерской работе}
+% Practica:
+% I licență - practica de inițiere în specialitate
+% II licență - practica de specialitate
+% III licență - practica de cercetare
+% II master - practica de specialitate
+% de an / de licență / de master (определенный / неопределенный артикль)
+\newcommand{\docTypeRoDefinit}{teza de master} % an / licență / master
+\newcommand{\docTypeRoNedefinit}{teză de master}
 
 \newcommand{\conferencesList}{Студенческая конференция номер НОМЕР, \year~года}
 \renewcommand{\year}{2024}
@@ -37,10 +56,11 @@
 \clearpage
 \tableofcontents
 
+% Только для магистратуры!
 \clearpage
-\unnumberedChapter{Аннотация} % Только для магистратуры
+\unnumberedChapter{Аннотация}
 
-\textbf{к \thesisTypeRuDatelny{} ``\thesisTitleRu{}'', студента \authorNameRu{}, группа \uniGroupName{}, программа обучения \programulDeStudiiRu.}
+\textbf{к \docTypeRuDatelny{} ``\docTitleRu{}'', студента \authorNameRu{}, группа \uniGroupName{}, программа обучения \programulDeStudiiRu.}
 
 \textbf{Структура диссертации.}
 Диссертация состоит из: Введения, \chapterCount{} глав, Общих выводов и рекомендаций, Библиографии из \bibliographyEntryCount{} наименований.
@@ -72,10 +92,11 @@
 
 Полученные результаты были представлены на \textbf{\conferencesList}\cite{self}.
 
+% Только для магистратуры!
 \clearpage
-\unnumberedChapter{Annotation} % Только для магистратуры
+\unnumberedChapter{Annotation}
 
-\textbf{of the \thesisTypeEng{} ``\thesisTitleEng'' of the student \authorName{}, group \uniGroupName{}, \programulDeStudiiEng{} study program.}
+\textbf{of the \docTypeEng{} ``\docTitleEng'' of the student \authorName{}, group \uniGroupName{}, \programulDeStudiiEng{} study program.}
 
 \textbf{The structure of the thesis.}
 
