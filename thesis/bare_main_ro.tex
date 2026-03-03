@@ -2,21 +2,40 @@
 
 \usepackage[romanian]{config}
 
-% Description
-\newcommand{\thesisTitleEng}{Numele tezei} % Doar pentru master
+% Metadate.
 \newcommand{\uniGroupName}{MIA2201}
 
+% Necesar doar pentru adnotare la teză de master.
+\newcommand{\docTitleEng}{Numele tezei}
+\newcommand{\docTypeEng}{master thesis}
+\newcommand{\programulDeStudiiEng}{master}
+
 \newcommand{\authorName}{Nume Prenume} % Fără patronimic
-\newcommand{\thesisTitle}{Explorarea formatului PNG}
-\newcommand{\thesisType}{master} % an / licență / master. <teză de> se adaugă automat.
-\newcommand{\programulDeStudii}{master} % licență / master. <programul de> se adăugă automat.
+\newcommand{\programulDeStudiiRo}{master} % licență / master. <programul de> se adăugă automat.
 \newcommand{\identificatorulCursului}{0613.5 Informatică aplicată} % 0211.7 Design jocurilor
 \newcommand{\conducatorName}{Nume Prenume}
+
+% Dacă documentul este la practică, ștergeți % de mai jos.
+% \newcommand{\isPractica}{}
+
+% Este ignorat pentru practică.
+\newcommand{\docTitleRo}{Explorarea formatului PNG}
+
+% Practica:
+% I licență - practica de inițiere în specialitate
+% II licență - practica de specialitate
+% III licență - practica de cercetare
+% II master - practica de specialitate
+% de an / de licență / de master (articolul definit sau nedefinit)
+\newcommand{\docTypeRoDefinit}{teza de master} % an / licență / master
+\newcommand{\docTypeRoNedefinit}{teză de master}
 
 \renewcommand{\year}{2024}
 \newcommand{\conferencesList}{Conferința Studențească, Editia NUMARUL-a, \year}
 \newcommand{\github}{\url{https://github.com/USER/REPO}}
 \newcommand{\outputDate}{\today}
+
+\newcommand{\studentTypeRo}{absolvent} % student / absolvent
 
 \begin{document}
 
@@ -25,10 +44,11 @@
 \clearpage
 \tableofcontents
 
+% Doar pentru teză de master!
 \clearpage
-\unnumberedChapter{Adnotare} % Doar pentru master
+\unnumberedChapter{Adnotare}
 
-\textbf{la \thesisType{} ``\thesisTitle{}'', a studentului \authorName{}, grupa \uniGroupName{}, programul de studii \programulDeStudii.}
+\textbf{la \docTypeRoNedefinit{} ``\docTitleRo{}'', a studentului \authorName{}, grupa \uniGroupName{}, programul de studii \programulDeStudiiRo.}
 
 \textbf{Structura tezei.}
 Teza constă din: Introducere, \chapterCount{} capitole, Concluzii generale și recomandări, Bibliografie \bibliographyEntryCount{} titluri.
@@ -62,10 +82,11 @@ Toate codurile sursă a proiectului pot fi accesate pe GitHub după următorul l
 
 Rezultatele obținute au fost raportate la \textbf{\conferencesList}\cite{self}.
 
+% Doar pentru teză de master!
 \clearpage
-\unnumberedChapter{Annotation} % Doar pentru master
+\unnumberedChapter{Annotation}
 
-\textbf{of the \thesisType{} thesis  ``\thesisTitleEng'' of the student \authorName{}, group \uniGroupName{}, \programulDeStudii{} study program.}
+\textbf{of the \docTypeEng{}  ``\docTitleEng'' of the student \authorName{}, group \uniGroupName{}, \programulDeStudiiEng{} study program.}
 
 \textbf{The structure of the thesis.}
 The thesis is made up of: Introduction, \chapterCount{} chapters,
