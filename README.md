@@ -36,7 +36,7 @@ Latex on Linux is more stable in this regard.
 
 ### Ubuntu
 
-Run `sudo ./setup.sh`.
+Run `source ./setup.sh`.
 
 > The installation will take 10-15 minutes and will take up around 6GB of storage.
 >
@@ -75,7 +75,7 @@ Play around with it, see how changes in the source file affect the PDF,
 see what errors the compiler gives.
 You will be able to learn most of what you need to write your work like this.
 
-## Notes on prompting the AI
+## Notes on prompting LLMs
 
 I know most of you won't even bother looking through the examples in the file
 and will go straight into copy-pasting AI generated text into your document.
