@@ -37,15 +37,51 @@ texlive_bin="/usr/local/texlive/2025/bin/x86_64-linux"
         cd -- "$1"
 
 cat <<EOF > "$temp_dir/texlive.profile"
-selected_scheme scheme-full
+selected_scheme scheme-small
 TEXDIR /usr/local/texlive/2025
 TEXMFCONFIG $HOME/.texlive2025/texmf-config
 TEXMFVAR $HOME/.texlive2025/texmf-var
 option_doc 0
 option_src 0
+tlpdbopt_install_docfiles 0
+tlpdbopt_install_srcfiles 0
+tlpdbopt_autobackup 0
 EOF
 
         sudo perl ./install-tl -profile "$temp_dir/texlive.profile"
+
+        # Install only the packages required by this project
+        # Issue: cannot pin package versions
+        sudo "$texlive_bin/tlmgr" install \
+            geometry \
+            setspace \
+            titlesec \
+            enumitem \
+            caption \
+            hyperref \
+            amsmath \
+            fontspec \
+            polyglossia \
+            csquotes \
+            biblatex \
+            biblatex-ieee \
+            biber \
+            minted \
+            fvextra \
+            adjustbox \
+            collectbox \
+            float \
+            graphicx \
+            totcount \
+            xstring \
+            mfirstuc \
+            cprotect \
+            datetime2 \
+            datetime2-english \
+            etoolbox \
+            l3packages \
+            acronym \
+            nameref
     fi
 
     # Fonts

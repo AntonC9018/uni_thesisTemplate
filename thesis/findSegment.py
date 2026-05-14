@@ -5,7 +5,7 @@ filePath = sys.argv[1]
 segmentName = sys.argv[2]
 language = os.path.splitext(filePath)[1].lstrip('.').lower()
 
-if language in ['zig', 'js', 'cpp', 'c', 'java']:
+if language in ['zig', 'js', 'cpp', 'c', 'java', 'go']:
     commentStringStart = '//'
     commentStringEnd = ''
 elif language in ['bash', 'py']:
