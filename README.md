@@ -36,15 +36,14 @@ Latex on Linux is more stable in this regard.
 
 ### Ubuntu
 
-Run `source ./setup.sh`.
+Run `source ./setup.sh`. It is going to:
+- Install a minimal Latex distro globally;
+- Install the required packages;
+- Add the Times New Roman font;
+- Add the Latex directory to `PATH` and to `.bashrc`.
 
-> The installation will take 10-15 minutes and will take up around 6GB of storage.
->
-> The reason is that dealing with texlive dependencies comes with a lot of complexity,
-> there being no standard solution for having a needed set of packages be installed automatically.
-> A good solution that minimizes the installation size 
-> would require a lot of development time and resources.
-> This is why the setup script installs the `texlive-full` distribution.
+> Modify the setup script and rerun it if you need more Latex packages.
+> It's not going to reinstall the Latex distro if it's already installed.
 
 ## Compiling the Thesis
 

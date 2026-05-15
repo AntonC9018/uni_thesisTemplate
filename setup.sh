@@ -22,14 +22,13 @@ texlive_bin="/usr/local/texlive/2025/bin/x86_64-linux"
     repo_dir="$PWD"
     temp_dir="$repo_dir/temp"
 
+    rm -rf -- "$temp_dir"
+    mkdir -p -- "$temp_dir"
     cd -- "$temp_dir"
 
     if [ -d "$texlive_bin" ]; then
         echo "TeX Live already installed, skipping."
     else
-        rm -rf -- "$temp_dir"
-        mkdir -p -- "$temp_dir"
-
         wget https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
         tar -xzf install-tl-unx.tar.gz
 
@@ -49,44 +48,42 @@ tlpdbopt_autobackup 0
 EOF
 
         sudo perl ./install-tl -profile "$temp_dir/texlive.profile"
-
-        # Install only the packages required by this project
-        # Issue: cannot pin package versions
-        sudo "$texlive_bin/tlmgr" install \
-            geometry \
-            setspace \
-            titlesec \
-            enumitem \
-            caption \
-            hyperref \
-            amsmath \
-            fontspec \
-            polyglossia \
-            csquotes \
-            biblatex \
-            biblatex-ieee \
-            biber \
-            minted \
-            fvextra \
-            adjustbox \
-            collectbox \
-            float \
-            graphicx \
-            totcount \
-            xstring \
-            mfirstuc \
-            cprotect \
-            datetime2 \
-            datetime2-english \
-            etoolbox \
-            l3packages \
-            acronym \
-            nameref
     fi
 
+    # Install only the packages required by this project
+    # Issue: cannot pin package versions
+    sudo "$texlive_bin/tlmgr" install \
+        geometry \
+        setspace \
+        titlesec \
+        enumitem \
+        caption \
+        hyperref \
+        amsmath \
+        fontspec \
+        polyglossia \
+        csquotes \
+        biblatex \
+        biblatex-ieee \
+        biber \
+        minted \
+        fvextra \
+        adjustbox \
+        collectbox \
+        float \
+        totcount \
+        xstring \
+        mfirstuc \
+        cprotect \
+        datetime2 \
+        datetime2-english \
+        etoolbox \
+        acronym \
+        latexmk \
+        appendix
+    
     # Fonts
     cd -- "$repo_dir"
-
     sudo cp -- fonts/*.ttf /usr/share/fonts/
     fc-cache -f -v
 
