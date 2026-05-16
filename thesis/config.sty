@@ -440,10 +440,15 @@
 % Their numbering has to use the chapter number.
 \renewcommand{\thefigure}{\arabic{chapter}.\arabic{figure}}
 
-% Use . instead of : in figures
 \RequirePackage[font=bf]{caption}
-\captionsetup[figure]{labelsep=period}
-\captionsetup[table]{labelsep=period}
+\captionsetup[figure]{%
+  % Use . instead of : in figures
+  labelsep=period,%
+  % Set spacing between lines to 1
+  font={stretch=1}}
+\captionsetup[table]{%
+  labelsep=period,%
+  font={stretch=1}}
 
 % Inserting pictures
 \RequirePackage{graphicx}
