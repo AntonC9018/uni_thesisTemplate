@@ -5,6 +5,9 @@ OPTS=f
 PARSED=$(getopt --options=$OPTS --longoptions=$LONGOPTS --name "$0" -- "$@") || exit 2
 eval set -- "$PARSED"
 
+# Just hardcode this in case the user didn't export it before
+export PATH=$PATH:/usr/local/texlive/2025/bin/x86_64-linux
+
 force=n, input=main.tex
 while true; do
     case "$1" in 

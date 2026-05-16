@@ -268,10 +268,13 @@ The obtained results were reported at \textbf{\conferencesList}\cite{self}.
 \subsection{Таблицы}
 
 Когда у вас есть таблица, необходимо дать на неё ссылку.
+Название таблицы должно находится \textbf{над} таблицей.
 Пример \refFigure{pixel_order_table} таблицы:
 
 \begin{figure}[!ht]
 \centering
+\caption{Таблица порядка пикселей}
+\label{fig:pixel_order_table}
 \begin{tabular}{c c c c c c c c}
     1 & 6 & 4 & 6 & 2 & 6 & 4 & 6 \\
     7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 \\
@@ -282,8 +285,6 @@ The obtained results were reported at \textbf{\conferencesList}\cite{self}.
     5 & 6 & 5 & 6 & 5 & 6 & 5 & 6 \\
     7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 \\
 \end{tabular}
-\caption{Таблица порядка пикселей}
-\label{fig:pixel_order_table}
 \end{figure}
 
 \cprotect\section{Библиотека \verb|minted| для кода}
