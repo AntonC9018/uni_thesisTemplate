@@ -363,7 +363,7 @@
 \chapteruppertrue
 
 % Inlining this doesn't work.
-\newcommand{\chaptertitleformat}[1]{%
+\newcommand{\chapterTitleFormat}[1]{%
     \ifchapterupper
         \MakeUppercase{#1}%
     \else
@@ -371,9 +371,23 @@
     \fi
 }
 
-\titleformat{\chapter}[block]{\normalfont\large\bfseries\filcenter}{\thechapter~}{\tabSize}{\chaptertitleformat}
+
+\titleformat{\chapter}[block]{\normalfont\large\bfseries\filcenter}{\thechapter~}{\tabSize}{\chapterTitleFormat}
 \titleformat{\section}[block]{\normalfont\normalsize\bfseries\filright}{\thesection~}{\tabSize}{}
-\titleformat{\subsection}[block]{\normalfont\normalsize\bfseries\filright}{\thesubsection~}{\tabSize}{}
+
+\newcommand{\subsectionTitleFormat}[1]{%
+    \textit{#1}%
+}
+
+\newcommand{\subsectionChildNumberFormat}[1]{%
+    %\textit{#1}~%
+    #1%
+}
+\newcommand{\subsectionNumberFormat}{\subsectionChildNumberFormat{\thesubsection}}
+\titleformat{\subsection}[block]{\normalfont\normalsize\bfseries\filright}{\subsectionNumberFormat}{\tabSize}{\subsectionTitleFormat}
+
+\newcommand{\subSubsectionNumberFormat}{\subsectionChildNumberFormat{\thesubsubsection}}
+\titleformat{\subsubsection}[block]{\normalfont\normalsize\bfseries\filright}{\subSubsectionNumberFormat}{\tabSize}{\subsectionTitleFormat}
 
 \newcommand\restoreChapterCasing{\chapterupperfalse}
 
