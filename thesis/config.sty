@@ -602,3 +602,23 @@
 \AfterEndEnvironment{bibliography}{%
   \setquotestyle{\mainLanguage}%
 }
+
+% Make numbering start from the toc page,
+% but still count the first pages, just without showing the page number.
+% This is this complex because \titlepage internally sets the page counter to 0.
+\RequirePackage{etoolbox}
+\makeatletter
+\preto{\titlepage}{%
+  \let\config@saved@sc\setcounter
+  \renewcommand{\setcounter}[2]{%
+    \ifstrequal{#1}{page}{}{%
+      \config@saved@sc{#1}{#2}%
+    }%
+  }%
+}
+\appto{\endtitlepage}{%
+  \let\setcounter\config@saved@sc
+}
+\makeatother
+\pretocmd{\titlePage}{\pagestyle{empty}}{}{}
+\pretocmd{\tableofcontents}{\pagestyle{plain}}{}{}
