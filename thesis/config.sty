@@ -359,7 +359,16 @@
 \newif\ifchapterupper
 \chapteruppertrue
 
-\titleformat{\chapter}[block]{\normalfont\large\bfseries\filcenter}{\thechapter~}{\tabSize}{\ifchapterupper \MakeUppercase \fi}
+% Inlining this doesn't work.
+\newcommand{\chaptertitleformat}[1]{%
+    \ifchapterupper
+        \MakeUppercase{#1}%
+    \else
+        #1%
+    \fi
+}
+
+\titleformat{\chapter}[block]{\normalfont\large\bfseries\filcenter}{\thechapter~}{\tabSize}{\chaptertitleformat}
 \titleformat{\section}[block]{\normalfont\normalsize\bfseries\filright}{\thesection~}{\tabSize}{}
 \titleformat{\subsection}[block]{\normalfont\normalsize\bfseries\filright}{\thesubsection~}{\tabSize}{}
 
