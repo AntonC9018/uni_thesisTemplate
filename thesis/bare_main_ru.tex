@@ -48,10 +48,16 @@
 
 \newcommand{\studentTypeRu}{выпускник} % студент / выпускник
 
-\newcommand{\conferencesList}{Студенческая конференция номер НОМЕР, \year~года}
-\renewcommand{\year}{2026}
+\newcommand{\yearOfWriting}{\the\year}
+\newcommand{\conferencesList}{Студенческая конференция номер НОМЕР, \yearOfWriting~года}
 \newcommand{\github}{\url{https://github.com/USER/REPO}}
 \newcommand{\outputDate}{\today}
+
+% Добавьте сокращения здесь.
+% Добавляйте только упомянутые сокращения.
+% В дальнейшем всегда пишите \ac{PNG} вместо просто PNG.
+\acro{PNG}{Portable Network Graphics}
+\acro{PR}{Pull Request}
 
 \begin{document}
 
@@ -71,7 +77,9 @@
 Основной текст занимает \usefulPageCount{} страниц и включает \anexeCount{} приложения.
 
 \textbf{Ключевые слова:}
-\textit{\acs{PNG}, слово 1, слово 2}
+% \acrshort делает так, чтобы PNG не раскрывалось в ее полное название на данном этапе,
+% но оставалось кликабельным.
+\textit{\acrshort{PNG}, слово 1, слово 2}
 
 \textbf{Актуальность.}
 
@@ -120,15 +128,7 @@ by the following URL: \github.
 
 The obtained results were reported at \textbf{\conferencesList}\cite{self}.
 
-\clearpage
-\unnumberedChapter{Список сокращений}
-\begin{acronym}[JPEG]
-    % Добавьте сокращения здесь.
-    % Добавляйте только упомянутые сокращения.
-    % В дальнейшем всегда пишите \ac{PNG} вместо просто PNG.
-    \acro{PNG}{Portable Network Graphics}
-    \acro{PR}{Pull Request}
-\end{acronym}
+\acronymsChapter
 
 \introChapter
 
@@ -354,7 +354,7 @@ With any characters |||
 Этот шаблон предлагает только одну функцию для изображений, 
 которая также автоматически регистрирует его как фигуру.
 Можно использовать и что-либо другое, если она вам не подходит.
-Для стандартизации, однако, хорошо предложить свой метод через \ac{PR}, чтобы добавить его в шаблон.
+Для стандартизации, однако, хорошо предложить свой метод через \gls{PR}, чтобы добавить его в шаблон.
 
 \subsection{Центрированное изображение}
 

@@ -1,5 +1,9 @@
 *.pdf
 *.aux
+*.acn
+*.glo
+*.ist
+*.glsdefs
 *.dvi
 *.log
 *.bbl
@@ -20,3 +24,7 @@ output
 *.cpt
 *.data.minted
 *-SAVE-ERROR
+*.acr
+*.alg
+*.glg
+*.gls

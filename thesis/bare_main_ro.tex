@@ -31,12 +31,18 @@
 \newcommand{\docTypeRoDefinit}{teza de master} % an / licență / master
 \newcommand{\docTypeRoNedefinit}{teză de master}
 
-\renewcommand{\year}{2026}
-\newcommand{\conferencesList}{Conferința Studențească, Editia NUMARUL-a, \year}
+\newcommand{\yearOfWriting}{\the\year}
+\newcommand{\conferencesList}{Conferința Studențească, Editia NUMARUL-a, \yearOfWriting}
 \newcommand{\github}{\url{https://github.com/USER/REPO}}
 \newcommand{\outputDate}{\today}
 
 \newcommand{\studentTypeRo}{absolvent} % student / absolvent
+
+% Adăugați prescurtările aici.
+% Adăugați doar prescurtările menționate.
+% În viitor, mereu scrieți \gls{PNG} în loc de pur și simplu PNG.
+\acro{PNG}{Portable Network Graphics}
+\acro{PR}{Pull Request}
 
 \begin{document}
 
@@ -56,9 +62,9 @@ Teza constă din: Introducere, \chapterCount{} capitole, Concluzii generale și 
 Textul de bază cuprinde \usefulPageCount{} de pagini și \anexeCount{} anexe.
 
 \textbf{Cuvinte-cheie:}
-% \acs înseamnă o referință la o prescurtare cu este.
+% \acrshort înseamnă o referință la o prescurtare cu este.
 % Face ca cuvântul să devină click-abil în PDF-ul generat.
-\textit{\acs{PNG}, cuvânt 1, cuvânt 2}
+\textit{\acrshort{PNG}, cuvânt 1, cuvânt 2}
 
 \textbf{Actualitatea.}
 
@@ -112,15 +118,7 @@ by the following URL: \github.
 
 The obtained results were reported at \textbf{\conferencesList}\cite{self}.
 
-\clearpage
-\unnumberedChapter{Lista Abrevierilor}
-\begin{acronym}[JPEG]
-    % Adăugați prescurtările aici.
-    % Adăugați doar prescurtările menționate.
-    % În viitor, mereu scrieți \ac{PNG} în loc de pur și simplu PNG.
-    \acro{PNG}{Portable Network Graphics}
-    \acro{PR}{Pull Request}
-\end{acronym}
+\acronymsChapter
 
 \introChapter
 
@@ -351,7 +349,7 @@ With any characters |||
 
 Acest șablon propune doar o funcție pentru imagini, care ține și de figure automat.
 Puteți folosi altceva dacă nu vă aranjează.
-Pentru standardizare, însă, ar fi bine să vă propuneți metoda cu un \ac{PR} ca s-o adăugați în șablon.
+Pentru standardizare, însă, ar fi bine să vă propuneți metoda cu un \gls{PR} ca s-o adăugați în șablon.
 
 \subsection{O imagine centrată}
 

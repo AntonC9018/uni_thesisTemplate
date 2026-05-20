@@ -11,6 +11,7 @@
   \newcommand{\titlePage}{\input{parts/foaie_de_titlu_ro}}%
   \newcommand{\declarationPage}{\input{parts/declaratie_ro}}%
   \newcommand{\appendixChapterName}{Anexe}%
+  \newcommand{\acronymsChapterName}{Lista abrevierelor}%
 }
 \DeclareOption{russian}{%
   \newcommand{\mainLanguage}{russian}%
@@ -27,6 +28,7 @@
   }%
   \newcommand{\declarationPage}{\input{parts/declaratie_ru}}%
   \newcommand{\appendixChapterName}{Приложения}%
+  \newcommand{\acronymsChapterName}{Список сокращений}%
 }
 \DeclareOption*{\PackageError{config}{Invalid option '\CurrentOption'}{Pass the language option}}
 \ProcessOptions\relax
@@ -305,17 +307,61 @@
 % Appendices
 \RequirePackage[toc,page]{appendix}
 
-% Lista abrevierelor
-\RequirePackage[printonlyused]{acronym}
-
 % Format urls in the bibliography
 % Must be after biblatex
+% Must be before glossaries
 % \RequirePackage{url}
 \RequirePackage{hyperref}
 \renewcommand{\UrlFont}{\small\ttfamily}
 
 % Clickable table of contents
 \hypersetup{linktoc=all}
+
+% Lista abrevierelor
+\RequirePackage[acronym, automake]{glossaries}
+\makeglossaries
+
+\newglossarystyle{acronymtable}{%
+  \setglossarystyle{long}%
+  \renewcommand{\glossentry}[2]{%
+    \textbf{\glsentryshort{##1}} &
+    \glsentrylong{##1}\tabularnewline
+  }%
+  \renewcommand{\glspostdescription}{}%
+}
+\newcommand{\acronymsChapter}{%
+  \clearpage
+  \unnumberedChapter{\acronymsChapterName}
+  \begingroup
+  \renewcommand{\chapter}[2]{}% suppress glossaries' internal \chapter call
+  \renewcommand{\clearpage}{}% suppress glossaries' internal \clearpage call
+  \setglossarystyle{long}%
+  \glssetwidest[0]{}% reset
+  \forallglsentries[\acronymtype]{\thisentry}{%
+    \glssetwidest[0]{\glsentryshort{\thisentry}}%
+  }%
+  \printglossary[type=\acronymtype, style=acronymtable]
+  \endgroup
+}
+
+% Add mappings like in the acronym package.
+\newcommand{\ac}[1]{\gls{#1}}
+\newcommand{\acs}[1]{\acrshort{#1}}
+\newcommand{\acl}[1]{\acrlong{#1}}
+\newcommand{\acf}[1]{\acrfull{#1}}
+\newcommand{\acp}[1]{\glspl{#1}}
+\newcommand{\acsp}[1]{\acrshortpl{#1}}
+\newcommand{\aclp}[1]{\acrlongpl{#1}}
+\newcommand{\acfp}[1]{\acrfullpl{#1}}
+\newcommand{\acreset}[1]{\glsreset{#1}}
+\newcommand{\acresetall}{\glsresetall}
+\newcommand{\acro}[3][]{%
+  \if\relax\detokenize{#1}\relax
+    \newacronym{#2}{#2}{#3}% fallback
+  \else
+    \newacronym{#2}{#1}{#3}%
+  \fi
+}
 
 % Code blocks
 \RequirePackage{minted}

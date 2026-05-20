@@ -78,9 +78,11 @@ EOF
         datetime2 \
         datetime2-english \
         etoolbox \
-        acronym \
         latexmk \
-        appendix
+        appendix \
+        glossaries \
+        datetime2-romanian \
+        datetime2-russian
     
     # Fonts
     cd -- "$repo_dir"
