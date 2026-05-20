@@ -482,13 +482,22 @@
 \graphicspath{{./images/}}
 
 
+\newif\ifinappendix
+\inappendixfalse
+
 % Center and name image figures
 \usepackage[Export]{adjustbox}
 \newcommand{\imageWithCaption}[2]{%
   \begin{figure}[H]
     \centering
     \includegraphics[max width=\textwidth, max height=0.5\textheight]{#1}
-    \caption{#2}\label{fig:#1}
+    % Only insert and increment the caption counter when outside axene
+    \ifinappendix
+      \caption*{#2}%
+    \else
+      \caption{#2}%
+      \label{fig:#1}%
+    \fi
   \end{figure}%
 }
 
@@ -512,6 +521,7 @@
   \renewcommand{\thesection}{\arabic{section}}%
   \titleformat{\section}[block]{\normalfont\normalsize\bfseries\filcenter}{\anexaLabel{} \thesection.~}{0pt}{}%
   \appendix
+  \global\inappendixtrue{}%
   %
   % Every section on new page
   % \newcommand{\sectionbreak}{\clearpage}
