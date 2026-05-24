@@ -53,6 +53,7 @@
 \acro{PNG}{Portable Network Graphics}
 \acro{PR}{Pull Request}
 \acro[url_other_name]{URL}{Pull Request}
+\acro{LONG TEST}{VERY LONG NAME VERY LONG NAME VERY LONG NAME VERY LONG NAME VERY LONG NAME VERY LONG NAME VERY LONG NAME VERY LONG NAME}
 
 \begin{document}
 
@@ -190,6 +191,28 @@ pentru a putea scrie chiar o lucrare primitivă în \LaTeX{}, și deoarece
 scopul este să cunoască \LaTeX{} la nivel destul de avansat pentru a putea
 scrie teza, este aceste informații sunt esențiale pentru a putea proceda la
 niște idei mai adânce.
+
+
+\subsection{Prescurtări}
+
+\verb|\acronymsChapter| este comanda care inserează lista de prescurtări.
+Când prescurtările au definiții lungi, acestea vor fi formatate automat frumos în tabel,
+cu un număr minim de treceri la un rând nou.
+
+Prescurtările în sine sunt definite înainte de începutul documentului, folosind \verb|\acro| sau \verb|\newacronym|.
+
+\verb|\acro| este o comandă redefinită, folosită în șablon.
+Primul parametru în paranteze pătrate permite acordarea unui identificator prescurtării, prin care
+se va face referința la ea în fișierul sursă al lucrării.
+Altfel, numele identificatorului va fi același ca prescurtarea.
+
+\verb|\newacronym| necesită obligatoriu un identificator separat, ceea ce este rar necesar,
+de aceea \verb|\acro| este mai ușor de utilizat.
+
+Dacă prescurtările definite nu sunt menționate prin
+\verb|\gls| sau \verb|\acrshort| sau un macro similar în lucrare,
+ele nu vor apărea în lista de prescurtări.
+Din acest motiv, \acrshort{LONG TEST} este menționat aici.
 
 \subsection{Citarea surselor}
 
