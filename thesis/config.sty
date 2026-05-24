@@ -316,16 +316,25 @@
 \hypersetup{linktoc=all}
 
 % Lista abrevierelor
-\RequirePackage[acronym, automake]{glossaries}
+\RequirePackage[acronym, automake, nogroupskip]{glossaries}
 \makeglossaries
 
+\RequirePackage{tabularx}
+\RequirePackage{booktabs}
+
 \newglossarystyle{acronymtable}{%
-  \setglossarystyle{long}%
-  \renewcommand{\glossentry}[2]{%
-    \textbf{\glsentryshort{##1}} &
-    \glsentrylong{##1}\tabularnewline
+  \renewenvironment{theglossary}{%
+    \noindent\tabularx{\linewidth}{@{} l X @{}}%
+  }{%
+    \endtabularx
   }%
-  \renewcommand{\glspostdescription}{}%
+  \renewcommand*{\glossaryheader}{}%
+  \renewcommand*{\glsgroupheading}[1]{}%
+  \renewcommand{\glossentry}[2]{%
+    \textbf{\glossentryname{##1}} &
+    \glossentrydesc{##1}\tabularnewline
+  }%
+  \renewcommand*{\glsgroupskip}{}%
 }
 \newcommand{\acronymsChapter}{%
   \clearpage
@@ -333,11 +342,6 @@
   \begingroup
   \renewcommand{\chapter}[2]{}% suppress glossaries' internal \chapter call
   \renewcommand{\clearpage}{}% suppress glossaries' internal \clearpage call
-  \setglossarystyle{long}%
-  \glssetwidest[0]{}% reset
-  \forallglsentries[\acronymtype]{\thisentry}{%
-    \glssetwidest[0]{\glsentryshort{\thisentry}}%
-  }%
   \printglossary[type=\acronymtype, style=acronymtable]
   \endgroup
 }
@@ -355,9 +359,9 @@
 \newcommand{\acresetall}{\glsresetall}
 \newcommand{\acro}[3][]{%
   \if\relax\detokenize{#1}\relax
-    \newacronym{#2}{#2}{#3}% fallback
+    \newacronym{#2}{#2}{#3}%
   \else
-    \newacronym{#2}{#1}{#3}%
+    \newacronym{#1}{#2}{#3}%
   \fi
 }
 
@@ -534,7 +538,7 @@
 \newcommand{\imageWithCaption}[2]{%
   \begin{figure}[H]
     \centering
-    \includegraphics[max width=\textwidth, max height=0.5\textheight]{#1}
+    \includegraphics[max width=\textwidth, max height=0.4\textheight]{#1}
     % Only insert and increment the caption counter when outside axene
     \ifinappendix
       \caption*{#2}%

@@ -66,6 +66,8 @@
 % В дальнейшем всегда пишите \ac{PNG} вместо просто PNG.
 \acro{PNG}{Portable Network Graphics}
 \acro{PR}{Pull Request}
+\acro[url_different_name]{URL}{Uniform Resource Locator}
+\acro{LONG TEST}{VERY LONG NAME VERY LONG NAME VERY LONG NAME VERY LONG NAME VERY LONG NAME VERY LONG NAME VERY LONG NAME VERY LONG NAME}
 
 \begin{document}
 
@@ -132,7 +134,7 @@
 \textbf{Applicative value.} 
 
 The entire source code can be obtained by accessing the GitHub repository
-by the following URL: \github. 
+by the following \gls{url_different_name}: \github. 
 
 The obtained results were reported at \textbf{\conferencesList}\cite{self}.
 
@@ -196,6 +198,27 @@ The obtained results were reported at \textbf{\conferencesList}\cite{self}.
 для написания даже примитивной работы на \LaTeX{}, и поскольку
 цель — изучить \LaTeX{} на достаточно продвинутом уровне для написания
 диссертации, эта информация необходима для перехода к более глубоким идеям.
+
+\subsection{Сокращения}
+
+\verb|\acronymsChapter| это команда, которая вставляет список сокращений.
+Когда у сокращений длинные определения, они автоматичекски красиво отформатируются в таблице,
+с минимальным количеством переходов на новую строку.
+
+Сами сокращения определяются до начала документа, используя \verb|\acro| или \verb|\newacronym|.
+
+\verb|\acro| --- это переопределенная команда, использованная в шаблоне.
+Первый параметр в квадратных скобках позволяет дать идентификатор сокращению, используя который
+будет происходить отсылка к нему в исходном файле работы.
+Иначе, имя идентификатора будет то же, что и сокращение.
+
+\verb|\newacronym| ожидает обязательно отдельного идентификатора, что нужно редко, 
+поэтому \verb|\acro| использовать проще.
+
+Если определенные сокращения не указать через 
+\verb|\gls| или \verb|\acrshort| или аналогичный макрос в работе,
+они не появятся в списке сокращений.
+По этой причине здесь упоминается \acrshort{LONG TEST}.
 
 \subsection{Цитирование источников}
 
