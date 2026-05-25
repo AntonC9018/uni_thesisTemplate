@@ -297,23 +297,20 @@ Utilizați simbolul care nu este folosit în codul ce trebuie inserat ca atare.
 
 Când aveți un tabel, trebuie să dați referința la el.
 Denumirea tabelului trebuie să se afle \textbf{deasupra} tabelului.
-Exemplu \refFigure{pixel_order_table} de un tabel: 
+\Cref{pixel_order_table} prezintă un exemplu de inserare a tabelelor cu numerotare automată.
 
-\begin{figure}[!ht]
-\centering
-  \caption{Tabelul ordonării pixelilor\\a doua linie în titlu\\a treia linie}
-\label{fig:pixel_order_table}
-\begin{tabular}{c c c c c c c c}
-    1 & 6 & 4 & 6 & 2 & 6 & 4 & 6 \\
-    7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 \\
-    5 & 6 & 5 & 6 & 5 & 6 & 5 & 6 \\
-    7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 \\
-    3 & 6 & 4 & 6 & 3 & 6 & 4 & 6 \\
-    7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 \\
-    5 & 6 & 5 & 6 & 5 & 6 & 5 & 6 \\
-    7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 \\
-\end{tabular}
-\end{figure}
+\begin{tableWithCaption}{pixel_order_table}{Tabelul ordonării pixelilor\\a doua linie în titlu\\a treia linie}
+  \begin{tabular}{c c c c c c c c}
+      1 & 6 & 4 & 6 & 2 & 6 & 4 & 6 \\
+      7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 \\
+      5 & 6 & 5 & 6 & 5 & 6 & 5 & 6 \\
+      7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 \\
+      3 & 6 & 4 & 6 & 3 & 6 & 4 & 6 \\
+      7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 \\
+      5 & 6 & 5 & 6 & 5 & 6 & 5 & 6 \\
+      7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 \\
+  \end{tabular}
+\end{tableWithCaption}
 
 
 \cprotect\section{Librăria \verb|minted| pentru cod}
@@ -380,7 +377,14 @@ With any characters |||
 
 \subsection{Introducere}
 
-Acest șablon propune doar o funcție pentru imagini, care ține și de figure automat.
+Acest șablon propune doar o funcție pentru imagini, 
+care înregistrează automat imaginea ca figură.
+
+Imaginea va fi plasată \textit{nu imediat} după mențiune,
+ci va apărea automat în locul cel mai apropiat de punctul de mențiune,
+astfel încât să minimizeze spațiul gol
+lăsat atunci când imaginea nu încape.
+
 Puteți folosi altceva dacă nu vă aranjează.
 Pentru standardizare, însă, ar fi bine să vă propuneți metoda cu un \gls{PR} ca s-o adăugați în șablon.
 
@@ -388,14 +392,14 @@ Pentru standardizare, însă, ar fi bine să vă propuneți metoda cu un \gls{PR
 
 Când dați o imagine, la ea numaidecât să faceți și referința.
 
-În \refFigure{interface_sketch.png} este prezentată o schiță a interfeței grafice.
+Pe \cref{interface_sketch.png} este prezentată o schiță a interfeței grafice.
 
 \imageWithCaption{interface_sketch.png}{Schița interfeței grafice}
 
 Această metodă limitează lățimea și înălțimea maximă ale imaginilor,
 fără a le permite să iasă în afara paginii și fără a le modifica raportul de aspect.
-De exemplu, în \refFigure{wide.png} o imagine lată nu va depăși limitele paginii,
-iar în \refFigure{long.png} nu va ieși în afara paginii.
+De exemplu, în \cref{wide.png} o imagine lată nu va depăși limitele paginii,
+iar în \cref{long.png} nu va ieși în afara paginii.
 
 \imageWithCaption{wide.png}{Bandă lată}
 
