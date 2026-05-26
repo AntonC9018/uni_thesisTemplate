@@ -11,6 +11,7 @@
   \newcommand{\titlePage}{\input{parts/foaie_de_titlu_ro}}%
   \newcommand{\appendixChapterName}{Anexe}%
   \newcommand{\acronymsChapterName}{Lista abrevierelor}%
+  \newcommand{\appendixReferenceLetter}{A}%
 }
 \DeclareOption{russian}{%
   \newcommand{\mainLanguage}{russian}%
@@ -27,6 +28,7 @@
   }%
   \newcommand{\appendixChapterName}{Приложения}%
   \newcommand{\acronymsChapterName}{Список сокращений}%
+  \newcommand{\appendixReferenceLetter}{П}%
 }
 \DeclareOption*{\PackageError{config}{Invalid option '\CurrentOption'}{Pass the language option}}
 \ProcessOptions\relax
@@ -514,10 +516,10 @@
 \addto\captionsromanian{\renewcommand{\tablename}{Tab.}}
 \addto\captionsrussian{\renewcommand{\tablename}{Таб.}}
 
-
 % Their numbering has to use the chapter number.
 \renewcommand{\thefigure}{\arabic{chapter}.\arabic{figure}}
 \renewcommand{\thetable}{\arabic{chapter}.\arabic{table}}
+\renewcommand{\theequation}{\arabic{chapter}.\arabic{equation}}
 
 \RequirePackage[font=bf]{caption}
 \captionsetup[figure]{%
@@ -562,52 +564,52 @@
 
 \graphicspath{{./images/}}
 
-% Flag to remove labels in appendices
-\newif\ifinappendix
-\inappendixfalse
-% 1 - identifier
-% 2 - caption
-\newcommand\labeledCaption[2]{
-    % Only insert and increment the caption counter when outside axene
-    \ifinappendix
-      \caption*{#2}%
-    \else
-      \caption{#2}%
-      \label{#1}%
-    \fi
-}
+\newcommand\placeImageInternal[1]{\includegraphics[max width=\textwidth, max height=0.35\textheight]{#1}}
 
 \usepackage[Export]{adjustbox}
-\newcommand{\imageWithCaption}[3][]{%
+
+% 1 - Allow \image*
+% 2 - Optional label identifier. Defaults to the image file name.
+% 3 - Image file name.
+% 4 - Caption text.
+\NewDocumentCommand{\insertImage}{somm}{%
   % try to place h - here, t - top, b - bottom, p - separate page
   % prefers placing it immediately, if there's enough space.
   % ! makes it more aggressive, relaxing latex default rules for space allocated to text and such.
   \begin{figure}[!htbp]
     \centering
-    \includegraphics[max width=\textwidth, max height=0.4\textheight]{#2}
-    % optional id not passed
-    \ifx&#1&%
-      \labeledCaption{#2}{#3}
-    % optional id passed
-    \else
-      \labeledCaption{#1}{#3}
-    \fi
+    \placeImageInternal{#3}
+    %
+    \IfBooleanTF#1
+      {\caption*{#4}}
+      {\caption{#4}}%
+    %
+    \IfBooleanTF#1
+      {}% Do an error here!
+      {\IfNoValueTF{#2}{\label{#3}}{\label{#2}}}%
   \end{figure}%
 }
 
-\NewDocumentEnvironment{tableWithCaption}{m m +b}
-{%
-  % #1 = label/id
-  % #2 = caption
-  % body = table contents
+% 1 - \table* support
+% 2 - Label Identifier (only valid when no start given).
+% 3 - Caption text.
+% 4 - Table contents.
+\NewDocumentCommand{\insertTable}{somm}{%
   \begin{table}[!htbp]
-    \labeledCaption{#1}{#2}
     \centering
-    #3
+    %
+    \IfBooleanTF#1
+      {\caption*{#3}}
+      {\caption{#3}}%
+    %
+    \IfBooleanTF#1
+      {}% Do an error here if there's an identifier!
+      {\IfNoValueTF{#2}{% Do an here here!
+        }{\label{#2}}}%
+    %
+    #4
   \end{table}%
 }
-{}
-
 
 % See the python script.
 % It inserts the minted listing text.
@@ -619,13 +621,15 @@
     \input{|python3 findSegment.py "#1" "#2"}%
 }
 
+% change counter
+\RequirePackage{chngcntr}
+
 \def\appendixChapter{%
   % Appendices don't have the dot when referencing.
   % If you have multiple chapters in appendices, you'll have to reconfigure this.
   \renewcommand{\thesection}{\arabic{section}}%
   \titleformat{\section}[block]{\normalfont\normalsize\bfseries\filcenter}{\anexaLabel{} \thesection.~}{0pt}{}%
   \appendix
-  \global\inappendixtrue{}%
   %
   % Every section on new page
   % \newcommand{\sectionbreak}{\clearpage}
@@ -634,6 +638,15 @@
   % but which is also the name of the Appendix chapter, it should be omitted.
   % Makes little sense, but ok I guess.
   \setcounter{chapter}{1}%
+
+  \counterwithin{figure}{section}
+  \counterwithin{table}{section}
+  \counterwithin{equation}{section}
+  % Redefine the numbering for images and tables in appendices.
+  \renewcommand{\thefigure}{\appendixReferenceLetter{}\arabic{section}.\arabic{figure}}
+  \renewcommand{\thetable}{\appendixReferenceLetter{}\arabic{section}.\arabic{table}}
+  \renewcommand{\theequation}{\appendixReferenceLetter{}\arabic{section}.\arabic{equation}}
+
   %
   % Counter, again, looks at sections rather than subsections.
   \def\oldsection{} \let\oldsection=\section{}%

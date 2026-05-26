@@ -83,7 +83,9 @@ EOF
         glossaries \
         datetime2-romanian \
         datetime2-russian \
-        cleveref
+        cleveref \
+        chngcntr
+
     
     # Fonts
     cd -- "$repo_dir"

@@ -302,7 +302,7 @@ The obtained results were reported at \textbf{\conferencesList}\cite{self}.
 Название таблицы должно находится \textbf{над} таблицей.
 \Cref{pixel_order_table} предоставляет пример вставки таблиц с автоматической нумерацией.
 
-\begin{tableWithCaption}{pixel_order_table}{Таблица порядка пикселей\\вторая строка в названии\\третья строка}
+\insertTable[pixel_order_table]{Таблица порядка пикселей\\вторая строка в названии\\третья строка}{%
   \begin{tabular}{c c c c c c c c}
       1 & 6 & 4 & 6 & 2 & 6 & 4 & 6 \\
       7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 \\
@@ -313,7 +313,7 @@ The obtained results were reported at \textbf{\conferencesList}\cite{self}.
       5 & 6 & 5 & 6 & 5 & 6 & 5 & 6 \\
       7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 \\
   \end{tabular}
-\end{tableWithCaption}
+}
 
 \cprotect\section{Библиотека \verb|minted| для кода}
 
@@ -396,16 +396,16 @@ With any characters |||
 
 На \cref{interface_sketch.png} представлен эскиз графического интерфейса.
 
-\imageWithCaption{interface_sketch.png}{Эскиз графического интерфейса}
+\insertImage{interface_sketch.png}{Эскиз графического интерфейса}
 
 Этот метод ограничивает максимальную ширину и высоту изображений, 
 не давая им выйти за экран и не изменяя их соотношений.
 Например, на \cref{wide.png} широкая картинка не выйдет за пределы, 
 а \cref{long.png} она не уйдет за страницу.
 
-\imageWithCaption{wide.png}{Широкая полоса}
+\insertImage{wide.png}{Широкая полоса}
 
-\imageWithCaption{long.png}{Длинная полоса}
+\insertImage{long.png}{Длинная полоса}
 
 \section{Приложения}
 
@@ -420,6 +420,15 @@ With any characters |||
 \subsection{Как сделать ссылку}
 
 См. приложение \ref{appendix:example_min}.
+
+В приложении \ref{unnumbered_appendix} представлено приложение без нумерации предметов внутри.
+
+В приложении \ref{numbered_appendix} представлено приложение с нумерацией предметов внутри,
+а именно:
+\begin{itemize}
+  \item \Cref{cat_1} демонстрирует кота номер 1
+  \item \Cref{cat_2} демонстрирует кота номер 2
+\end{itemize}
 
 \chapterConclusionSection{intro_chapter_title}
 
@@ -479,11 +488,32 @@ With any characters |||
 \section{Функция min в тестовой программе на JavaScript}\label{appendix:example_min}
 \inputminted{js}{../src/appendix_example.js}
 
-\section{Пример картинок в приложениях}
+\section{Без нумерации}\label{unnumbered_appendix}
 
-\imageWithCaption{cat_1.jpg}{Картинка 1}
+\insertImage*{cat_1.jpg}{Кот}
 
-\imageWithCaption{cat_2.jpg}{Картинка 2}
+Когда прямая ссылка идет только на все приложение,
+а не на индивидуальные картинки изнутри,
+их не обязательно нумеровать.
+
+То же с таблицами
+
+\insertTable*{Пример таблицы без нумерации}{%
+  \begin{tabular}{c c c}
+    Hello & 1 & 2 \\
+    A & B & C \\
+    D & E & F
+  \end{tabular}
+}
+
+\section{Картинка с нумерацией}\label{numbered_appendix}
+
+Это есть смысл делать, если в приложении больше 1 предмета.
+
+\insertImage[cat_1]{cat_1.jpg}{Кот 1}
+
+\insertImage[cat_2]{cat_2.jpg}{Кот 2}
+
 
 \ifundef{\isPractica}{
   \declarationPage{}
