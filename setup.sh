@@ -84,7 +84,8 @@ EOF
         datetime2-romanian \
         datetime2-russian \
         cleveref \
-        chngcntr
+        chngcntr \
+        refcheck
 
     
     # Fonts

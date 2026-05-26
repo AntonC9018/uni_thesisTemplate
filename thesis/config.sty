@@ -522,14 +522,20 @@
 \renewcommand{\theequation}{\arabic{chapter}.\arabic{equation}}
 
 \RequirePackage[font=bf]{caption}
-\captionsetup[figure]{%
-  % Use . instead of : in figures
-  labelsep=period,%
-  % Set spacing between lines to 1
-  font={stretch=1}}
-\captionsetup[table]{%
-  labelsep=period,%
-  font={stretch=1}}
+% Set global caption configurations
+\captionsetup{%
+  font={bf, stretch=1}, % Force both Bold and single line spacing globally
+  labelsep=period       % Use '.' instead of ':' after the label
+}
+
+% Re-apply the bold configuration inside polyglossia's language hooks 
+% to prevent them from wiping out the style during language setup.
+\gappto\captionsromanian{%
+  \captionsetup{font={bf, stretch=1}, labelsep=period}%
+}
+\gappto\captionsrussian{%
+  \captionsetup{font={bf, stretch=1}, labelsep=period}%
+}
 
 % cleveref must be loaded AFTER hyperref
 % Determines the type of item referenced and lets you 
