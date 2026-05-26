@@ -564,49 +564,66 @@
 
 \graphicspath{{./images/}}
 
-\newcommand\placeImageInternal[1]{\includegraphics[max width=\textwidth, max height=0.35\textheight]{#1}}
 
 \usepackage[Export]{adjustbox}
 
-% 1 - Allow \image*
+\newcommand\placeImageInternal[1]{\includegraphics[max width=\textwidth, max height=0.35\textheight]{#1}}
+
+% Internal helper: handles the starred/label logic shared by \insertImage and \insertTable.
+% #1 - Boolean (star flag)
+% #2 - Optional label
+% #3 - Fallback label (used when #2 is absent in unstarred form)
+% #4 - Command name (for error messages)
+\NewDocumentCommand{\insertFloatLabelHelper}{momm}{%
+  \IfBooleanTF{#1}
+    {%
+      \IfNoValueF{#2}{%
+        \PackageError{#4}
+          {Label '#2' given with starred \csname #4\endcsname. The starred form suppresses the caption number and cannot produce
+           a \string\label. Remove the optional label argument or use the
+           unstarred form.}
+          {}%
+      }%
+    }%
+    {%
+      \IfNoValueTF{#2}
+        {%
+          \ifx\relax#3\relax
+            \PackageError{#4}
+              {No label given for \csname #4\endcsname. The unstarred form requires a label argument so the float can be
+               cross-referenced. Add [yourlabel] or use the starred form to
+               suppress numbering entirely.}
+              {}%
+          \else
+            \label{#3}%
+          \fi
+        }%
+        {\label{#2}}%
+    }%
+}
+
+% 1 - Allow \insertImage*
 % 2 - Optional label identifier. Defaults to the image file name.
 % 3 - Image file name.
 % 4 - Caption text.
 \NewDocumentCommand{\insertImage}{somm}{%
-  % try to place h - here, t - top, b - bottom, p - separate page
-  % prefers placing it immediately, if there's enough space.
-  % ! makes it more aggressive, relaxing latex default rules for space allocated to text and such.
   \begin{figure}[!htbp]
     \centering
     \placeImageInternal{#3}
-    %
-    \IfBooleanTF#1
-      {\caption*{#4}}
-      {\caption{#4}}%
-    %
-    \IfBooleanTF#1
-      {}% Do an error here!
-      {\IfNoValueTF{#2}{\label{#3}}{\label{#2}}}%
+    \IfBooleanTF{#1}{\caption*{#4}}{\caption{#4}}%
+    \insertFloatLabelHelper{#1}[#2]{#3}{insertImage}%
   \end{figure}%
 }
 
-% 1 - \table* support
-% 2 - Label Identifier (only valid when no start given).
+% 1 - Allow \insertTable*
+% 2 - Label identifier (only valid when no star given).
 % 3 - Caption text.
 % 4 - Table contents.
 \NewDocumentCommand{\insertTable}{somm}{%
   \begin{table}[!htbp]
     \centering
-    %
-    \IfBooleanTF#1
-      {\caption*{#3}}
-      {\caption{#3}}%
-    %
-    \IfBooleanTF#1
-      {}% Do an error here if there's an identifier!
-      {\IfNoValueTF{#2}{% Do an here here!
-        }{\label{#2}}}%
-    %
+    \IfBooleanTF{#1}{\caption*{#3}}{\caption{#3}}%
+    \insertFloatLabelHelper{#1}[#2]{}{insertTable}%
     #4
   \end{table}%
 }
