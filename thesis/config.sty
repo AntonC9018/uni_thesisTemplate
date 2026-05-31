@@ -678,3 +678,19 @@
 \makeatother
 \pretocmd{\titlePage}{\pagestyle{empty}}{}{}
 \pretocmd{\tableofcontents}{\pagestyle{plain}}{}{}
+
+% \aiBox{value} — renders a checked box if \aiUsage equals value, unchecked otherwise.
+% Defined with \newcommand inside \begingroup so it is local to this declaration;
+% the Russian version can define its own \aiBox in its own group without conflict.
+\RequirePackage{amssymb}
+\newcommand{\aiUsageBox}[1]{%
+  \ifthenelse{\equal{\aiUsage}{#1}}{$\boxtimes$}{$\square$}}
+
+\RequirePackage{calc}
+\RequirePackage{ifthen}
+
+% 5 lines of underlined lines at minimum
+% Each line of the given text must be underlined
+% The text must be italicized
+\newcommand{\aiTextLines}[1]{%
+}
