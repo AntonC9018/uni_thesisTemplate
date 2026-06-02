@@ -9,7 +9,6 @@
   \newcommand{\anexaLabel}{Anexa}%
   \newcommand{\introLabel}{Introducere}%
   \newcommand{\titlePage}{\input{parts/foaie_de_titlu_ro}}%
-  \newcommand{\declarationPage}{\input{parts/declaratie_ro}}%
   \newcommand{\appendixChapterName}{Anexe}%
   \newcommand{\acronymsChapterName}{Lista abrevierelor}%
 }
@@ -26,7 +25,6 @@
     % Only include if the language is RU
     \input{parts/foaie_de_titlu_ru}
   }%
-  \newcommand{\declarationPage}{\input{parts/declaratie_ru}}%
   \newcommand{\appendixChapterName}{Приложения}%
   \newcommand{\acronymsChapterName}{Список сокращений}%
 }
@@ -688,9 +686,66 @@
 
 \RequirePackage{calc}
 \RequirePackage{ifthen}
+\RequirePackage{setspace}
+\RequirePackage{tikz}
 
-% 5 lines of underlined lines at minimum
-% Each line of the given text must be underlined
-% The text must be italicized
+% Declaration page AI usage explanation bit:
+% - 5 lines of underlined lines at minimum
+% - Each line of the given text must be underlined
+% - The text must be italicized (to make it stand out)
+
+% Vibe coded, barely works.
+% I've adjusted it manually a little bit because the spacings were off.
+% If you're going to edit this, start from scratch, it's slop.
+\makeatletter
+\ifdefined\aiExplHeight\else\newlength{\aiExplHeight}\fi
+\ifdefined\aiLineStep\else\newlength{\aiLineStep}\fi
+\ifdefined\aiTotalHeight\else\newlength{\aiTotalHeight}\fi
+\@ifundefined{c@aiLineCount}{\newcounter{aiLineCount}}{}
+\@ifundefined{c@aiLineI}{\newcounter{aiLineI}}{}
+\makeatother
+
+\newsavebox{\aiTextBox}
+
 \newcommand{\aiTextLines}[1]{%
+  \vspace{0.5\baselineskip}
+  \setlength{\aiLineStep}{\baselineskip}%
+  \ifthenelse{\equal{\aiUsage}{assisted}}{%
+    \savebox{\aiTextBox}{%
+      \begin{minipage}{\linewidth}
+        \strut \textit{#1}
+      \end{minipage}%
+      }
+    \settototalheight{\aiExplHeight}{\usebox{\aiTextBox}}%
+    \setcounter{aiLineCount}{\numexpr
+      (\number\aiExplHeight + \number\aiLineStep - 1) / \number\aiLineStep
+    \relax}%
+    \ifthenelse{\value{aiLineCount} < 5}{\setcounter{aiLineCount}{5}}{}%
+  }{%
+    \setcounter{aiLineCount}{5}%
+  }%
+  \setlength{\aiTotalHeight}{\numexpr \value{aiLineCount} \relax\aiLineStep}%
+  \noindent\begin{tikzpicture}[yscale=-1, baseline=-\aiTotalHeight]
+    \setcounter{aiLineI}{1}%
+    \loop
+      \pgfmathparse{\value{aiLineI}}
+      \let\y\pgfmathresult
+      \draw[line width=0.4pt] (0, \y \aiLineStep)
+            -- (\linewidth, \y \aiLineStep);%
+      \stepcounter{aiLineI}%
+    \ifnum\value{aiLineI}>\value{aiLineCount}\else\repeat
+    \ifthenelse{\equal{\aiUsage}{assisted}}{%
+      % 2. DYNAMIC SHIFT: Move down by (aiLineStep - height of a standard font strut)
+      \node[anchor=north west, inner sep=0, outer sep=0, 
+            yshift=-(\aiLineStep-\ht\strutbox-2)] at (0,0) {\usebox{\aiTextBox}};%
+    }{}%
+  \end{tikzpicture}\par%
+}
+
+\providecommand{\declarationPage}{}
+\renewcommand{\declarationPage}{%
+  \input{parts/declaratie_ro}
+  \addtocontents{toc}{%
+    \protect\contentsline{chapter}{Declarație privind contribuția personală}{\pageref{declaratie_ro}}{}%
+  }
 }

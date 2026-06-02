@@ -10,4 +10,3 @@ The repo contains latex template config for Moldova State University.
   the changes worked and the templates still render.
   It must be run in `thesis` as the cwd.
 
-
