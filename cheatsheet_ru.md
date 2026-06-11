@@ -1,0 +1,99 @@
+# Краткая памятка по шаблону
+
+## Начало работы
+
+1. Скопируйте `thesis/bare_main_ru.tex` в `thesis/main.tex`.
+2. Заполните метаданные в начале файла: автор, название, руководитель, программа, тип работы.
+3. Компилируйте из директории `thesis`:
+
+```sh
+./render.sh --force --input main.tex
+```
+
+## Полезные метаданные
+
+- `\docTitleRu` - название работы.
+- `\docTypeRuPredlozhny`, `\docTypeRuDatelny` - грамматические формы типа работы.
+- `\studentTypeRu` - текст для автора на титульном листе, например `студент`, `выпускник`, `магистрант`.
+- `\uniGroupName`, `\authorNameRu`, `\conducatorNameRu`, `\conducatorTitleRu` - данные для титульного листа.
+- `\github` и `\conferencesList` - ссылка на исходный код и конференции.
+
+## Сокращения
+
+Определяйте сокращения до `\begin{document}`:
+
+```tex
+\acro{PNG}{Portable Network Graphics}
+\acro[url]{URL}{Uniform Resource Locator}
+```
+
+В тексте используйте `\ac{PNG}`, `\acrshort{PNG}` или `\gls{PNG}`. Неупомянутые сокращения не появятся в списке сокращений.
+
+## Цитирование и библиография
+
+Добавьте источники в `thesis/bibliography.bib`, затем цитируйте их в тексте:
+
+```tex
+Текст с отсылкой к источнику\cite{source_key}.
+Текст с отсылкой к конкретной странице\cite[12]{source_key}.
+```
+
+Библиография вставляется командой `\bibliographyChapter`.
+
+## Таблицы и изображения
+
+Используйте нумерованные варианты, когда элемент упоминается в тексте:
+
+```tex
+\Cref{interface_sketch} показывает эскиз интерфейса.
+
+\insertImage[interface_sketch]{interface_sketch.png}{Эскиз интерфейса}
+```
+
+Для таблиц:
+
+```tex
+\Cref{data_table} показывает данные.
+
+\insertTable[data_table]{Экспериментальные данные}{%
+  \begin{tabular}{c c}
+    A & B \\
+  \end{tabular}
+}
+```
+
+Используйте `\insertImage*` и `\insertTable*` только для ненумерованных элементов, на которые нет прямой ссылки.
+
+## Ссылки на приложения
+
+После `\appendixChapter` каждое приложение или нумерованный элемент приложения с `\label{...}` должен упоминаться в тексте через `\ref{...}`, `\cref{...}` или `\Cref{...}`.
+
+Если метка из приложения не упомянута, в PDF появится красное предупреждение рядом с элементом, а в LaTeX-логе будет предупреждение `Package config Warning`.
+
+## Кавычки
+
+Используйте `\enquote{...}` для кавычек, соответствующих языку документа:
+
+```tex
+\enquote{это короткая цитата}
+```
+
+## Код
+
+Для целого файла:
+
+```tex
+\inputminted{zig}{../src/sourcefile.zig}
+```
+
+Для диапазона строк:
+
+```tex
+\inputminted[firstline=2,lastline=5]{zig}{../src/sourcefile.zig}
+```
+
+Для сегмента, отмеченного в файле, используйте:
+
+```tex
+\inputMintedSegment{../src/sourcefile.zig}{example}
+```
