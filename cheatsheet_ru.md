@@ -1,101 +1,59 @@
-# Краткая памятка по шаблону
+# Краткая памятка
 
-## Начало работы
+## Компиляция
 
-1. Скопируйте `thesis/bare_main_ru.tex` в `thesis/main.tex`.
-2. Заполните метаданные в начале файла: автор, название, руководитель, программа, тип работы.
-3. Компилируйте из директории `thesis`:
+| Цель | Команда |
+| --- | --- |
+| Скомпилировать `main.tex` | `cd thesis && ./render.sh --input main.tex` |
+| Скомпилировать после очистки сгенерированных файлов | `cd thesis && ./render.sh -f --input main.tex` |
+| Длинный вариант `-f` | `cd thesis && ./render.sh --force --input main.tex` |
+| Скомпилировать стартовый файл | `cd thesis && ./render.sh -f --input bare_main_ru.tex` |
 
-```sh
-./render.sh --force --input main.tex
-```
+## Текст и ссылки
 
-## Полезные метаданные
+| Что нужно | Команда | Результат |
+| --- | --- | --- |
+| Жирный текст | `\textbf{text}` | выделение жирным |
+| Курсив | `\textit{text}` | наклонный текст |
+| Monospace | `\texttt{text}` | технический текст |
+| Дословный текст | `\verb!text!` | текст без LaTeX-интерпретации |
+| Цитирование | `\cite{png_spec}` | источник из `bibliography.bib` |
+| Термин из глоссария | `\gls{PR}` | термин / сокращение |
+| Короткое сокращение | `\acrshort{PR}` | только краткая форма |
+| Метка | `\label{my_label}` | цель для ссылок |
+| Ссылка с большой буквы | `\Cref{my_label}` | начало предложения |
+| Ссылка с маленькой буквы | `\cref{my_label}` | внутри предложения |
 
-- `\docTitleRu` - название работы.
-- `\docTypeRuPredlozhny`, `\docTypeRuDatelny` - грамматические формы типа работы.
-- `\studentTypeRu` - текст для автора на титульном листе, например `студент`, `выпускник`, `магистрант`.
-- `\uniGroupName`, `\authorNameRu`, `\conducatorNameRu`, `\conducatorTitleRu` - данные для титульного листа.
-- `\github` и `\conferencesList` - ссылка на исходный код и конференции.
+## Структура документа
 
-## Сокращения
+| Порядок | Команда | Использование |
+| --- | --- | --- |
+| 1 | `\titlePage` | титульные листы |
+| 2 | `\tableofcontents` | содержание |
+| 3 | `\acronymsChapter` | список сокращений |
+| 4 | `\introChapter` | введение |
+| 5 | `\chapter{Название}\label{chapter_label}` | нумерованная глава |
+| 6 | `\section{Название}` | раздел |
+| 7 | `\subsection{Название}` | подраздел |
+| 8 | `\chapterConclusionSection{chapter_label}` | выводы к главе |
+| 9 | `\unnumberedChapter{Название}` | глава без номера |
+| 10 | `\bibliographyChapter` | библиография |
+| 11 | `\appendixChapter` | начало приложений |
+| 12 | `\section{Название}\label{appendix_label}` | приложение |
+| 13 | `\declarationPage{}` | декларация автора |
 
-Определяйте сокращения до `\begin{document}`:
+## Вставки
 
-```tex
-\acro{PNG}{Portable Network Graphics}
-\acro[url]{URL}{Uniform Resource Locator}
-```
-
-В тексте используйте `\ac{PNG}`, `\acrshort{PNG}` или `\gls{PNG}`. Неупомянутые сокращения не появятся в списке сокращений.
-
-## Цитирование и библиография
-
-Добавьте источники в `thesis/bibliography.bib`, затем цитируйте их в тексте:
-
-```tex
-Текст с отсылкой к источнику\cite{source_key}.
-Текст с отсылкой к конкретной странице\cite[12]{source_key}.
-```
-
-Библиография вставляется командой `\bibliographyChapter`.
-
-## Таблицы и изображения
-
-Используйте нумерованные варианты, когда элемент упоминается в тексте:
-
-```tex
-\Cref{interface_sketch} показывает эскиз интерфейса.
-
-\insertImage[interface_sketch]{interface_sketch.png}{Эскиз интерфейса}
-```
-
-Для таблиц:
-
-```tex
-\Cref{data_table} показывает данные.
-
-\insertTable[data_table]{Экспериментальные данные}{%
-  \begin{tabular}{c c}
-    A & B \\
-  \end{tabular}
-}
-```
-
-Используйте `\insertImage*` и `\insertTable*` только для ненумерованных элементов, на которые нет прямой ссылки.
-
-## Ссылки на приложения
-
-После `\appendixChapter` каждое приложение с `\label{...}` должно упоминаться в тексте через `\ref{...}`, `\cref{...}` или `\Cref{...}`.
-Нумерованные элементы внутри приложения покрываются ссылкой на всё приложение; ссылайтесь на них напрямую только когда обсуждаете отдельный элемент.
-Это исключение действует только для приложений. Нумерованные изображения и таблицы в основном тексте должны иметь прямую ссылку.
-
-Если метка из приложения не упомянута, в PDF появится красное предупреждение рядом с элементом, а в LaTeX-логе будет предупреждение `Package config Warning`.
-
-## Кавычки
-
-Используйте `\enquote{...}` для кавычек, соответствующих языку документа:
-
-```tex
-\enquote{это короткая цитата}
-```
-
-## Код
-
-Для целого файла:
-
-```tex
-\inputminted{zig}{../src/sourcefile.zig}
-```
-
-Для диапазона строк:
-
-```tex
-\inputminted[firstline=2,lastline=5]{zig}{../src/sourcefile.zig}
-```
-
-Для сегмента, отмеченного в файле, используйте:
-
-```tex
-\inputMintedSegment{../src/sourcefile.zig}{example}
-```
+| Что нужно | Команда |
+| --- | --- |
+| Код: весь файл | `\inputminted{zig}{../src/sourcefile.zig}` |
+| Код: диапазон строк | `\inputminted[firstline=2,lastline=5]{zig}{../src/sourcefile.zig}` |
+| Код: отмеченный сегмент | `\inputMintedSegment{../src/sourcefile.zig}{example}` |
+| Код: дословный текст | `\begin{verbatim}...\end{verbatim}` |
+| Нумерованная картинка, label = файл | `\insertImage{interface.png}{Caption}` |
+| Нумерованная картинка, свой label | `\insertImage[interface]{interface.png}{Caption}` |
+| Ненумерованная картинка | `\insertImage*{interface.png}{Caption}` |
+| Нумерованная таблица | `\insertTable[data_table]{Caption}{\begin{tabular}{c c} A & B \end{tabular}}` |
+| Ненумерованная таблица | `\insertTable*{Caption}{\begin{tabular}{c c} A & B \end{tabular}}` |
+| Правило для картинок/таблиц | в тексте: `\Cref{label}` перед элементом |
+| Правило для приложений | `\ref{appendix_label}` может покрыть элементы внутри приложения |
