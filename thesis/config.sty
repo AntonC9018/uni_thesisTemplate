@@ -1060,8 +1060,6 @@
 \renewcommand{\declarationPage}{%
   \withoutAppendixReferenceValidation{%
     \input{parts/declaratie_ro}
-    \addtocontents{toc}{%
-      \protect\contentsline{chapter}{Declarație privind contribuția personală}{\pageref{declaratie_ro}}{}%
-    }%
+    \addcontentsline{toc}{chapter}{Declarație privind contribuția personală}%
   }
 }
