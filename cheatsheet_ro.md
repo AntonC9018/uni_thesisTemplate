@@ -2,12 +2,14 @@
 
 ## Compilare
 
+Compilarea trebuie pornită din directorul `thesis`.
+
 | Scop | Comandă |
 | --- | --- |
-| Compilează `main.tex` | `cd thesis && ./render.sh --input main.tex` |
-| Compilează după curățarea fișierelor generate | `cd thesis && ./render.sh -f --input main.tex` |
-| Echivalent lung pentru `-f` | `cd thesis && ./render.sh --force --input main.tex` |
-| Compilează un starter | `cd thesis && ./render.sh -f --input bare_main_ro.tex` |
+| Compilează `main.tex` | `./render.sh --input main.tex` |
+| Compilează după curățarea fișierelor generate | `./render.sh -f --input main.tex` |
+| Echivalent lung pentru `-f` | `./render.sh --force --input main.tex` |
+| Compilează un starter | `./render.sh -f --input bare_main_ro.tex` |
 
 ## Text și referințe
 
@@ -15,32 +17,33 @@
 | --- | --- | --- |
 | Bold | `\textbf{text}` | text îngroșat |
 | Italic | `\textit{text}` | text înclinat |
-| Monospace | `\texttt{text}` | text tehnic |
-| Text literal | `\verb!text!` | text fără interpretare LaTeX |
+| Monospace | `\texttt{text}` | caractere monospațiate |
+| Text literal | `\verb!text!` | text fără interpretare LaTeX, folosit pentru cod |
 | Citare | `\cite{png_spec}` | sursă din `bibliography.bib` |
-| Termen din glosar | `\gls{PR}` | termen / prescurtare |
-| Prescurtare scurtă | `\acrshort{PR}` | doar forma scurtă |
+| Prescurtare | `\gls{PR}` | prima mențiune include definiția completă în paranteze și inserează link spre termen |
+| Prescurtare scurtă | `\acrshort{PR}` | nu se extinde la definiția completă, utilă în titluri |
 | Etichetă | `\label{my_label}` | țintă pentru referințe |
 | Referință cu literă mare | `\Cref{my_label}` | început de propoziție |
 | Referință cu literă mică | `\cref{my_label}` | în interiorul propoziției |
+| Comandă în titlu | `\cprotect\section{Librăria \verb|minted|}` | necesar pentru `\verb` în titluri |
 
 ## Structura documentului
 
-| Ordine | Comandă | Folosire |
-| --- | --- | --- |
-| 1 | `\titlePage` | foi de titlu |
-| 2 | `\tableofcontents` | cuprins |
-| 3 | `\acronymsChapter` | lista abrevierilor |
-| 4 | `\introChapter` | introducere |
-| 5 | `\chapter{Titlu}\label{chapter_label}` | capitol numerotat |
-| 6 | `\section{Titlu}` | secțiune |
-| 7 | `\subsection{Titlu}` | subsecțiune |
-| 8 | `\chapterConclusionSection{chapter_label}` | concluzii de capitol |
-| 9 | `\unnumberedChapter{Titlu}` | capitol fără număr |
-| 10 | `\bibliographyChapter` | bibliografie |
-| 11 | `\appendixChapter` | începe anexele |
-| 12 | `\section{Titlu}\label{appendix_label}` | anexă |
-| 13 | `\declarationPage{}` | declarația autorului |
+| Comandă | Folosire |
+| --- | --- |
+| `\titlePage` | inserarea foilor de titlu |
+| `\tableofcontents` | inserarea cuprinsului |
+| `\acronymsChapter` | inserarea listei de abrevieri |
+| `\introChapter` | introducere |
+| `\chapter{Titlu}\label{chapter_label}` | capitol numerotat |
+| `\section{Titlu}` | secțiune |
+| `\subsection{Titlu}` | subsecțiune |
+| `\chapterConclusionSection{chapter_label}` | concluzii de capitol |
+| `\unnumberedChapter{Titlu}` | capitol fără număr, se adaugă singur în cuprins |
+| `\bibliographyChapter` | inserarea bibliografiei |
+| `\appendixChapter` | începutul anexelor |
+| `\section{Titlu}\label{appendix_label}` | anexă |
+| `\declarationPage{}` | declarație |
 
 ## Inserări
 
@@ -50,10 +53,10 @@
 | Cod: interval de linii | `\inputminted[firstline=2,lastline=5]{zig}{../src/sourcefile.zig}` |
 | Cod: segment marcat | `\inputMintedSegment{../src/sourcefile.zig}{example}` |
 | Cod: text literal | `\begin{verbatim}...\end{verbatim}` |
-| Imagine numerotată, label = fișier | `\insertImage{interface.png}{Caption}` |
-| Imagine numerotată, label custom | `\insertImage[interface]{interface.png}{Caption}` |
-| Imagine nenumerotată | `\insertImage*{interface.png}{Caption}` |
-| Tabel numerotat | `\insertTable[data_table]{Caption}{\begin{tabular}{c c} A & B \end{tabular}}` |
-| Tabel nenumerotat | `\insertTable*{Caption}{\begin{tabular}{c c} A & B \end{tabular}}` |
-| Regula pentru imagini/tabele | în text: `\Cref{label}` înainte de element |
-| Regula pentru anexe | `\ref{appendix_label}` poate acoperi elementele din anexă |
+| Imagine numerotată, eticheta pentru referință este `interface.png` | `\insertImage{interface.png}{Inscripție}` |
+| Imagine numerotată, eticheta pentru referință este `interface` | `\insertImage[interface]{interface.png}{Inscripție}` |
+| Imagine nenumerotată | `\insertImage*{interface.png}{Inscripție}` |
+| Tabel numerotat cu eticheta `table_id` | `\insertTable[table_id]{Inscripție}{\begin{tabular}{c c} A & B \end{tabular}}` |
+| Tabel nenumerotat | `\insertTable*{Inscripție}{\begin{tabular}{c c} A & B \end{tabular}}` |
+| Regula pentru imagini/tabele | toate trebuie menționate în text cu `\Cref` |
+| Regula pentru anexe | dacă este menționată întreaga anexă, elementele din ea pot rămâne nemenționate direct |
