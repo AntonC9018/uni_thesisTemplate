@@ -14,6 +14,7 @@
   \newcommand{\appendixReferenceLetter}{A}%
   \newcommand{\appendixReferenceWarning}[1]{ATENȚIE: această anexă sau acest element din anexă nu este referit în text: #1.}%
   \newcommand{\floatReferenceWarning}[1]{ATENȚIE: această imagine sau acest tabel nu este referit în text: #1.}%
+  \newcommand{\codeSegmentReferenceWarning}[2]{ATENȚIE: segmentul de cod nu a fost găsit: #1 în #2.}%
 }
 \DeclareOption{russian}{%
   \newcommand{\mainLanguage}{russian}%
@@ -33,6 +34,7 @@
   \newcommand{\appendixReferenceLetter}{П}%
   \newcommand{\appendixReferenceWarning}[1]{ВНИМАНИЕ: это приложение или элемент приложения не упоминается в тексте: #1.}%
   \newcommand{\floatReferenceWarning}[1]{ВНИМАНИЕ: этот рисунок или таблица не упоминается в тексте: #1.}%
+  \newcommand{\codeSegmentReferenceWarning}[2]{ВНИМАНИЕ: сегмент кода не найден: #1 в #2.}%
 }
 \DeclareOption*{\PackageError{config}{Invalid option '\CurrentOption'}{Pass the language option}}
 \ProcessOptions\relax
@@ -331,14 +333,15 @@
 
 \newglossarystyle{acronymtable}{%
   \renewenvironment{theglossary}{%
-    \noindent\tabularx{\linewidth}{@{} l X @{}}%
+    \renewcommand{\tabularxcolumn}[1]{>{\arraybackslash}m{####1}}%
+    \noindent\tabularx{\linewidth}{@{} >{\bfseries\raggedright\arraybackslash}m{0.24\linewidth} X @{}}%
   }{%
     \endtabularx
   }%
   \renewcommand*{\glossaryheader}{}%
   \renewcommand*{\glsgroupheading}[1]{}%
   \renewcommand{\glossentry}[2]{%
-    \textbf{\glossentryname{##1}} &
+    \glossentryname{##1} &
     \glossentrydesc{##1}\tabularnewline
   }%
   \renewcommand*{\glsgroupskip}{}%
@@ -488,6 +491,7 @@
 % Helper functions for some stuff
 \newcommand{\unnumberedChapter}[1]{
   \chapter*{#1}
+  \phantomsection
   \addcontentsline{toc}{chapter}{#1}
 }
 
@@ -618,6 +622,10 @@
   \fi
 }
 
+\newcommand{\config@mainReferencedLabel}[1]{%
+  \global\@namedef{config@main@referenced@#1}{1}%
+}
+
 \newcommand{\config@appendixReferencedLabel}[1]{%
   \global\@namedef{config@appendix@referenced@#1}{1}%
 }
@@ -632,10 +640,20 @@
   }%
 }
 
+\newcommand{\config@recordReferencedLabel}[1]{%
+  \ifconfig@inappendix
+    \protected@write\@auxout{}{%
+      \string\config@appendixReferencedLabel{#1}%
+    }%
+  \else
+    \protected@write\@auxout{}{%
+      \string\config@mainReferencedLabel{#1}%
+    }%
+  \fi
+}
+
 \newcommand{\config@recordReferencedAppendixLabel}[1]{%
-  \protected@write\@auxout{}{%
-    \string\config@appendixReferencedLabel{#1}%
-  }%
+  \config@recordReferencedLabel{#1}%
 }
 
 \newcommand{\config@recordReferencedAppendixLabels}[1]{%
@@ -643,18 +661,22 @@
     \@for\config@referencedLabel:=#1\do{%
       \ifx\config@referencedLabel\@empty
       \else
-        \config@recordReferencedAppendixLabel{\config@referencedLabel}%
+        \config@recordReferencedLabel{\config@referencedLabel}%
       \fi
     }%
   \endgroup
 }
 
-\newcommand{\config@ifLabelReferenced}[3]{%
-  \ifcsname config@appendix@referenced@#1\endcsname
+\newcommand{\config@ifMainLabelReferenced}[3]{%
+  \ifcsname config@main@referenced@#1\endcsname
     #2%
   \else
     #3%
   \fi
+}
+
+\newcommand{\config@ifLabelReferenced}[3]{%
+  \config@ifMainLabelReferenced{#1}{#2}{#3}%
 }
 
 \newcommand{\config@appendixReferenceWarning}[1]{%
@@ -855,6 +877,13 @@
 % so just doing this nonsense instead, where it types its
 % output already formatted for minted use.
 % Good thing I don't use more settings for that command, am I right or am I right?
+\newcommand{\codeSegmentWarning}[2]{%
+  \PackageWarning{config}{Code segment '#1' was not found in '#2'}%
+  \par\noindent\textbf{\textcolor{red}{%
+    \codeSegmentReferenceWarning{\texttt{#1}}{\texttt{#2}}%
+  }}\par
+}
+
 \newcommand\inputMintedSegment[2]{%
     \input{|python3 findSegment.py "#1" "#2"}%
 }

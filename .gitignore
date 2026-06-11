@@ -8,3 +8,4 @@ zig-out
 docker
 .DS_Store
 temp
+.venv/

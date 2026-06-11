@@ -1,0 +1,20 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage[romanian]{config}
+
+\begin{document}
+\chapter{Reference Validation}
+\insertImage[unreferenced_main_image]{cat_1.jpg}{Unreferenced main image}
+\insertTable[unreferenced_main_table]{Unreferenced main table}{%
+  \begin{tabular}{ll}
+    A & B \\
+  \end{tabular}
+}
+\appendixChapter
+\section{Uncovered Appendix}\label{appendix:uncovered}
+\insertImage[uncovered_appendix_image]{cat_1.jpg}{Uncovered appendix image}
+\insertTable[uncovered_appendix_table]{Uncovered appendix table}{%
+  \begin{tabular}{ll}
+    A & B \\
+  \end{tabular}
+}
+\end{document}

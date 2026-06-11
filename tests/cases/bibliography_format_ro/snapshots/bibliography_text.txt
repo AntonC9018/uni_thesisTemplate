@@ -1,0 +1,89 @@
+I
+TEST
+Citarea [1]
+Citarea [2]
+Citarea [3]
+Citarea [4]
+Citarea [5]
+Citarea [6]
+Citarea [7]
+Citarea [8]
+Citarea [9]
+Citarea [10]
+Citarea [11]
+Citarea [12]
+Citarea [13]
+Citarea [14]
+Citarea [15]
+Citarea [16]
+1
+
+BIBLIOGRAFIE
+[1]
+BRAGARU T. Auditul sistemului de management al securității informației. Complet de resurse
+educaționale digitale. Chișinău: Tipografia „Foxtrot”, 2021. 110 p. ISBN: 978-9975-89-203-2.
+[2]
+PALADI F. Sisteme complexe: modele analitice și numerice avansate de tip cluster. Chișinău:
+CEP USM, 2005. 174 p. ISBN: 9975-70-581-2.
+[3]
+CIOBANU N. Aplicarea sistemelor informaționale în dirijarea și optimizarea stațiilor de
+epurare biologică a apelor uzate (SCADA). Teză de doctor. Chișinău: Universitatea Tehnică
+a Moldovei, 2021. 190 p. C.Z.U: 628.35:004.9 (478) (043.3).
+[4]
+CIOBANU N. Aplicarea sistemelor informaționale în dirijarea și optimizarea stațiilor de
+epurare biologică a apelor uzate (SCADA). Rezumatul tezei de doctor în științe inginerești.
+Chișinău: Universitatea Tehnică a Moldovei, 2021. 33 p. C.Z.U: 628.35:004.9 (478) (043.3).
+[5]
+IEȘEANU D., BRAGARU T. Implementarea e-Learning în IP din RM. Studia Universitatis
+Moldaviae. Vol. 149. Științe ale educației. Nr. 9. Chișinău: CEP USM, 2021. Pp. 21–30. ISSN:
+1857-2103.
+[6]
+CROITOR M., BRAGARU T. Hierarchical item code structure in MOODLE. International
+Conference „Mathematics & Information Technologies: Research and Education”, Abstracts.
+Chișinău: CEP USM, 2024. Pp. 79–80. ISBN: 978-9975-62-535-7.
+[7]
+Standard Moldovenesc ISO 690:2022 – Information and documentation – Guidelines for
+bibliographic references and citations to information resources. Chișinău, 2022. 170 p.
+[8]
+Lege organică privind dreptul de autor și drepturile conexe, nr. LP230/2022 din 28.07.2022,
+2022. https:/ /www . legis .md /cautare/getResults?doc_id=133204&lang=ro/. Accesat
+în 22 oct. 2024.
+[9]
+Strategia de Dezvoltare „Educația – 2030”. https://gov.md/sites/default/files/documen
+t/attachments/subiect-02-nu-900-mec-2022_1.pdf. Accesat în 22 oct. 2024.
+[10]
+ZOREA
+P.
+Assessment
+of
+perceived
+image
+quality
+for
+smartphones
+with
+embedded. PhD Thesis. Chișinău: Universitatea de Stat din Moldova, 2020. U.D.C:
+004.382.76:004.938:74(044).
+[11]
+BERGMANN R. Providing quality of information projects. Abstract of the PhD Thesis.
+Chișinău: CEP USM, 2019. U.D.C: 004.382.76:004.932:77(042).
+2
+
+[12]
+PLATON V. Agile-managementul proiectelor informaționale. Teză de master. Chișinău:
+Academia de Studii Economice din Moldova, 2021. C.Z.U: 005.8:004(043).
+[13]
+FRANKLIN B. Rațiune și religie, 1786. Iul. Scrisoare către Thomas Paine, comunicare
+personală, Philadelphia.
+[14]
+ZOREA P. Re: Merry Christmas and Happy New Year!, 2022. Dec. E-mail, comunicare
+personală.
+[15]
+SIROTA J. Mesaj direct privind organizarea susținerii tezei de doctor, 2020. Oct. Comunicare
+personală, Google Meet.
+[16]
+IEȘEANU D. Totalurile Mesei Rotunde „Privind crearea unui Centru Republican
+Interinstituțional de EDL (CRI EDL) pentru ÎPT”, 2022. https://docs.google.com/spre
+adsheets/d/1cn7UmaxVqTD9UfUfZq2KJXx1YERBkfSA2Zpn-1Q7Qf0/edit?usp=sharing. Accesat
+în 23 oct. 2024. Prezentare.
+3

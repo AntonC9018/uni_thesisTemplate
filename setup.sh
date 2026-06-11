@@ -17,7 +17,7 @@ texlive_bin="/usr/local/texlive/2025/bin/x86_64-linux"
     trap 'kill $sudo_keepalive_pid' EXIT
 
     sudo apt update
-    sudo apt install -y perl python3 wget tar fonts-liberation fontconfig
+    sudo apt install -y perl python3.14-venv wget tar fonts-liberation fontconfig
 
     repo_dir="$PWD"
     temp_dir="$repo_dir/temp"

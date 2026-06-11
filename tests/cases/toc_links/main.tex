@@ -1,0 +1,23 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage[romanian]{config}
+
+\begin{document}
+\tableofcontents
+\clearpage
+\unnumberedChapter{Unnumbered Link Target}
+Unnumbered target text.
+\clearpage
+\introChapter
+Introduction target text.
+\clearpage
+\chapter{Numbered Link Target}
+Numbered chapter target text.
+\section{Section Link Target}
+Section target text.
+\clearpage
+Cited source \cite{png_spec}.
+\bibliographyChapter
+\appendixChapter
+\section{Appendix Link Target}\label{appendix:toc-link}
+Appendix section target text.
+\end{document}
