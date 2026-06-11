@@ -299,7 +299,7 @@ Când aveți un tabel, trebuie să dați referința la el.
 Denumirea tabelului trebuie să se afle \textbf{deasupra} tabelului.
 \Cref{pixel_order_table} prezintă un exemplu de inserare a tabelelor cu numerotare automată.
 
-\begin{tableWithCaption}{pixel_order_table}{Tabelul ordonării pixelilor\\a doua linie în titlu\\a treia linie}
+\insertTable[pixel_order_table]{Tabelul ordonării pixelilor\\a doua linie în titlu\\a treia linie}{%
   \begin{tabular}{c c c c c c c c}
       1 & 6 & 4 & 6 & 2 & 6 & 4 & 6 \\
       7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 \\
@@ -310,7 +310,7 @@ Denumirea tabelului trebuie să se afle \textbf{deasupra} tabelului.
       5 & 6 & 5 & 6 & 5 & 6 & 5 & 6 \\
       7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 \\
   \end{tabular}
-\end{tableWithCaption}
+}
 
 
 \cprotect\section{Librăria \verb|minted| pentru cod}
@@ -394,16 +394,16 @@ Când dați o imagine, la ea numaidecât să faceți și referința.
 
 Pe \cref{interface_sketch.png} este prezentată o schiță a interfeței grafice.
 
-\imageWithCaption{interface_sketch.png}{Schița interfeței grafice}
+\insertImage{interface_sketch.png}{Schița interfeței grafice}
 
 Această metodă limitează lățimea și înălțimea maximă ale imaginilor,
 fără a le permite să iasă în afara paginii și fără a le modifica raportul de aspect.
 De exemplu, în \cref{wide.png} o imagine lată nu va depăși limitele paginii,
 iar în \cref{long.png} nu va ieși în afara paginii.
 
-\imageWithCaption{wide.png}{Bandă lată}
+\insertImage{wide.png}{Bandă lată}
 
-\imageWithCaption{long.png}{Bandă lungă}
+\insertImage{long.png}{Bandă lungă}
 
 \section{Anexe}
 
@@ -418,6 +418,15 @@ pentru a-l explica la nivel înalt în text.
 \subsection{Cum se face referința}
 
 A se vedea anexa \ref{appendix:example_min}.
+
+În anexa \ref{unnumbered_appendix} este prezentată o anexă fără numerotarea elementelor din interior.
+
+În anexa \ref{numbered_appendix} este prezentată o anexă cu numerotarea elementelor din interior,
+și anume:
+\begin{itemize}
+  \item \Cref{cat_1} demonstrează pisica numărul 1
+  \item \Cref{cat_2} demonstrează pisica numărul 2
+\end{itemize}
 
 \chapterConclusionSection{intro_chapter_title}
 
@@ -475,11 +484,31 @@ Rezultatele obținute au fost raportate la \textbf{\conferencesList}\cite{self}.
 \section{Funcția min într-un program test JavaScript}\label{appendix:example_min}
 \inputminted{js}{../src/appendix_example.js}
 
-\section{Exemple de imagini în anexe}
+\section{Fără numerotare}\label{unnumbered_appendix}
 
-\imageWithCaption{cat_1.jpg}{Imaginea 1}
+\insertImage*{cat_1.jpg}{Pisică}
 
-\imageWithCaption{cat_2.jpg}{Imaginea 2}
+Când referința directă este doar la întreaga anexă,
+nu la imaginile individuale din interior,
+acestea nu trebuie neapărat numerotate.
+
+Același lucru este valabil pentru tabele.
+
+\insertTable*{Exemplu de tabel fără numerotare}{%
+  \begin{tabular}{c c c}
+    Hello & 1 & 2 \\
+    A & B & C \\
+    D & E & F
+  \end{tabular}
+}
+
+\section{Imagine cu numerotare}\label{numbered_appendix}
+
+Are sens să procedați astfel dacă în anexă există mai mult de un element.
+
+\insertImage[cat_1]{cat_1.jpg}{Pisica 1}
+
+\insertImage[cat_2]{cat_2.jpg}{Pisica 2}
 
 \ifundef{\isPractica}{
   \declarationPage{}
