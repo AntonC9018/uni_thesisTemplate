@@ -325,7 +325,11 @@
 \hypersetup{linktoc=all}
 
 % Lista abrevierelor
-\RequirePackage[acronym, automake, nogroupskip]{glossaries}
+\RequirePackage[%
+  acronym,%
+  automake,%
+  nogroupskip % Gets the items closer vertically
+]{glossaries}
 \makeglossaries
 
 \RequirePackage{tabularx}

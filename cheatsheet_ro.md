@@ -57,5 +57,6 @@ Compilarea trebuie pornită din directorul `thesis`.
 | Imagine nenumerotată | `\insertImage*{interface.png}{Inscripție}` |
 | Tabel numerotat cu eticheta `table_id` | `\insertTable[table_id]{Inscripție}{\begin{tabular}{c c} A & B \end{tabular}}` |
 | Tabel nenumerotat | `\insertTable*{Inscripție}{\begin{tabular}{c c} A & B \end{tabular}}` |
-| Regula pentru imagini/tabele | toate trebuie menționate în text cu `\Cref` |
-| Regula pentru anexe | dacă este menționată întreaga anexă, elementele din ea pot rămâne nemenționate direct |
+
+> Toate imaginile și tabelele trebuie menționate în text cu `\Cref`.
+> Dacă este menționată întreaga anexă, elementele din ea pot rămâne nemenționate direct.

@@ -9,3 +9,5 @@ docker
 .DS_Store
 temp
 .venv/
+__pycache__/
+*.py[cod]
