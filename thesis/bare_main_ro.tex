@@ -30,13 +30,22 @@
 % de an / de licență / de master (articolul definit sau nedefinit)
 \newcommand{\docTypeRoDefinit}{teza de master} % an / licență / master
 \newcommand{\docTypeRoNedefinit}{teză de master}
+\newcommand{\docTypeRoDativ}{tezei de master}
 
 \newcommand{\yearOfWriting}{\the\year}
 \newcommand{\conferencesList}{Conferința Studențească, Editia NUMARUL-a, \yearOfWriting}
 \newcommand{\github}{\url{https://github.com/USER/REPO}}
 \newcommand{\outputDate}{\today}
 
-\newcommand{\studentTypeRo}{absolvent} % student / absolvent
+% student (teza de an) / absolvent (teza de licență) / masterand (teza de master)
+\newcommand{\studentTypeRo}{absolvent}
+
+% none - n-am folosit AI
+% text - am folosit AI exclusiv pentru suport tehnic (corectare lingvistică, formatare, organizare preliminară)
+% assisted - am folosit pentru altceva, explicat
+\newcommand{\aiUsage}{text}
+% Trebuie setat la o explicație, dacă ați ales "assisted"
+\newcommand{\aiAssistanceExplanation}{Am folosit pentru bla}
 
 % Adăugați prescurtările aici.
 % Adăugați doar prescurtările menționate.
@@ -93,7 +102,7 @@ Rezultatele obținute au fost raportate la \textbf{\conferencesList}\cite{self}.
 \clearpage
 \unnumberedChapter{Annotation}
 
-\textbf{of the \docTypeEng{}  ``\docTitleEng'' of the student \authorName{}, group \uniGroupName{}, \programulDeStudiiEng{} study program.}
+\textbf{of the \docTypeEng{} ``\docTitleEng'' of the student \authorName{}, group \uniGroupName{}, \programulDeStudiiEng{} study program.}
 
 \textbf{The structure of the thesis.}
 The thesis is made up of: Introduction, \chapterCount{} chapters,
@@ -443,7 +452,6 @@ Rezultatele obținute au fost raportate la \textbf{\conferencesList}\cite{self}.
 \imageWithCaption{cat_1.jpg}{Imaginea 1}
 
 \imageWithCaption{cat_2.jpg}{Imaginea 2}
-
 
 \ifundef{\isPractica}{
   \declarationPage{}
