@@ -1,0 +1,32 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage[romanian]{config}
+
+\begin{document}
+\chapter{Numerotare mixta}
+Referinte principale: imaginea \ref{fig:main}, tabelul \ref{tab:main} si ecuatia \eqref{eq:main}.
+Referinte catre anexa viitoare: sectiunea \ref{app:one}, imaginea \ref{fig:app}, tabelul \ref{tab:app} si ecuatia \eqref{eq:app}.
+\insertImage[fig:main]{cat_1.jpg}{Imagine principala}
+\insertTable[tab:main]{Tabel principal}{%
+  \begin{tabular}{ll}
+    A & B \\
+  \end{tabular}
+}
+\begin{equation}
+  \label{eq:main}
+  a = b
+\end{equation}
+Marker ecuatie principala: \eqref{eq:main}.
+\appendixChapter
+\section{Scenariu de anexa}\label{app:one}
+\insertImage[fig:app]{cat_1.jpg}{Imagine din anexa}
+\insertTable[tab:app]{Tabel din anexa}{%
+  \begin{tabular}{ll}
+    A & B \\
+  \end{tabular}
+}
+\begin{equation}
+  \label{eq:app}
+  c = d
+\end{equation}
+Marker ecuatie anexa: \eqref{eq:app}.
+\end{document}

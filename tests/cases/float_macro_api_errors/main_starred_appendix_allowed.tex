@@ -1,0 +1,15 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage[romanian]{config}
+
+\begin{document}
+\chapter{Float Macro API}
+Main document stub.
+\appendixChapter
+\section{Starred Appendix Examples}
+\insertImage*{cat_1.jpg}{Appendix starred image caption}
+\insertTable*{Appendix starred table caption}{%
+  \begin{tabular}{ll}
+    A & B \\
+  \end{tabular}
+}
+\end{document}

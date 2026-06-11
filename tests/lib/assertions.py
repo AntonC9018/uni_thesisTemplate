@@ -17,7 +17,11 @@ def assert_build_succeeded(result: LatexBuildResult) -> None:
             f"stderr tail:\n{result.stderr[-4000:]}\n"
             f"log tail:\n{result.log_text[-4000:]}"
         )
-    assert result.pdf_path.exists(), f"{result.case_name} did not produce main.pdf"
+    assert result.pdf_path.exists(), f"{result.case_name} did not produce {result.pdf_path.name}"
+
+
+def assert_build_failed(result: LatexBuildResult) -> None:
+    assert result.returncode != 0, f"Expected LaTeX case '{result.case_name}' to fail"
 
 
 def assert_pdf_contains(result: LatexBuildResult, expected: str) -> None:

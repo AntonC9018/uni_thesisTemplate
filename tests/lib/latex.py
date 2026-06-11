@@ -32,7 +32,7 @@ class LatexBuildResult:
         return self.log_path.read_text(encoding="utf-8", errors="replace")
 
     def artifact_text(self, suffix: str) -> str:
-        path = self.thesis_dir / f"main{suffix}"
+        path = self.thesis_dir / f"{self.pdf_path.stem}{suffix}"
         if not path.exists():
             return ""
         return path.read_text(encoding="utf-8", errors="replace")
@@ -72,9 +72,10 @@ def _copy_case_files(case_dir: Path, thesis_dir: Path) -> None:
             shutil.copy2(source, destination)
 
 
-def build_latex_case(case_dir: Path, tmp_path: Path) -> LatexBuildResult:
+def build_latex_case(case_dir: Path, tmp_path: Path, input_file: str = "main.tex") -> LatexBuildResult:
     env = _build_env()
     _preflight(env)
+    input_stem = Path(input_file).stem
 
     thesis_dir = tmp_path / "thesis"
     thesis_dir.mkdir()
@@ -91,7 +92,7 @@ def build_latex_case(case_dir: Path, tmp_path: Path) -> LatexBuildResult:
     _copy_case_files(case_dir, thesis_dir)
 
     process = subprocess.run(
-        ["./render.sh", "--input=main.tex"],
+        ["./render.sh", f"--input={input_file}"],
         cwd=thesis_dir,
         env=env,
         text=True,
@@ -105,8 +106,8 @@ def build_latex_case(case_dir: Path, tmp_path: Path) -> LatexBuildResult:
         case_dir=case_dir,
         build_dir=thesis_dir,
         thesis_dir=thesis_dir,
-        pdf_path=thesis_dir / "main.pdf",
-        log_path=thesis_dir / "main.log",
+        pdf_path=thesis_dir / f"{input_stem}.pdf",
+        log_path=thesis_dir / f"{input_stem}.log",
         returncode=process.returncode,
         stdout=process.stdout,
         stderr=process.stderr,

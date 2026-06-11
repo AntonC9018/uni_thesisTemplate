@@ -1,0 +1,18 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage[russian]{config}
+
+\begin{document}
+\chapter{Основная нумерация}
+Основные ссылки: рисунок \ref{fig:main}, таблица \ref{tab:main} и уравнение \eqref{eq:main}.
+\insertImage[fig:main]{cat_1.jpg}{Основной рисунок}
+\insertTable[tab:main]{Основная таблица}{%
+  \begin{tabular}{ll}
+    A & B \\
+  \end{tabular}
+}
+\begin{equation}
+  \label{eq:main}
+  a = b
+\end{equation}
+Маркер основного уравнения: \eqref{eq:main}.
+\end{document}

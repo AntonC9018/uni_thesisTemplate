@@ -1,0 +1,20 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage[russian]{config}
+
+\begin{document}
+\chapter{Основная заглушка}
+Ссылки на приложение: раздел \ref{app:one}, рисунок \ref{fig:app}, таблица \ref{tab:app} и уравнение \eqref{eq:app}.
+\appendixChapter
+\section{Сценарий приложения}\label{app:one}
+\insertImage[fig:app]{cat_1.jpg}{Рисунок из приложения}
+\insertTable[tab:app]{Таблица из приложения}{%
+  \begin{tabular}{ll}
+    A & B \\
+  \end{tabular}
+}
+\begin{equation}
+  \label{eq:app}
+  c = d
+\end{equation}
+Маркер уравнения приложения: \eqref{eq:app}.
+\end{document}

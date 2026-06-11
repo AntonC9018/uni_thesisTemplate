@@ -815,13 +815,19 @@
 \NewDocumentCommand{\insertFloatLabelHelper}{momm}{%
   \IfBooleanTF{#1}
     {%
-      \IfNoValueF{#2}{%
+      \ifconfig@inappendix
+        \IfNoValueF{#2}{%
+          \PackageError{#4}
+            {Label '#2' given with starred \csname #4\endcsname. The starred form suppresses the caption number and cannot produce
+             a \string\label. Remove the optional label argument or use the
+             unstarred form.}
+            {}%
+        }%
+      \else
         \PackageError{#4}
-          {Label '#2' given with starred \csname #4\endcsname. The starred form suppresses the caption number and cannot produce
-           a \string\label. Remove the optional label argument or use the
-           unstarred form.}
-          {}%
-      }%
+          {Starred \csname #4\endcsname is only allowed in appendices. Main-document floats must be numbered and referenced.}
+          {Use the unstarred form with a label, or move this float after \string\appendixChapter.}%
+      \fi
     }%
     {%
       \IfNoValueTF{#2}

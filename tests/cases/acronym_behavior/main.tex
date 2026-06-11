@@ -1,0 +1,26 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage[romanian]{config}
+
+\acro{USED}{Used Long Form}
+\acro[alias_id]{ALIAS}{Alias Long Form}
+\acro{UNUSED}{Unused Long Form}
+\acro{RESET}{Reset Long Form}
+\newacronym[plural={APIs}, longplural={Application Programming Interfaces}]{API}{API}{Application Programming Interface}
+
+\begin{document}
+\chapter{Acronym Behavior}
+Used short marker: \acs{USED}.
+
+Alias full marker: \acf{alias_id}.
+
+Alias short marker: \acs{alias_id}.
+
+Plural full marker: \acfp{API}.
+
+Plural short marker: \acsp{API}.
+
+Plural long marker: \aclp{API}.
+
+Reset markers: \ac{RESET}; \ac{RESET}; \acreset{RESET}; \ac{RESET}.
+\acronymsChapter
+\end{document}
