@@ -66,7 +66,9 @@ Folosiți `\insertImage*` și `\insertTable*` doar pentru elemente nenumerotate,
 
 ## Referințe la anexe
 
-După `\appendixChapter`, fiecare anexă sau element numerotat din anexă care are `\label{...}` trebuie referit în text cu `\ref{...}`, `\cref{...}` sau `\Cref{...}`.
+După `\appendixChapter`, fiecare anexă cu `\label{...}` trebuie referită în text cu `\ref{...}`, `\cref{...}` sau `\Cref{...}`.
+Elementele numerotate din anexă sunt acoperite de referința la întreaga anexă; referiți-le direct doar când le discutați separat.
+Această excepție se aplică numai anexelor. Imaginile și tabelele numerotate din textul principal trebuie referite direct.
 
 Dacă o etichetă din anexă nu este referită, PDF-ul afișează un avertisment roșu lângă element, iar logul LaTeX conține un avertisment `Package config Warning`.
 

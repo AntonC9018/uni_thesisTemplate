@@ -13,6 +13,7 @@
   \newcommand{\acronymsChapterName}{Lista abrevierelor}%
   \newcommand{\appendixReferenceLetter}{A}%
   \newcommand{\appendixReferenceWarning}[1]{ATENȚIE: această anexă sau acest element din anexă nu este referit în text: #1.}%
+  \newcommand{\floatReferenceWarning}[1]{ATENȚIE: această imagine sau acest tabel nu este referit în text: #1.}%
 }
 \DeclareOption{russian}{%
   \newcommand{\mainLanguage}{russian}%
@@ -31,6 +32,7 @@
   \newcommand{\acronymsChapterName}{Список сокращений}%
   \newcommand{\appendixReferenceLetter}{П}%
   \newcommand{\appendixReferenceWarning}[1]{ВНИМАНИЕ: это приложение или элемент приложения не упоминается в тексте: #1.}%
+  \newcommand{\floatReferenceWarning}[1]{ВНИМАНИЕ: этот рисунок или таблица не упоминается в тексте: #1.}%
 }
 \DeclareOption*{\PackageError{config}{Invalid option '\CurrentOption'}{Pass the language option}}
 \ProcessOptions\relax
@@ -574,9 +576,60 @@
 \makeatletter
 \newif\ifconfig@inappendix
 \config@inappendixfalse
+\newif\ifconfig@referenceValidationDataReady
+\config@referenceValidationDataReadyfalse
+\let\config@currentAppendixSectionLabel\@empty
+\let\config@currentLabelType\@empty
+\def\config@sectionLabelType{section}
+\def\config@appendixLabelType{appendix}
+\def\config@subappendixLabelType{subappendix}
+\newif\ifconfig@currentLabelIsAppendixSection
+
+\def\config@extractCrefType[#1]#2\@nil{%
+  \def\config@currentLabelType{#1}%
+}
+
+\newcommand{\config@setCurrentLabelType}{%
+  \let\config@currentLabelType\@empty
+  \ifx\cref@currentlabel\@empty
+  \else
+    \expandafter\config@extractCrefType\cref@currentlabel\@nil
+  \fi
+}
+
+\newcommand{\config@clearCurrentAppendixSection}{%
+  \global\let\config@currentAppendixSectionLabel\@empty
+}
+
+\newcommand{\config@setCurrentAppendixSectionLabel}[1]{%
+  \config@setCurrentLabelType
+  \config@currentLabelIsAppendixSectionfalse
+  \ifx\config@currentLabelType\config@sectionLabelType
+    \config@currentLabelIsAppendixSectiontrue
+  \fi
+  \ifx\config@currentLabelType\config@appendixLabelType
+    \config@currentLabelIsAppendixSectiontrue
+  \fi
+  \ifx\config@currentLabelType\config@subappendixLabelType
+    \config@currentLabelIsAppendixSectiontrue
+  \fi
+  \ifconfig@currentLabelIsAppendixSection
+    \gdef\config@currentAppendixSectionLabel{#1}%
+  \fi
+}
 
 \newcommand{\config@appendixReferencedLabel}[1]{%
   \global\@namedef{config@appendix@referenced@#1}{1}%
+}
+
+\newcommand{\config@markReferenceValidationDataReady}{%
+  \global\config@referenceValidationDataReadytrue
+}
+
+\AtBeginDocument{%
+  \protected@write\@auxout{}{%
+    \string\config@markReferenceValidationDataReady
+  }%
 }
 
 \newcommand{\config@recordReferencedAppendixLabel}[1]{%
@@ -596,6 +649,14 @@
   \endgroup
 }
 
+\newcommand{\config@ifLabelReferenced}[3]{%
+  \ifcsname config@appendix@referenced@#1\endcsname
+    #2%
+  \else
+    #3%
+  \fi
+}
+
 \newcommand{\config@appendixReferenceWarning}[1]{%
   \PackageWarning{config}{Appendix label '\detokenize{#1}' is not referenced}%
   \par\noindent\textbf{\textcolor{red}{%
@@ -603,11 +664,46 @@
   }}\par
 }
 
+\newcommand{\config@floatReferenceWarning}[1]{%
+  \PackageWarning{config}{Float label '\detokenize{#1}' is not referenced}%
+  \par\noindent\textbf{\textcolor{red}{%
+    \floatReferenceWarning{\texttt{\detokenize{#1}}}%
+  }}\par
+}
+
+\newcommand{\config@warnIfAppendixLabelUncovered}[1]{%
+  \def\config@checkedAppendixLabel{#1}%
+  \ifx\config@currentAppendixSectionLabel\@empty
+    \config@appendixReferenceWarning{#1}%
+  \else
+    \ifx\config@checkedAppendixLabel\config@currentAppendixSectionLabel
+      \config@appendixReferenceWarning{#1}%
+    \else
+      \config@ifLabelReferenced{\config@currentAppendixSectionLabel}
+        {}
+        {\config@appendixReferenceWarning{#1}}%
+    \fi
+  \fi
+}
+
 \newcommand{\config@checkAppendixLabelReference}[1]{%
   \ifconfig@inappendix
-    \ifcsname config@appendix@referenced@#1\endcsname
-    \else
-      \config@appendixReferenceWarning{#1}%
+    \config@setCurrentAppendixSectionLabel{#1}%
+    \ifconfig@referenceValidationDataReady
+      \config@ifLabelReferenced{#1}
+        {}
+        {\config@warnIfAppendixLabelUncovered{#1}}%
+    \fi
+  \fi
+}
+
+\newcommand{\config@checkFloatLabelReference}[1]{%
+  \ifconfig@inappendix
+  \else
+    \ifconfig@referenceValidationDataReady
+      \config@ifLabelReferenced{#1}
+        {}
+        {\config@floatReferenceWarning{#1}}%
     \fi
   \fi
 }
@@ -662,7 +758,10 @@
 }
 \AtBeginDocument{\config@installReferenceRecorders}
 
-\newcommand{\enableAppendixReferenceValidation}{\config@inappendixtrue}
+\newcommand{\enableAppendixReferenceValidation}{%
+  \config@clearCurrentAppendixSection
+  \config@inappendixtrue
+}
 \newcommand{\disableAppendixReferenceValidation}{\config@inappendixfalse}
 \newcommand{\withoutAppendixReferenceValidation}[1]{%
   \ifconfig@inappendix
@@ -690,6 +789,7 @@
 % #2 - Optional label
 % #3 - Fallback label (used when #2 is absent in unstarred form)
 % #4 - Command name (for error messages)
+\makeatletter
 \NewDocumentCommand{\insertFloatLabelHelper}{momm}{%
   \IfBooleanTF{#1}
     {%
@@ -712,11 +812,16 @@
               {}%
           \else
             \label{#3}%
+            \config@checkFloatLabelReference{#3}%
           \fi
         }%
-        {\label{#2}}%
+        {%
+          \label{#2}%
+          \config@checkFloatLabelReference{#2}%
+        }%
     }%
 }
+\makeatother
 
 % 1 - Allow \insertImage*
 % 2 - Optional label identifier. Defaults to the image file name.
@@ -757,6 +862,7 @@
 % change counter
 \RequirePackage{chngcntr}
 
+\makeatletter
 \def\appendixChapter{%
   % Appendices don't have the dot when referencing.
   % If you have multiple chapters in appendices, you'll have to reconfigure this.
@@ -784,10 +890,11 @@
   %
   % Counter, again, looks at sections rather than subsections.
   \def\oldsection{} \let\oldsection=\section{}%
-  \def\section{\stepcounter{num_appendices}\oldsection}%
+  \def\section{\stepcounter{num_appendices}\config@clearCurrentAppendixSection\oldsection}%
 
   \unnumberedChapter{\appendixChapterName}
 }
+\makeatother
 
 % Helper for the title pages
 \RequirePackage{xstring}
