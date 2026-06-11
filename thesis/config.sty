@@ -12,6 +12,7 @@
   \newcommand{\appendixChapterName}{Anexe}%
   \newcommand{\acronymsChapterName}{Lista abrevierelor}%
   \newcommand{\appendixReferenceLetter}{A}%
+  \newcommand{\appendixReferenceWarning}[1]{ATENȚIE: această anexă sau acest element din anexă nu este referit în text: #1.}%
 }
 \DeclareOption{russian}{%
   \newcommand{\mainLanguage}{russian}%
@@ -29,6 +30,7 @@
   \newcommand{\appendixChapterName}{Приложения}%
   \newcommand{\acronymsChapterName}{Список сокращений}%
   \newcommand{\appendixReferenceLetter}{П}%
+  \newcommand{\appendixReferenceWarning}[1]{ВНИМАНИЕ: это приложение или элемент приложения не упоминается в тексте: #1.}%
 }
 \DeclareOption*{\PackageError{config}{Invalid option '\CurrentOption'}{Pass the language option}}
 \ProcessOptions\relax
@@ -86,6 +88,7 @@
 
 % Language-specific quote config
 \RequirePackage[autostyle=true]{csquotes}
+\RequirePackage{xcolor}
 
 
 % Counters
@@ -565,6 +568,113 @@
   \Crefname{table}{Таб.}{Таблицы}%
 }
 
+% Appendix reference validation
+% References are recorded in the aux file so the final latexmk pass can
+% render warnings exactly where the uncovered appendix labels are defined.
+\makeatletter
+\newif\ifconfig@inappendix
+\config@inappendixfalse
+
+\newcommand{\config@appendixReferencedLabel}[1]{%
+  \global\@namedef{config@appendix@referenced@#1}{1}%
+}
+
+\newcommand{\config@recordReferencedAppendixLabel}[1]{%
+  \protected@write\@auxout{}{%
+    \string\config@appendixReferencedLabel{#1}%
+  }%
+}
+
+\newcommand{\config@recordReferencedAppendixLabels}[1]{%
+  \begingroup
+    \@for\config@referencedLabel:=#1\do{%
+      \ifx\config@referencedLabel\@empty
+      \else
+        \config@recordReferencedAppendixLabel{\config@referencedLabel}%
+      \fi
+    }%
+  \endgroup
+}
+
+\newcommand{\config@appendixReferenceWarning}[1]{%
+  \PackageWarning{config}{Appendix label '\detokenize{#1}' is not referenced}%
+  \par\noindent\textbf{\textcolor{red}{%
+    \appendixReferenceWarning{\texttt{\detokenize{#1}}}%
+  }}\par
+}
+
+\newcommand{\config@checkAppendixLabelReference}[1]{%
+  \ifconfig@inappendix
+    \ifcsname config@appendix@referenced@#1\endcsname
+    \else
+      \config@appendixReferenceWarning{#1}%
+    \fi
+  \fi
+}
+
+\let\config@original@label\label
+\renewcommand{\label}[1]{%
+  \config@original@label{#1}%
+  \config@checkAppendixLabelReference{#1}%
+}
+
+\newcommand{\config@installReferenceRecorders}{%
+  \let\config@original@T@ref\T@ref
+  \def\T@ref##1{%
+    \config@recordReferencedAppendixLabels{##1}%
+    \config@original@T@ref{##1}%
+  }%
+  \let\config@original@refstar\@refstar
+  \def\@refstar##1{%
+    \config@recordReferencedAppendixLabels{##1}%
+    \config@original@refstar{##1}%
+  }%
+  \let\config@original@T@pageref\T@pageref
+  \def\T@pageref##1{%
+    \config@recordReferencedAppendixLabels{##1}%
+    \config@original@T@pageref{##1}%
+  }%
+  \let\config@original@pagerefstar\@pagerefstar
+  \def\@pagerefstar##1{%
+    \config@recordReferencedAppendixLabels{##1}%
+    \config@original@pagerefstar{##1}%
+  }%
+  \let\config@original@T@nameref\T@nameref
+  \def\T@nameref##1{%
+    \config@recordReferencedAppendixLabels{##1}%
+    \config@original@T@nameref{##1}%
+  }%
+  \let\config@original@namerefstar\@namerefstar
+  \def\@namerefstar##1{%
+    \config@recordReferencedAppendixLabels{##1}%
+    \config@original@namerefstar{##1}%
+  }%
+  \let\config@original@cref\cref
+  \renewcommand{\cref}[1]{%
+    \config@recordReferencedAppendixLabels{##1}%
+    \config@original@cref{##1}%
+  }%
+  \let\config@original@Cref\Cref
+  \renewcommand{\Cref}[1]{%
+    \config@recordReferencedAppendixLabels{##1}%
+    \config@original@Cref{##1}%
+  }%
+}
+\AtBeginDocument{\config@installReferenceRecorders}
+
+\newcommand{\enableAppendixReferenceValidation}{\config@inappendixtrue}
+\newcommand{\disableAppendixReferenceValidation}{\config@inappendixfalse}
+\newcommand{\withoutAppendixReferenceValidation}[1]{%
+  \ifconfig@inappendix
+    \config@inappendixfalse
+    #1%
+    \config@inappendixtrue
+  \else
+    #1%
+  \fi
+}
+\makeatother
+
 % Inserting pictures
 \RequirePackage{graphicx}
 
@@ -661,6 +771,7 @@
   % but which is also the name of the Appendix chapter, it should be omitted.
   % Makes little sense, but ok I guess.
   \setcounter{chapter}{1}%
+  \enableAppendixReferenceValidation
 
   \counterwithin{figure}{section}
   \counterwithin{table}{section}
@@ -840,8 +951,10 @@
 
 \providecommand{\declarationPage}{}
 \renewcommand{\declarationPage}{%
-  \input{parts/declaratie_ro}
-  \addtocontents{toc}{%
-    \protect\contentsline{chapter}{Declarație privind contribuția personală}{\pageref{declaratie_ro}}{}%
+  \withoutAppendixReferenceValidation{%
+    \input{parts/declaratie_ro}
+    \addtocontents{toc}{%
+      \protect\contentsline{chapter}{Declarație privind contribuția personală}{\pageref{declaratie_ro}}{}%
+    }%
   }
 }
