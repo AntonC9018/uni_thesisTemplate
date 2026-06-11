@@ -426,8 +426,15 @@ A se vedea anexa \ref{appendix:example_min}.
 
 În anexa \ref{unnumbered_appendix} este prezentată o anexă fără numerotarea elementelor din interior.
 
-În anexa \ref{numbered_appendix} este prezentată o anexă cu numerotarea elementelor din interior.
-Referința la întreaga anexă acoperă imaginile și tabelele numerotate din ea.
+În anexa \ref{numbered_appendix} este prezentată o anexă cu numerotarea elementelor din interior,
+și anume:
+\begin{itemize}
+  \item \Cref{cat_1} demonstrează pisica numărul 1
+  \item \Cref{cat_2} demonstrează pisica numărul 2
+\end{itemize}
+
+În anexa \ref{whole_appendix_reference} este prezentat un exemplu în care
+referința la întreaga anexă acoperă imaginile și tabelele numerotate din ea.
 
 \chapterConclusionSection{intro_chapter_title}
 
@@ -510,6 +517,20 @@ Are sens să procedați astfel dacă în anexă există mai mult de un element.
 \insertImage[cat_1]{cat_1.jpg}{Pisica 1}
 
 \insertImage[cat_2]{cat_2.jpg}{Pisica 2}
+
+\section{Referință la întreaga anexă}\label{whole_appendix_reference}
+
+În acest caz, elementele numerotate din anexă sunt acoperite de referința la anexă.
+
+\insertImage[whole_appendix_cat]{cat_1.jpg}{Pisică acoperită de referința la anexă}
+
+\insertTable[whole_appendix_table]{Tabel acoperit de referința la anexă}{%
+  \begin{tabular}{c c}
+    Element & Valoare \\
+    Imagine & 1 \\
+    Tabel & 2
+  \end{tabular}
+}
 
 \ifundef{\isPractica}{
   \declarationPage{}

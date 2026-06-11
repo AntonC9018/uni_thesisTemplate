@@ -429,8 +429,15 @@ With any characters |||
 
 В приложении \ref{unnumbered_appendix} представлено приложение без нумерации предметов внутри.
 
-В приложении \ref{numbered_appendix} представлено приложение с нумерацией предметов внутри.
-Ссылка на всё приложение покрывает пронумерованные изображения и таблицы внутри него.
+В приложении \ref{numbered_appendix} представлено приложение с нумерацией предметов внутри,
+а именно:
+\begin{itemize}
+  \item \Cref{cat_1} демонстрирует кота номер 1
+  \item \Cref{cat_2} демонстрирует кота номер 2
+\end{itemize}
+
+В приложении \ref{whole_appendix_reference} представлен пример, где
+ссылка на всё приложение покрывает пронумерованные изображения и таблицы внутри него.
 
 \chapterConclusionSection{intro_chapter_title}
 
@@ -515,6 +522,20 @@ With any characters |||
 \insertImage[cat_1]{cat_1.jpg}{Кот 1}
 
 \insertImage[cat_2]{cat_2.jpg}{Кот 2}
+
+\section{Ссылка на всё приложение}\label{whole_appendix_reference}
+
+В этом случае пронумерованные элементы внутри приложения покрываются ссылкой на приложение.
+
+\insertImage[whole_appendix_cat]{cat_1.jpg}{Кот, покрытый ссылкой на приложение}
+
+\insertTable[whole_appendix_table]{Таблица, покрытая ссылкой на приложение}{%
+  \begin{tabular}{c c}
+    Элемент & Значение \\
+    Изображение & 1 \\
+    Таблица & 2
+  \end{tabular}
+}
 
 
 \ifundef{\isPractica}{
