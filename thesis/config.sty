@@ -599,6 +599,7 @@
 \makeatletter
 \newif\ifconfig@inappendix
 \config@inappendixfalse
+\newif\ifconfig@firstAppendixSection
 \newif\ifconfig@referenceValidationDataReady
 \config@referenceValidationDataReadyfalse
 \let\config@currentAppendixSectionLabel\@empty
@@ -950,7 +951,11 @@
   % Counter, again, looks at sections rather than subsections.
   \let\config@oldsection\section
   \RenewDocumentCommand{\section}{s o m}{%
-    \clearpage
+    \ifconfig@firstAppendixSection
+      \global\config@firstAppendixSectionfalse
+    \else
+      \clearpage
+    \fi
     \config@clearCurrentAppendixSection
     \IfBooleanTF{##1}
       {%
@@ -983,6 +988,7 @@
   }%
 
   \unnumberedChapter{\appendixChapterName}
+  \global\config@firstAppendixSectiontrue
   \addtocontents{toc}{\protect\configAppendixTocSectionEntries}
 }
 \makeatother

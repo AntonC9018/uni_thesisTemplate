@@ -37,4 +37,5 @@ def test_appendix_toc_entries_link_to_their_appendix_pages(build):
     pages = pdf.page_texts(build.pdf_path)
     first_page = _page_with_text(pages, "First appendix body marker")
     second_page = _page_with_text(pages, "Second appendix body marker")
+    assert "ANEXE" in pages[first_page]
     assert first_page != second_page
