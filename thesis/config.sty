@@ -420,6 +420,14 @@
 \let\savenumberline=\numberline
 \def\numberline#1{\savenumberline{#1.}~}
 
+\makeatletter
+\newlength{\config@appendixTocNumberWidth}
+\newcommand{\configAppendixTocSectionEntries}{%
+  \settowidth{\config@appendixTocNumberWidth}{\anexaLabel{} 99.\ }%
+  \renewcommand*\l@section{\@dottedtocline{1}{1.5em}{\config@appendixTocNumberWidth}}%
+}
+\makeatother
+
 % Chapters must be left aligned and 14 pt.
 % There's no 14 pt available, though, only 14.4 (\large)
 % https://tex.stackexchange.com/questions/24599/what-point-pt-font-size-are-large-etc/24600#24600
@@ -940,10 +948,42 @@
 
   %
   % Counter, again, looks at sections rather than subsections.
-  \def\oldsection{} \let\oldsection=\section{}%
-  \def\section{\stepcounter{num_appendices}\config@clearCurrentAppendixSection\oldsection}%
+  \let\config@oldsection\section
+  \RenewDocumentCommand{\section}{s o m}{%
+    \clearpage
+    \config@clearCurrentAppendixSection
+    \IfBooleanTF{##1}
+      {%
+        \config@oldsection*{##3}%
+      }%
+      {%
+        \stepcounter{num_appendices}%
+        \IfNoValueTF{##2}
+          {\def\config@appendixTocEntry{##3}}%
+          {\def\config@appendixTocEntry{##2}}%
+        \let\config@original@addcontentsline\addcontentsline
+        \renewcommand{\addcontentsline}[3]{%
+          \ifstrequal{####1}{toc}{%
+            \ifstrequal{####2}{section}{%
+              \config@original@addcontentsline{####1}{####2}{%
+                \protect\numberline{\anexaLabel{} \thesection}\config@appendixTocEntry
+              }%
+            }{%
+              \config@original@addcontentsline{####1}{####2}{####3}%
+            }%
+          }{%
+            \config@original@addcontentsline{####1}{####2}{####3}%
+          }%
+        }%
+        \IfNoValueTF{##2}
+          {\config@oldsection{##3}}%
+          {\config@oldsection[##2]{##3}}%
+        \let\addcontentsline\config@original@addcontentsline
+      }%
+  }%
 
   \unnumberedChapter{\appendixChapterName}
+  \addtocontents{toc}{\protect\configAppendixTocSectionEntries}
 }
 \makeatother
 
