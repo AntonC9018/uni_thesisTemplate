@@ -39,6 +39,13 @@
 \DeclareOption*{\PackageError{config}{Invalid option '\CurrentOption'}{Pass the language option}}
 \ProcessOptions\relax
 
+\newcommand{\usmFontSizeTwelve}{\fontsize{12pt}{14.4pt}\selectfont}
+\newcommand{\usmFontSizeFourteen}{\fontsize{14pt}{16.8pt}\selectfont}
+\newcommand{\usmFontSizeSixteen}{\fontsize{16pt}{19.2pt}\selectfont}
+
+\newcommand{\titlePageDefaultFont}{\usmFontSizeFourteen}
+\newcommand{\titlePageEmphasisFont}{\usmFontSizeSixteen}
+
 % https://tex.stackexchange.com/a/63393
 \makeatletter
 \def\@makechapterhead#1{%
