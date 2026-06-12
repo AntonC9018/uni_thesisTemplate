@@ -1003,6 +1003,10 @@
   % Capitalize first part, print second part in title case
   \MakeUppercase{\lastName}~\capitalisewords{\expandafter\firstName}%
 }
+\newcommand{\regularLastFirstName}[1]{%
+  \SplitFirstTwoWords{#1}%
+  \lastName{}~\firstName{}%
+}
 \newcommand{\firstNameLastName}[1]{%
   \SplitFirstTwoWords{#1}%
   \firstName{}~\lastName{}%
