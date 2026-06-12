@@ -529,12 +529,12 @@
 % Some math stuff? I don't even know.
 \RequirePackage{amsmath}
 
-% Make figures use Fig. instead of Figura.
+% Use full figure/table names in captions.
 % Has to be set per-language, otherwise it gets overridden.
-\addto\captionsromanian{\renewcommand{\figurename}{Fig.}}
-\addto\captionsrussian{\renewcommand{\figurename}{Рис.}}
-\addto\captionsromanian{\renewcommand{\tablename}{Tab.}}
-\addto\captionsrussian{\renewcommand{\tablename}{Таб.}}
+\addto\captionsromanian{\renewcommand{\figurename}{Figura}}
+\addto\captionsrussian{\renewcommand{\figurename}{Рисунок}}
+\addto\captionsromanian{\renewcommand{\tablename}{Tabelul}}
+\addto\captionsrussian{\renewcommand{\tablename}{Таблица}}
 
 % Their numbering has to use the chapter number.
 \renewcommand{\thefigure}{\arabic{chapter}.\arabic{figure}}
@@ -787,6 +787,11 @@
   \renewcommand{\Cref}[1]{%
     \config@recordReferencedAppendixLabels{##1}%
     \config@original@Cref{##1}%
+  }%
+  \let\config@original@labelcref\labelcref
+  \renewcommand{\labelcref}[1]{%
+    \config@recordReferencedAppendixLabels{##1}%
+    \config@original@labelcref{##1}%
   }%
 }
 \AtBeginDocument{\config@installReferenceRecorders}
