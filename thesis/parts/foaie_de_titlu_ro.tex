@@ -2,38 +2,35 @@
 \sloppy
 
 \begin{titlepage}
+  \titlePageDefaultFont
   \vspace*{\fill}
   \begin{center}
       \vspace*{1cm}
 
-      \large
-      \uppercase{\textbf{UNIVERSITATEA DE STAT DIN MOLDOVA\\}}
+      {\titlePageEmphasisFont
+      \uppercase{\textbf{UNIVERSITATEA DE STAT DIN MOLDOVA\\}}}
 
-      \normalsize
       \uppercase{\textbf{FACULTATEA DE MATEMATICĂ și INFORMATICĂ}}
       \vspace{0.1cm}
 
-      \normalsize
-      \uppercase{\textbf{DEPARTAMENTUL INFORMATICĂ}}
+      \uppercase{\textbf{DEPARTAMENTUL DE INFORMATICĂ}}
       \vspace{3.0cm}
 
-      \large
-      \textbf{\correctName{\authorName}}
+      {\titlePageEmphasisFont
+      \textbf{\correctName{\authorName}}}
       \vspace{1.5cm}
 
-      \Large
+      {\titlePageEmphasisFont
       \ifdefined\isPractica
         \textbf{\MakeUppercase{Raport la \docTypeRoNedefinit}}
       \else
         \textbf{\MakeUppercase{\docTitleRo}}
-      \fi
+      \fi}
       \vspace{0.75cm}
 
-      \large
-      \textbf{\MakeUppercase{\identificatorulCursului{} \programulDeStudiiRo{}}}
+      \textbf{\MakeUppercase{\identificatorulCursului{}}}
       \vspace{0.5cm}
 
-      \normalsize
       \ifdefined\isPractica
         \vspace{\baselineskip}
       \else
@@ -43,13 +40,16 @@
     \end{center}
   \vfill
 
-  \normalsize
-  
   \begin{flushleft}
-    \newcommand{\signatureField}{\textUnderLine{4cm}{(semnătură)}}
+    \newcommand{\signatureField}{%
+      \begin{tabular}[t]{@{}c@{}}
+        \rule{4cm}{0.4pt}\\[-0.5ex]
+        (semnătură)
+      \end{tabular}%
+    }
 
-    \begin{tabular}{p{4.3cm} p{4cm} p{8cm}}
-      Director de departament: & \signatureField{} & CAPCELEA Titu, \\
+    \begin{tabular}{@{}p{4.5cm} p{4cm} p{7.5cm}@{}}
+      Șef de departament:      & \signatureField{} & CAPCELEA Titu, \\
                                &                   & doctor în științe fizico-matematice, \\
                                &                   & conferențiar universitar \\
       Conducător științific:   & \signatureField{} & \correctName{\conducatorName}, \\
@@ -63,7 +63,7 @@
   \vspace{1cm}
 
   \begin{center}
-      \textbf{Chișinău -- \yearOfWriting{}}
+      \textbf{CHIȘINĂU -- \yearOfWriting{}}
   \end{center}
 
 \end{titlepage}
