@@ -26,7 +26,11 @@ def assert_build_failed(result: LatexBuildResult) -> None:
 
 def assert_pdf_contains(result: LatexBuildResult, expected: str) -> None:
     text = pdf.pdf_text(result.pdf_path)
-    assert expected in text, f"PDF text does not contain {expected!r}\n{text}"
+    compact_expected = re.sub(r"\s+", " ", expected).strip()
+    compact_text = re.sub(r"\s+", " ", text).strip()
+    assert expected in text or compact_expected in compact_text, (
+        f"PDF text does not contain {expected!r}\n{text}"
+    )
 
 
 def assert_pdf_not_contains(result: LatexBuildResult, unexpected: str) -> None:

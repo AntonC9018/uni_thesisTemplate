@@ -799,6 +799,71 @@
   }%
 }
 
+\expandafter\newcommand\csname config@objectReferenceConjunction@ru\endcsname{и}
+\expandafter\newcommand\csname config@objectReferenceConjunction@ro\endcsname{și}
+\newcommand{\config@objectReferenceConjunction}[1]{%
+  \ifcsname config@objectReferenceConjunction@#1\endcsname
+    \csname config@objectReferenceConjunction@#1\endcsname
+  \else
+    \csname config@objectReferenceConjunction@ru\endcsname
+  \fi
+}
+
+\newcount\config@objectReferenceLabelCount
+\newcount\config@objectReferenceLabelIndex
+
+\newcommand{\config@pluralObjectReference}[3]{%
+  \begingroup
+    \def\config@objectReferenceLanguage{#1}%
+    \def\config@objectReferenceForm{#2}%
+    \def\config@objectReferenceLabels{#3}%
+    \config@objectReferenceLabelCount=1\relax
+    \config@pluralObjectReferenceCollect
+}
+
+\newcommand{\config@pluralObjectReferenceCollect}{%
+  \@ifnextchar\bgroup
+    {\config@pluralObjectReferenceCollectOne}
+    {\config@pluralObjectReferenceFinish}%
+}
+
+\newcommand{\config@pluralObjectReferenceCollectOne}[1]{%
+  \expandafter\def\expandafter\config@objectReferenceLabels\expandafter{\config@objectReferenceLabels,#1}%
+  \advance\config@objectReferenceLabelCount by 1\relax
+  \config@pluralObjectReferenceCollect
+}
+
+\newcommand{\config@pluralObjectReferenceSeparator}{%
+  \ifnum\config@objectReferenceLabelIndex=\config@objectReferenceLabelCount
+    ~\config@objectReferenceConjunction{\config@objectReferenceLanguage}~%
+  \else
+    ,~%
+  \fi
+}
+
+\newcommand{\config@printPluralObjectReferenceList}{%
+  \config@objectReferenceLabelIndex=0\relax
+  \@for\config@currentReferenceLabel:=\config@objectReferenceLabels\do{%
+    \advance\config@objectReferenceLabelIndex by 1\relax
+    \ifnum\config@objectReferenceLabelIndex=1
+      \hyperref[\config@currentReferenceLabel]{%
+        \config@printObjectReferenceName{\config@objectReferenceLanguage}{\config@objectReferenceForm}%
+        ~\config@original@labelcref*{\config@currentReferenceLabel}%
+      }%
+    \else
+      \config@pluralObjectReferenceSeparator
+      \hyperref[\config@currentReferenceLabel]{\config@original@labelcref*{\config@currentReferenceLabel}}%
+    \fi
+  }%
+}
+
+\newcommand{\config@pluralObjectReferenceFinish}{%
+    \config@recordReferencedAppendixLabels{\config@objectReferenceLabels}%
+    \config@setObjectReferenceType{\config@objectReferenceLabels}%
+    \config@printPluralObjectReferenceList
+  \endgroup
+}
+
 \newcommand{\config@objectReference}[3]{%
   \config@recordReferencedAppendixLabels{#3}%
   \begingroup
@@ -829,28 +894,28 @@
 \newcommand{\ОбъектТворительный}[1]{\config@objectReference{ru}{Inst}{#1}}
 \newcommand{\объектПредложный}[1]{\config@objectReference{ru}{prep}{#1}}
 \newcommand{\ОбъектПредложный}[1]{\config@objectReference{ru}{Prep}{#1}}
-\newcommand{\объекты}[1]{\config@objectReference{ru}{plnom}{#1}}
-\newcommand{\Объекты}[1]{\config@objectReference{ru}{PlNom}{#1}}
-\newcommand{\объектов}[1]{\config@objectReference{ru}{plgen}{#1}}
-\newcommand{\Объектов}[1]{\config@objectReference{ru}{PlGen}{#1}}
-\newcommand{\объектам}[1]{\config@objectReference{ru}{pldat}{#1}}
-\newcommand{\Объектам}[1]{\config@objectReference{ru}{PlDat}{#1}}
-\newcommand{\объектами}[1]{\config@objectReference{ru}{plinst}{#1}}
-\newcommand{\Объектами}[1]{\config@objectReference{ru}{PlInst}{#1}}
-\newcommand{\объектах}[1]{\config@objectReference{ru}{plprep}{#1}}
-\newcommand{\Объектах}[1]{\config@objectReference{ru}{PlPrep}{#1}}
-\newcommand{\объектМножественныйИменительный}[1]{\config@objectReference{ru}{plnom}{#1}}
-\newcommand{\ОбъектМножественныйИменительный}[1]{\config@objectReference{ru}{PlNom}{#1}}
-\newcommand{\объектМножественныйРодительный}[1]{\config@objectReference{ru}{plgen}{#1}}
-\newcommand{\ОбъектМножественныйРодительный}[1]{\config@objectReference{ru}{PlGen}{#1}}
-\newcommand{\объектМножественныйДательный}[1]{\config@objectReference{ru}{pldat}{#1}}
-\newcommand{\ОбъектМножественныйДательный}[1]{\config@objectReference{ru}{PlDat}{#1}}
-\newcommand{\объектыВинительный}[1]{\config@objectReference{ru}{placc}{#1}}
-\newcommand{\ОбъектыВинительный}[1]{\config@objectReference{ru}{PlAcc}{#1}}
-\newcommand{\объектМножественныйТворительный}[1]{\config@objectReference{ru}{plinst}{#1}}
-\newcommand{\ОбъектМножественныйТворительный}[1]{\config@objectReference{ru}{PlInst}{#1}}
-\newcommand{\объектМножественныйПредложный}[1]{\config@objectReference{ru}{plprep}{#1}}
-\newcommand{\ОбъектМножественныйПредложный}[1]{\config@objectReference{ru}{PlPrep}{#1}}
+\newcommand{\объекты}[1]{\config@pluralObjectReference{ru}{plnom}{#1}}
+\newcommand{\Объекты}[1]{\config@pluralObjectReference{ru}{PlNom}{#1}}
+\newcommand{\объектов}[1]{\config@pluralObjectReference{ru}{plgen}{#1}}
+\newcommand{\Объектов}[1]{\config@pluralObjectReference{ru}{PlGen}{#1}}
+\newcommand{\объектам}[1]{\config@pluralObjectReference{ru}{pldat}{#1}}
+\newcommand{\Объектам}[1]{\config@pluralObjectReference{ru}{PlDat}{#1}}
+\newcommand{\объектами}[1]{\config@pluralObjectReference{ru}{plinst}{#1}}
+\newcommand{\Объектами}[1]{\config@pluralObjectReference{ru}{PlInst}{#1}}
+\newcommand{\объектах}[1]{\config@pluralObjectReference{ru}{plprep}{#1}}
+\newcommand{\Объектах}[1]{\config@pluralObjectReference{ru}{PlPrep}{#1}}
+\newcommand{\объектМножественныйИменительный}[1]{\config@pluralObjectReference{ru}{plnom}{#1}}
+\newcommand{\ОбъектМножественныйИменительный}[1]{\config@pluralObjectReference{ru}{PlNom}{#1}}
+\newcommand{\объектМножественныйРодительный}[1]{\config@pluralObjectReference{ru}{plgen}{#1}}
+\newcommand{\ОбъектМножественныйРодительный}[1]{\config@pluralObjectReference{ru}{PlGen}{#1}}
+\newcommand{\объектМножественныйДательный}[1]{\config@pluralObjectReference{ru}{pldat}{#1}}
+\newcommand{\ОбъектМножественныйДательный}[1]{\config@pluralObjectReference{ru}{PlDat}{#1}}
+\newcommand{\объектыВинительный}[1]{\config@pluralObjectReference{ru}{placc}{#1}}
+\newcommand{\ОбъектыВинительный}[1]{\config@pluralObjectReference{ru}{PlAcc}{#1}}
+\newcommand{\объектМножественныйТворительный}[1]{\config@pluralObjectReference{ru}{plinst}{#1}}
+\newcommand{\ОбъектМножественныйТворительный}[1]{\config@pluralObjectReference{ru}{PlInst}{#1}}
+\newcommand{\объектМножественныйПредложный}[1]{\config@pluralObjectReference{ru}{plprep}{#1}}
+\newcommand{\ОбъектМножественныйПредложный}[1]{\config@pluralObjectReference{ru}{PlPrep}{#1}}
 
 \newcommand{\obiect}[1]{\config@objectReference{ro}{bare}{#1}}
 \newcommand{\Obiect}[1]{\config@objectReference{ro}{Bare}{#1}}
@@ -862,16 +927,16 @@
 \newcommand{\UnObiect}[1]{\config@objectReference{ro}{Indef}{#1}}
 \newcommand{\unuiObiect}[1]{\config@objectReference{ro}{indefgd}{#1}}
 \newcommand{\UnuiObiect}[1]{\config@objectReference{ro}{Indefgd}{#1}}
-\newcommand{\obiecte}[1]{\config@objectReference{ro}{plbare}{#1}}
-\newcommand{\Obiecte}[1]{\config@objectReference{ro}{PlBare}{#1}}
-\newcommand{\obiectele}[1]{\config@objectReference{ro}{pldef}{#1}}
-\newcommand{\Obiectele}[1]{\config@objectReference{ro}{PlDef}{#1}}
-\newcommand{\obiectelor}[1]{\config@objectReference{ro}{pldefgd}{#1}}
-\newcommand{\Obiectelor}[1]{\config@objectReference{ro}{PlDefgd}{#1}}
-\newcommand{\nisteObiecte}[1]{\config@objectReference{ro}{plindef}{#1}}
-\newcommand{\NisteObiecte}[1]{\config@objectReference{ro}{PlIndef}{#1}}
-\newcommand{\unorObiecte}[1]{\config@objectReference{ro}{plindefgd}{#1}}
-\newcommand{\UnorObiecte}[1]{\config@objectReference{ro}{PlIndefgd}{#1}}
+\newcommand{\obiecte}[1]{\config@pluralObjectReference{ro}{plbare}{#1}}
+\newcommand{\Obiecte}[1]{\config@pluralObjectReference{ro}{PlBare}{#1}}
+\newcommand{\obiectele}[1]{\config@pluralObjectReference{ro}{pldef}{#1}}
+\newcommand{\Obiectele}[1]{\config@pluralObjectReference{ro}{PlDef}{#1}}
+\newcommand{\obiectelor}[1]{\config@pluralObjectReference{ro}{pldefgd}{#1}}
+\newcommand{\Obiectelor}[1]{\config@pluralObjectReference{ro}{PlDefgd}{#1}}
+\newcommand{\nisteObiecte}[1]{\config@pluralObjectReference{ro}{plindef}{#1}}
+\newcommand{\NisteObiecte}[1]{\config@pluralObjectReference{ro}{PlIndef}{#1}}
+\newcommand{\unorObiecte}[1]{\config@pluralObjectReference{ro}{plindefgd}{#1}}
+\newcommand{\UnorObiecte}[1]{\config@pluralObjectReference{ro}{PlIndefgd}{#1}}
 \makeatother
 
 % Appendix reference validation

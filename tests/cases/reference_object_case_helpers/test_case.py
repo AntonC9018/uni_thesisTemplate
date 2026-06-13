@@ -25,6 +25,7 @@ from tests.lib.latex import build_latex_case
                 "figurilor 1.1",
                 "niște figuri 1.1",
                 "unor figuri 1.1",
+                "Figurile 1.1, 1.2 și 1.3",
                 "Tabelul 1.1",
                 "tabelului 1.1",
                 "un tabel 1.1",
@@ -56,6 +57,7 @@ from tests.lib.latex import build_latex_case
                 "рисункам 1.1",
                 "рисунками 1.1",
                 "рисунках 1.1",
+                "Рисунки 1.1, 1.2 и 1.3",
                 "Таблица 1.1",
                 "таблицу 1.1",
                 "таблице 1.1",
@@ -85,8 +87,8 @@ def test_object_case_helpers_render_localized_words(case_dir, tmp_path, input_fi
 @pytest.mark.parametrize(
     ("input_file", "linked_words"),
     [
-        ("main.tex", ("figură", "Tabelul", "Codul", "Tabelele")),
-        ("main_ru.tex", ("рисунок", "Таблица", "Листинг", "Таблицы")),
+        ("main.tex", ("figură", "Figurile", "Tabelul", "Codul", "Tabelele")),
+        ("main_ru.tex", ("рисунок", "Рисунки", "Таблица", "Листинг", "Таблицы")),
     ],
 )
 def test_object_reference_words_are_inside_pdf_links(case_dir, tmp_path, input_file, linked_words):
