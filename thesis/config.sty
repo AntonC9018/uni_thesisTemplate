@@ -359,6 +359,7 @@
 }
 \newcommand{\acronymsChapter}{%
   \clearpage
+  \setquotestyle{\mainLanguage}%
   \unnumberedChapter{\acronymsChapterName}
   \begingroup
   \renewcommand{\chapter}[2]{}% suppress glossaries' internal \chapter call
@@ -997,6 +998,76 @@
 \RequirePackage{xstring}
 \RequirePackage{mfirstuc}
 
+% Annotation chapters are required only for master theses.
+\makeatletter
+\newif\ifconfig@annotationIsMaster
+\newif\ifconfig@annotationSawThesisType
+\newif\ifconfig@annotationThesisTypeMismatch
+\newcommand{\config@checkAnnotationMasterProgram}[1]{%
+  \global\config@annotationSawThesisTypetrue
+  \ifdefstring{#1}{master}{}{\global\config@annotationThesisTypeMismatchtrue}%
+}
+\newcommand{\config@checkAnnotationMasterText}[1]{%
+  \global\config@annotationSawThesisTypetrue
+  \IfSubStr{#1}{master}{}{\global\config@annotationThesisTypeMismatchtrue}%
+}
+\newcommand{\config@detectAnnotationMasterType}{%
+  \global\config@annotationIsMasterfalse
+  \global\config@annotationSawThesisTypefalse
+  \global\config@annotationThesisTypeMismatchfalse
+  \ifcsdef{programulDeStudiiRo}{%
+    \config@checkAnnotationMasterProgram{\programulDeStudiiRo}%
+  }{}%
+  \ifcsdef{docTypeRoNedefinit}{%
+    \config@checkAnnotationMasterText{\docTypeRoNedefinit}%
+  }{}%
+  \ifcsdef{docTypeRoDefinit}{%
+    \config@checkAnnotationMasterText{\docTypeRoDefinit}%
+  }{}%
+  \ifcsdef{docTypeRoDativ}{%
+    \config@checkAnnotationMasterText{\docTypeRoDativ}%
+  }{}%
+  \ifdefined\isPractica
+    \global\config@annotationSawThesisTypetrue
+    \global\config@annotationThesisTypeMismatchtrue
+  \fi
+  \ifconfig@annotationSawThesisType
+    \ifconfig@annotationThesisTypeMismatch
+    \else
+      \global\config@annotationIsMastertrue
+    \fi
+  \else
+    \ifcsdef{programulDeStudiiEng}{%
+      \ifdefstring{\programulDeStudiiEng}{master}{\global\config@annotationIsMastertrue}{}%
+    }{}%
+    \ifcsdef{docTypeEng}{%
+      \IfSubStr{\docTypeEng}{master}{\global\config@annotationIsMastertrue}{}%
+    }{}%
+  \fi
+}
+\newcommand{\config@annotationChapterWarning}[1]{%
+  \PackageWarning{config}{Annotation chapter '#1' is intended only for master theses}%
+}
+\newcommand{\config@annotationChapterInternal}[4]{%
+  \setquotestyle{#2}%
+  \config@detectAnnotationMasterType
+  \ifconfig@annotationIsMaster
+    \unnumberedChapter{#3}%
+  \else
+    \config@annotationChapterWarning{#1}%
+    \unnumberedChapter{\texorpdfstring{#3 \NoCaseChange{\textcolor{red}{#4}}}{#3 #4}}%
+  \fi
+}
+\newcommand{\annotationChapter}[1]{%
+  \clearpage
+  \IfStrEqCase{#1}{%
+    {ro}{\config@annotationChapterInternal{#1}{romanian}{Adnotare}{ATENȚIE: doar pentru teză de master}}%
+    {ru}{\config@annotationChapterInternal{#1}{russian}{Аннотация}{ВНИМАНИЕ: только для магистратуры}}%
+    {en}{\config@annotationChapterInternal{#1}{english}{Annotation}{WARNING: master thesis only}}%
+  }[\PackageError{config}{Invalid annotation language '#1'}{Use ru, ro, or en with \string\annotationChapter.}]%
+}
+\makeatother
+
 % Helper
 \newcommand{\SplitFirstTwoWords}[1]{%
   \StrBefore{#1}{ }[\lastName]%
@@ -1042,6 +1113,7 @@
 \ExplSyntaxOff
 
 \newcommand{\introChapter}{
+  \setquotestyle{\mainLanguage}%
   % I think this one's required to be capitalized.
   \unnumberedChapter{\texorpdfstring{\introLabelUpper}{\introLabel}}
   \markpage{usefulStuffBegin}
