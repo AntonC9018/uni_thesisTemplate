@@ -33,6 +33,7 @@ def text_spans(pdf_path: Path) -> list[dict]:
                                 "page": page_index,
                                 "text": value,
                                 "bbox": fitz.Rect(span["bbox"]),
+                                "color": span.get("color"),
                             }
                         )
     return spans

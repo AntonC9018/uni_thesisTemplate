@@ -48,7 +48,8 @@ Compilarea trebuie pornită din directorul `thesis`.
 | `\section{Titlu}` | secțiune |
 | `\subsection{Titlu}` | subsecțiune |
 | `\chapterConclusionSection{chapter_label}` | concluzii de capitol |
-| `\unnumberedChapter{Titlu}` | capitol fără număr, se adaugă singur în cuprins |
+| `\finalConclusionChapter` sau `\finalConclusionChapter[Titlu]` | concluziile finale, cu validarea volumului oficial |
+| `\unnumberedChapter{Titlu}` | capitol generic fără număr, se adaugă singur în cuprins și nu este validat ca volum |
 | `\bibliographyChapter` | inserarea bibliografiei |
 | `\appendixChapter` | începutul anexelor |
 | `\section{Titlu}\label{appendix_label}` | anexă |

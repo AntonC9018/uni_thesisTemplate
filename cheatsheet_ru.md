@@ -48,7 +48,8 @@
 | `\section{Название}` | раздел |
 | `\subsection{Название}` | подраздел |
 | `\chapterConclusionSection{chapter_label}` | выводы к главе |
-| `\unnumberedChapter{Название}` | глава без номера, сама добавляется в содержание |
+| `\finalConclusionChapter` или `\finalConclusionChapter[Название]` | заключительные выводы, с проверкой официального объема |
+| `\unnumberedChapter{Название}` | произвольная глава без номера, сама добавляется в содержание и не проверяется по объему |
 | `\bibliographyChapter` | вставка библиографии |
 | `\appendixChapter` | начало приложений |
 | `\section{Название}\label{appendix_label}` | приложение |
