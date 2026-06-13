@@ -1131,9 +1131,15 @@
 }
 
 \newcommand{\config@pluralObjectReferenceCollect}{%
-  \@ifnextchar\bgroup
-    {\config@pluralObjectReferenceCollectOne}
-    {\config@pluralObjectReferenceFinish}%
+  \futurelet\config@nextObjectReferenceToken\config@pluralObjectReferenceCollectNext
+}
+
+\newcommand{\config@pluralObjectReferenceCollectNext}{%
+  \ifx\config@nextObjectReferenceToken\bgroup
+    \expandafter\config@pluralObjectReferenceCollectOne
+  \else
+    \expandafter\config@pluralObjectReferenceFinish
+  \fi
 }
 
 \newcommand{\config@pluralObjectReferenceCollectOne}[1]{%
