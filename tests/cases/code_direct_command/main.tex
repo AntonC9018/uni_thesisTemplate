@@ -2,11 +2,11 @@
 \usepackage[romanian]{config}
 
 \begin{document}
-\chapter{Direct Code Command}
-Direct command reference: \ref{code:direct-command}.
+\chapter{Direct Code Environment}
+Direct environment reference: \ref{code:direct-environment}.
 Appendix reference: \ref{app:plain-code}.
 
-\insertCode[code:direct-command]{cpp}{Direct command listing}{
+\begin{code}[code:direct-environment]{cpp}{Direct environment listing}
 #include <iostream>
 int main()
 {
@@ -14,16 +14,16 @@ int main()
     // percent % remains code text
     return 0;
 }
-}
+\end{code}
 
 \appendixChapter
 \section{Plain Code}\label{app:plain-code}
-Plain command block:
+Plain unnumbered code block:
 
-\insertCode*{
+\begin{codeWithoutLabel}{text}
 Regular text
 Multiline
 With braces { kept }
 Hash # and percent % are literal
-}
+\end{codeWithoutLabel}
 \end{document}

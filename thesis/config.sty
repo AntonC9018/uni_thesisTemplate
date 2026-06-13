@@ -1274,89 +1274,18 @@
   \end{listing}%
 }
 
-\makeatletter
-\NewDocumentCommand{\insertCode}{s}{%
-  \IfBooleanTF{#1}{\insertCodeStar}{\insertCodeNumbered}%
-}
-
-% 1 - Optional label identifier. Required for numbered direct code.
-% 2 - Minted options.
-% 3 - Programming language.
-% 4 - Caption text.
-% 5 - Code body, read with code-safe catcodes.
-\NewDocumentCommand{\insertCodeNumbered}{o O{} m m}{%
-  \begin{listing}[!htbp]
-    \caption{#4}%
-    \insertFloatLabelHelper{\BooleanFalse}[#1]{}{insertCode}%
-    \par\noindent
-    \config@insertCodeReadBody{\insertCodeFinish{stripnl=true,#2}{#3}}%
-}
-
-% 1 - Code body, read with code-safe catcodes.
-\NewDocumentCommand{\insertCodeStar}{}{%
-  \insertFloatLabelHelper{\BooleanTrue}{}{insertCode}%
+% 1 - Minted options.
+% 2 - Programming language.
+\NewDocumentEnvironment{codeWithoutLabel}{O{linenos=false} m}{%
+  \VerbatimEnvironment
+  \insertFloatLabelHelper{\BooleanTrue}{}{codeWithoutLabel}%
   \begin{listing}[!htbp]
     \par\noindent
-    \config@insertCodeReadBody{\insertCodeFinish{stripnl=true,linenos=false}{text}}%
-}
-
-\newcounter{config@insertCode}
-\newwrite\config@insertCodeWrite
-
-\newcommand{\config@insertCodeReadBody}[1]{%
-  \begingroup
-  \let\do\@makeother\FVExtraDoSpecials
-  \catcode`\^^M=\active
-  \catcode`\{=1
-  \catcode`\}=2
-  \catcode`\ =\active
-  \catcode`\^^I=\active
-  \config@insertCodeReadBodyFinish{#1}%
-}
-
-\long\def\config@insertCodeReadBodyFinish#1#2{%
-  \endgroup
-  #1{#2}%
-}
-
-\begingroup
-\catcode`\^^I=12
-\gdef\config@insertCodeTabChar{^^I}
-\endgroup
-
-\begingroup
-\catcode`\^^J=12
-\catcode`\^^M=\active
-\catcode`\ =\active
-\catcode`\^^I=\active
-\gdef\config@insertCodeWriteActiveChars{%
-  \def^^M{^^J}%
-  \def {\space}%
-  \def^^I{\config@insertCodeTabChar}%
-}
-\endgroup
-
-\long\def\config@insertCodeWriteBody#1{%
-  \begingroup
-  \newlinechar=`\^^J
-  \catcode`\^^M=\active
-  \catcode`\ =\active
-  \catcode`\^^I=\active
-  \config@insertCodeWriteActiveChars
-  \immediate\write\config@insertCodeWrite{#1}%
-  \endgroup
-}
-
-\long\def\insertCodeFinish#1#2#3{%
-    \stepcounter{config@insertCode}%
-    \edef\config@insertCodeFile{\jobname-insert-code-\arabic{config@insertCode}.tmp}%
-    \immediate\openout\config@insertCodeWrite=\config@insertCodeFile\relax
-    \config@insertCodeWriteBody{#3}%
-    \immediate\closeout\config@insertCodeWrite
-    \inputminted[#1]{#2}{\config@insertCodeFile}%
+    \begin{minted}[#1]{#2}%
+}{%
+    \end{minted}%
   \end{listing}%
 }
-\makeatother
 
 \NewDocumentCommand{\insertCodeFile}{s}{%
   \IfBooleanTF{#1}{\insertCodeFileStar}{\insertCodeFileNumbered}%

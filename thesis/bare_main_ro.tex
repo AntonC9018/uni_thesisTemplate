@@ -355,13 +355,13 @@ pentru a primi numerotare, inscripție și plasare automată.
 
 \Obiectul{code_direct_example} prezintă inserarea directă a unui bloc de cod.
 
-\insertCode[code_direct_example]{cpp}{Exemplu de bloc de cod inserat direct}{
+\begin{code}[code_direct_example]{cpp}{Exemplu de bloc de cod inserat direct}
 // orice cod aici
 int main()
 {
     std::cout << "hello";
 }
-}
+\end{code}
 
 \subsection{Inserarea unui fișier întreg}
 
@@ -393,21 +393,21 @@ Pentru a adăuga extensii care nu sunt încă suportate, modificați \texttt{fin
 
 \Obiectul{code_text_example} inserează text simplu ca bloc de cod.
 
-\insertCode[code_text_example]{text}{Text pe mai multe rânduri inserat ca cod}{
+\begin{code}[code_text_example]{text}{Text pe mai multe rânduri inserat ca cod}
 Regular text
 Multiline
 With any characters |||
-}
+\end{code}
 
 Pentru a insera doar text, fără numărul de rând, este necesar să adăugați \verb|[linenos=false]|
 
 \Obiectul{code_text_no_lines_example} ascunde numerele de rând prin opțiunile \verb|minted|.
 
-\insertCode[code_text_no_lines_example][linenos=false]{text}{Text fără numere de rând}{
+\begin{code}[code_text_no_lines_example][linenos=false]{text}{Text fără numere de rând}
 Regular text
 Multiline
 With any characters |||
-}
+\end{code}
 
 \section{Imagini}
 
@@ -542,13 +542,13 @@ acestea nu trebuie neapărat numerotate.
   \end{tabular}
 }
 
-Pentru cod direct nenumerotat în anexe se poate folosi comanda \verb|\insertCode*|.
+Pentru cod direct nenumerotat în anexe se poate folosi mediul \verb|codeWithoutLabel|.
 
-\insertCode*{
+\begin{codeWithoutLabel}{js}
 function min(a, b) {
   return a < b ? a : b;
 }
-}
+\end{codeWithoutLabel}
 
 \section{Imagine cu numerotare}\label{numbered_appendix}
 
