@@ -7,7 +7,7 @@ Compilarea trebuie pornită din directorul `thesis`.
 | Scop | Comandă |
 | --- | --- |
 | Compilează `main.tex` | `./render.sh` |
-| Compilează după curățarea fișierelor generate | `./render.sh -f` |
+| Curăță fișierele generate + compilează | `./render.sh -f` |
 | Compilează un starter | `./render.sh -f --input bare_main_ro.tex` |
 
 ## Text
