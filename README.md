@@ -51,7 +51,7 @@ Run `source ./setup.sh`. It is going to:
    corresponding to your language (`ru`/`ro`).
 
    ```shell
-   mv thesis/bare_main_ro.tex thesis/main.tex
+   cp thesis/bare_main_ro.tex thesis/main.tex
    ```
 
 2. **Choose the document type and specialty:** In `main.tex`, the template import must include one language and one document type:
