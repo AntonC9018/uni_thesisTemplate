@@ -10,7 +10,7 @@ Compilarea trebuie pornită din directorul `thesis`.
 | Compilează după curățarea fișierelor generate | `./render.sh -f` |
 | Compilează un starter | `./render.sh -f --input bare_main_ro.tex` |
 
-## Text și referințe
+## Text
 
 | Ce vrei | Scrii | Rezultat |
 | --- | --- | --- |
@@ -18,13 +18,22 @@ Compilarea trebuie pornită din directorul `thesis`.
 | Italic | `\textit{text}` | text înclinat |
 | Monospace | `\texttt{text}` | caractere monospațiate |
 | Text literal | `\verb!text!` | text fără interpretare LaTeX, folosit pentru cod |
+| Link-uri | `\url{https://...}` | link clicabil, textul link-ului este propriu zis link-ul |
+| Link-uri pe text | `\href{https://...}{text}` | link clicabil |
+| Explicații în footer | `hello\footnote{explicație}` | numerotează itemii în footer automat per pagină |
+
+## Text și referințe
+
+| Ce vrei | Scrii | Rezultat |
+| --- | --- | --- |
 | Citare | `\cite{png_spec}` | sursă din `bibliography.bib` |
 | Prescurtare | `\gls{PR}` | prima mențiune include definiția completă în paranteze și inserează link spre termen |
 | Prescurtare scurtă | `\acrshort{PR}` | nu se extinde la definiția completă, utilă în titluri |
 | Etichetă | `\label{my_label}` | țintă pentru referințe |
-| Referință cu literă mare | `\Cref{my_label}` | început de propoziție |
-| Referință cu literă mică | `\cref{my_label}` | în interiorul propoziției |
-| Comandă în titlu | `\cprotect\section{Librăria \verb|minted|}` | necesar pentru `\verb` în titluri |
+| Referințe la un obiect (imagine, tabel) | `\Obiectul{label_1}` | de ex. 'Imaginea 1.1' |
+| Referințe la un obiect în cazul genitiv | `\unuiObiect{label_1}`, `\obiectului{label_1}` | 'imaginei 1.1' |
+| Referințe la mai multe obiecte | `\obiectele{label_1}{label_2}` | 'imaginile 1.1 și 1.2' |
+| Comandă în titlu | `\cprotect\section{Librăria \verb!minted!}` | necesar pentru `\verb` în titluri |
 
 ## Structura documentului
 
@@ -33,6 +42,7 @@ Compilarea trebuie pornită din directorul `thesis`.
 | `\titlePage` | inserarea foilor de titlu |
 | `\tableofcontents` | inserarea cuprinsului |
 | `\acronymsChapter` | inserarea listei de abrevieri |
+| `\annotationChapter{ro}` | inserarea anotației în română |
 | `\introChapter` | introducere |
 | `\chapter{Titlu}\label{chapter_label}` | capitol numerotat |
 | `\section{Titlu}` | secțiune |
@@ -48,12 +58,12 @@ Compilarea trebuie pornită din directorul `thesis`.
 
 | Ce vrei | Scrii |
 | --- | --- |
-| Cod numerotat: text direct | `\begin{code}[code_id]{zig}{Inscripție}...\end{code}` |
-| Cod direct nenumerotat în anexe | `\begin{codeWithoutLabel}{text}...\end{codeWithoutLabel}` |
-| Cod numerotat: fișier întreg, eticheta este `../src/sourcefile.zig` | `\insertCodeFile{zig}{../src/sourcefile.zig}{Inscripție}` |
-| Cod numerotat: interval de linii | `\insertCodeFile[code_id][firstline=2,lastline=5]{zig}{../src/sourcefile.zig}{Inscripție}` |
+| Cod numerotat: text direct | `\begin{code}[code_id]{js}{Inscripție}...\end{code}` |
+| Cod direct nenumerotat în anexe | `\begin{codeWithoutLabel}{js}...\end{codeWithoutLabel}` |
+| Cod numerotat: fișier întreg, eticheta este `../src/sourcefile.js` | `\insertCodeFile{js}{../src/sourcefile.js}{Inscripție}` |
+| Cod numerotat: interval de linii | `\insertCodeFile[code_id][firstline=2,lastline=5]{java}{../src/sourcefile.java}{Inscripție}` |
 | Cod numerotat: segment marcat | `\insertCodeSegment[code_id]{../src/sourcefile.zig}{example}{Inscripție}` |
-| Cod nenumerotat în anexe | `\insertCodeFile*{zig}{../src/sourcefile.zig}` |
+| Cod nenumerotat în anexe | `\insertCodeFile*{java}{../src/sourcefile.java}` |
 | Imagine numerotată, eticheta pentru referință este `interface.png` | `\insertImage{interface.png}{Inscripție}` |
 | Imagine numerotată, eticheta pentru referință este `interface` | `\insertImage[interface]{interface.png}{Inscripție}` |
 | Imagine nenumerotată | `\insertImage*{interface.png}{Inscripție}` |
