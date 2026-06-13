@@ -1,0 +1,18 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage[romanian,custom]{config}
+
+\begin{document}
+\chapter{Reference Validation}
+No appendix reference is made here.
+\appendixChapter
+\section{Uncovered Appendix}\label{appendix:uncovered}
+\insertImage[uncovered_appendix_image]{cat_1.jpg}{Uncovered appendix image}
+\insertTable[uncovered_appendix_table]{Uncovered appendix table}{%
+  \begin{tabular}{ll}
+    A & B \\
+  \end{tabular}
+}
+\begin{code}[uncovered_appendix_code]{text}{Uncovered appendix code}
+appendix code
+\end{code}
+\end{document}

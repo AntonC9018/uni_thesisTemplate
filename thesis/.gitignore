@@ -23,6 +23,7 @@ output
 *.run.xml
 *.cpt
 *.data.minted
+*-insert-code-*.tmp
 *-SAVE-ERROR
 *.acr
 *.alg

@@ -1,0 +1,20 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage[romanian,custom]{config}
+
+\begin{document}
+\chapter{Float Macro API}
+Main document stub.
+\appendixChapter
+\section{Starred Appendix Examples}
+\insertImage*{cat_1.jpg}{Appendix starred image caption}
+\insertTable*{Appendix starred table caption}{%
+  \begin{tabular}{ll}
+    A & B \\
+  \end{tabular}
+}
+\insertCodeFile*[linenos=false]{text}{starred_code.txt}
+\insertCodeSegment*[linenos=false]{segment_source.zig}{example}
+\begin{codeWithoutLabel}{text}
+direct unnumbered appendix code
+\end{codeWithoutLabel}
+\end{document}

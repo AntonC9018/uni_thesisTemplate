@@ -1,0 +1,38 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage[russian,custom]{config}
+
+\begin{document}
+\chapter{Смешанная нумерация}
+Основные ссылки: рисунок \ref{fig:main}, таблица \ref{tab:main}, листинг \ref{code:main} и уравнение \eqref{eq:main}.
+Ссылки на будущее приложение: раздел \ref{app:one}, рисунок \ref{fig:app}, таблица \ref{tab:app}, листинг \ref{code:app} и уравнение \eqref{eq:app}.
+\insertImage[fig:main]{cat_1.jpg}{Основной рисунок}
+\insertTable[tab:main]{Основная таблица}{%
+  \begin{tabular}{ll}
+    A & B \\
+  \end{tabular}
+}
+\begin{code}[code:main]{text}{Основной листинг}
+main code
+\end{code}
+\begin{equation}
+  \label{eq:main}
+  a = b
+\end{equation}
+Маркер основного уравнения: \eqref{eq:main}.
+\appendixChapter
+\section{Сценарий приложения}\label{app:one}
+\insertImage[fig:app]{cat_1.jpg}{Рисунок из приложения}
+\insertTable[tab:app]{Таблица из приложения}{%
+  \begin{tabular}{ll}
+    A & B \\
+  \end{tabular}
+}
+\begin{code}[code:app]{text}{Листинг из приложения}
+appendix code
+\end{code}
+\begin{equation}
+  \label{eq:app}
+  c = d
+\end{equation}
+Маркер уравнения приложения: \eqref{eq:app}.
+\end{document}

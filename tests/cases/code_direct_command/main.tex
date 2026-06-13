@@ -1,0 +1,29 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage[romanian,custom]{config}
+
+\begin{document}
+\chapter{Direct Code Environment}
+Direct environment reference: \ref{code:direct-environment}.
+Appendix reference: \ref{app:plain-code}.
+
+\begin{code}[code:direct-environment]{cpp}{Direct environment listing}
+#include <iostream>
+int main()
+{
+    std::cout << "hello";
+    // percent % remains code text
+    return 0;
+}
+\end{code}
+
+\appendixChapter
+\section{Plain Code}\label{app:plain-code}
+Plain unnumbered code block:
+
+\begin{codeWithoutLabel}{text}
+Regular text
+Multiline
+With braces { kept }
+Hash # and percent % are literal
+\end{codeWithoutLabel}
+\end{document}

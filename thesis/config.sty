@@ -1,35 +1,240 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{config}
 
+\newcount\config@languageOptionCount
+\newcount\config@documentTypeOptionCount
+\def\config@selectedDocumentType{}
+\newif\ifconfig@customDocumentType
+\newif\ifconfig@specialtySelected
+
+\newcommand{\config@selectLanguage}{\advance\config@languageOptionCount by 1 }
+\newcommand{\config@selectDocumentType}[1]{%
+  \advance\config@documentTypeOptionCount by 1
+  \def\config@selectedDocumentType{#1}%
+}
+
+\newcommand{\programulDeStudiiRo}{}
+\newcommand{\programulDeStudiiRu}{}
+\newcommand{\programulDeStudiiEng}{}
+\newcommand{\identificatorulCursului}{}
+\newcommand{\identificatorulCursuluiRu}{}
+\newcommand{\docTypeEng}{}
+\newcommand{\docTypeRoDefinit}{}
+\newcommand{\docTypeRoNedefinit}{}
+\newcommand{\docTypeRoDativ}{}
+\newcommand{\docTypeRuPredlozhny}{}
+\newcommand{\docTypeRuDatelny}{}
+\newcommand{\studentTypeRo}{}
+\newcommand{\studentTypeRu}{}
+\newcommand{\documentIsPractice}{false}
+\newcommand{\documentIsMasterThesis}{false}
+
+\newcommand{\config@setProgramBachelor}{%
+  \renewcommand{\programulDeStudiiRo}{licență}%
+  \renewcommand{\programulDeStudiiRu}{бакалавриата}%
+  \renewcommand{\programulDeStudiiEng}{bachelor}%
+}
+\newcommand{\config@setProgramMaster}{%
+  \renewcommand{\programulDeStudiiRo}{master}%
+  \renewcommand{\programulDeStudiiRu}{магистра}%
+  \renewcommand{\programulDeStudiiEng}{master}%
+}
+\newcommand{\config@setRegularDocument}[9]{%
+  \renewcommand{\docTypeRoDefinit}{#1}%
+  \renewcommand{\docTypeRoNedefinit}{#2}%
+  \renewcommand{\docTypeRoDativ}{#3}%
+  \renewcommand{\docTypeRuPredlozhny}{#4}%
+  \renewcommand{\docTypeRuDatelny}{#5}%
+  \renewcommand{\docTypeEng}{#6}%
+  \renewcommand{\studentTypeRo}{#7}%
+  \renewcommand{\studentTypeRu}{#8}%
+  \renewcommand{\documentIsMasterThesis}{#9}%
+  \renewcommand{\documentIsPractice}{false}%
+}
+\newcommand{\config@setPracticeDocument}[6]{%
+  \renewcommand{\docTypeRoDefinit}{#1}%
+  \renewcommand{\docTypeRoNedefinit}{#1}%
+  \renewcommand{\docTypeRoDativ}{#1}%
+  \renewcommand{\docTypeRuPredlozhny}{#2}%
+  \renewcommand{\docTypeRuDatelny}{#3}%
+  \renewcommand{\docTypeEng}{practice report}%
+  \renewcommand{\studentTypeRo}{#4}%
+  \renewcommand{\studentTypeRu}{#5}%
+  \renewcommand{\documentIsPractice}{true}%
+  \renewcommand{\documentIsMasterThesis}{false}%
+  #6%
+}
+\newcommand{\config@applyDocumentTypeMaster}{%
+  \config@setProgramMaster
+  \config@setRegularDocument{teza de master}{teză de master}{tezei de master}{магистерская работа}{магистерской работе}{master thesis}{masterand}{магистрант}{true}%
+}
+\newcommand{\config@applyDocumentTypeAn}{%
+  \config@setProgramBachelor
+  \config@setRegularDocument{teza de an}{teză de an}{tezei de an}{курсовая работа}{курсовой работе}{course paper}{student}{студент}{false}%
+}
+\newcommand{\config@applyDocumentTypeLicenta}{%
+  \config@setProgramBachelor
+  \config@setRegularDocument{teza de licență}{teză de licență}{tezei de licență}{дипломная работа}{дипломной работе}{bachelor thesis}{absolvent}{выпускник}{false}%
+}
+\newcommand{\config@applyDocumentTypeLicentaPracticaOne}{%
+  \config@setPracticeDocument{practica de inițiere în specialitate}{ознакомительная практика}{ознакомительной практике}{student}{студент}{\config@setProgramBachelor}%
+}
+\newcommand{\config@applyDocumentTypeLicentaPracticaTwo}{%
+  \config@setPracticeDocument{practica de specialitate}{производственная практика}{производственной практике}{student}{студент}{\config@setProgramBachelor}%
+}
+\newcommand{\config@applyDocumentTypeLicentaPracticaThree}{%
+  \config@setPracticeDocument{practica de cercetare}{научно-исследовательская практика}{научно-исследовательской практике}{student}{студент}{\config@setProgramBachelor}%
+}
+\newcommand{\config@applyDocumentTypeMasterPracticaTwo}{%
+  \config@setPracticeDocument{practica de specialitate}{производственная практика}{производственной практике}{masterand}{магистрант}{\config@setProgramMaster}%
+}
+\newcommand{\config@applyDocumentTypeCustom}{%
+  \config@customDocumentTypetrue
+}
+\newcommand{\config@applySelectedDocumentType}{%
+  \ifx\config@selectedDocumentType\config@documentTypeMaster
+    \config@applyDocumentTypeMaster
+  \else\ifx\config@selectedDocumentType\config@documentTypeAn
+    \config@applyDocumentTypeAn
+  \else\ifx\config@selectedDocumentType\config@documentTypeLicenta
+    \config@applyDocumentTypeLicenta
+  \else\ifx\config@selectedDocumentType\config@documentTypeLicentaPracticaOne
+    \config@applyDocumentTypeLicentaPracticaOne
+  \else\ifx\config@selectedDocumentType\config@documentTypeLicentaPracticaTwo
+    \config@applyDocumentTypeLicentaPracticaTwo
+  \else\ifx\config@selectedDocumentType\config@documentTypeLicentaPracticaThree
+    \config@applyDocumentTypeLicentaPracticaThree
+  \else\ifx\config@selectedDocumentType\config@documentTypeMasterPracticaTwo
+    \config@applyDocumentTypeMasterPracticaTwo
+  \else\ifx\config@selectedDocumentType\config@documentTypeCustom
+    \config@applyDocumentTypeCustom
+  \fi\fi\fi\fi\fi\fi\fi\fi
+}
+\newcommand{\config@setBachelorSpecialty}[4]{%
+  \renewcommand{\identificatorulCursului}{#1 #2}%
+  \renewcommand{\identificatorulCursuluiRu}{#1 #3}%
+}
+\newcommand{\config@setMasterSpecialty}[3]{%
+  \renewcommand{\identificatorulCursului}{#2}%
+  \renewcommand{\identificatorulCursuluiRu}{#3}%
+}
+\newcommand{\specialty}[1]{%
+  \config@specialtySelectedtrue
+  \ifx\config@selectedDocumentType\config@documentTypeMaster
+    \config@setMasterSpecialty{#1}{Informatică aplicată}{Прикладная информатика}%
+    \def\config@requestedSpecialty{#1}%
+    \ifx\config@requestedSpecialty\config@specialtyInformaticaAplicata
+    \else
+      \PackageError{config}{Unsupported specialty '#1' for master document type}{Only informatica_aplicata is supported for master-degree document types.}%
+    \fi
+  \else\ifx\config@selectedDocumentType\config@documentTypeMasterPracticaTwo
+    \config@setMasterSpecialty{#1}{Informatică aplicată}{Прикладная информатика}%
+    \def\config@requestedSpecialty{#1}%
+    \ifx\config@requestedSpecialty\config@specialtyInformaticaAplicata
+    \else
+      \PackageError{config}{Unsupported specialty '#1' for master document type}{Only informatica_aplicata is supported for master-degree document types.}%
+    \fi
+  \else
+    \IfStrEqCase{#1}{%
+      {design_jocurilor}{\config@setBachelorSpecialty{0211.7}{Designul Jocurilor}{Гейм дизайн}{}}%
+      {informatica}{\config@setBachelorSpecialty{0613.4}{Informatică}{Информатика}{}}%
+      {informatica_aplicata}{\config@setBachelorSpecialty{0613.5}{Informatică aplicată}{Прикладная информатика}{}}%
+      {informatica_stiinte_educatiei}{\config@setBachelorSpecialty{0114.2}{Informatică (Științe ale educației)}{Информатика (Педагогические науки)}{}}%
+    }[\PackageError{config}{Unsupported specialty '#1'}{Use one of the documented \string\specialty values.}]%
+  \fi\fi
+}
+\def\config@documentTypeMaster{master}
+\def\config@documentTypeAn{an}
+\def\config@documentTypeLicenta{licenta}
+\def\config@documentTypeLicentaPracticaOne{licenta_practica_1}
+\def\config@documentTypeLicentaPracticaTwo{licenta_practica_2}
+\def\config@documentTypeLicentaPracticaThree{licenta_practica_3}
+\def\config@documentTypeMasterPracticaTwo{master_practica_2}
+\def\config@documentTypeCustom{custom}
+\def\config@specialtyInformaticaAplicata{informatica_aplicata}
+
+\newcommand{\config@appendixReferenceWarningRo}[1]{ATENȚIE: această anexă sau acest element din anexă nu este referit în text: #1.}
+\newcommand{\config@floatReferenceWarningRo}[1]{ATENȚIE: această imagine, acest tabel sau acest bloc de cod nu este referit în text: #1.}
+\newcommand{\config@codeSegmentReferenceWarningRo}[2]{ATENȚIE: segmentul de cod nu a fost găsit: #1 în #2.}
+\newcommand{\config@appendixReferenceWarningRu}[1]{ВНИМАНИЕ: это приложение или элемент приложения не упоминается в тексте: #1.}
+\newcommand{\config@floatReferenceWarningRu}[1]{ВНИМАНИЕ: этот рисунок, таблица или блок кода не упоминается в тексте: #1.}
+\newcommand{\config@codeSegmentReferenceWarningRu}[2]{ВНИМАНИЕ: сегмент кода не найден: #1 в #2.}
+\newcommand{\configVisibleWarningMarker}{%
+  \PackageWarningNoLine{config}{CONFIG_VISIBLE_WARNING}%
+}
+
 \DeclareOption{romanian}{%
-  \newcommand{\mainLanguage}{romanian}%
-  \newcommand{\otherLanguage}{russian}%
-  \newcommand{\chapterConclusionLabel}{Concluzii pentru capitol \arabic{chapter}}%
-  \newcommand{\figureShortLabel}{Fig.}%
-  \newcommand{\anexaLabel}{Anexa}%
-  \newcommand{\introLabel}{Introducere}%
-  \newcommand{\titlePage}{\input{parts/foaie_de_titlu_ro}}%
-  \newcommand{\appendixChapterName}{Anexe}%
-  \newcommand{\acronymsChapterName}{Lista abrevierelor}%
+  \config@selectLanguage
+  \def\mainLanguage{romanian}%
+  \def\otherLanguage{russian}%
+  \def\chapterConclusionLabel{Concluzii pentru capitol \arabic{chapter}}%
+  \def\figureShortLabel{Fig.}%
+  \def\anexaLabel{Anexa}%
+  \def\introLabel{Introducere}%
+  \def\titlePage{\input{parts/foaie_de_titlu_ro}}%
+  \def\appendixChapterName{Anexe}%
+  \def\acronymsChapterName{Lista abrevierelor}%
+  \def\appendixReferenceLetter{A}%
+  \let\appendixReferenceWarning\config@appendixReferenceWarningRo
+  \let\floatReferenceWarning\config@floatReferenceWarningRo
+  \let\codeSegmentReferenceWarning\config@codeSegmentReferenceWarningRo
 }
 \DeclareOption{russian}{%
-  \newcommand{\mainLanguage}{russian}%
-  \newcommand{\otherLanguage}{romanian}%
-  \newcommand{\chapterConclusionLabel}{Выводы для главы \arabic{chapter}}%
-  \newcommand{\figureShortLabel}{Фиг.}%
-  \newcommand{\anexaLabel}{Приложение}%
-  \newcommand{\introLabel}{Введение}%
-  \newcommand{\titlePage}{
+  \config@selectLanguage
+  \def\mainLanguage{russian}%
+  \def\otherLanguage{romanian}%
+  \def\chapterConclusionLabel{Выводы для главы \arabic{chapter}}%
+  \def\figureShortLabel{Фиг.}%
+  \def\anexaLabel{Приложение}%
+  \def\introLabel{Введение}%
+  \def\titlePage{%
     % Always include
     \input{parts/foaie_de_titlu_ro}
     % Only include if the language is RU
     \input{parts/foaie_de_titlu_ru}
   }%
-  \newcommand{\appendixChapterName}{Приложения}%
-  \newcommand{\acronymsChapterName}{Список сокращений}%
+  \def\appendixChapterName{Приложения}%
+  \def\acronymsChapterName{Список сокращений}%
+  \def\appendixReferenceLetter{П}%
+  \let\appendixReferenceWarning\config@appendixReferenceWarningRu
+  \let\floatReferenceWarning\config@floatReferenceWarningRu
+  \let\codeSegmentReferenceWarning\config@codeSegmentReferenceWarningRu
 }
-\DeclareOption*{\PackageError{config}{Invalid option '\CurrentOption'}{Pass the language option}}
+\DeclareOption{master}{\config@selectDocumentType{master}}
+\DeclareOption{an}{\config@selectDocumentType{an}}
+\DeclareOption{licenta}{\config@selectDocumentType{licenta}}
+\DeclareOption{licenta_practica_1}{\config@selectDocumentType{licenta_practica_1}}
+\DeclareOption{licenta_practica_2}{\config@selectDocumentType{licenta_practica_2}}
+\DeclareOption{licenta_practica_3}{\config@selectDocumentType{licenta_practica_3}}
+\DeclareOption{master_practica_2}{\config@selectDocumentType{master_practica_2}}
+\DeclareOption{custom}{\config@selectDocumentType{custom}}
+\DeclareOption*{\PackageError{config}{Invalid option '\CurrentOption'}{Pass exactly one language option and exactly one document type option.}}
 \ProcessOptions\relax
+\ifnum\config@languageOptionCount=1\relax
+\else
+  \PackageError{config}{Expected exactly one language option}{Pass exactly one of romanian or russian.}%
+\fi
+\ifnum\config@documentTypeOptionCount=1\relax
+  \config@applySelectedDocumentType
+\else
+  \PackageError{config}{Expected exactly one document type option}{Pass exactly one supported document type option, for example master or licenta.}%
+\fi
+\AtBeginDocument{%
+  \ifconfig@customDocumentType
+  \else
+    \ifconfig@specialtySelected
+    \else
+      \PackageError{config}{Missing specialty selector}{Call \string\specialty{...} after importing config.}%
+    \fi
+  \fi
+}
+
+\newcommand{\usmFontSizeTwelve}{\fontsize{12pt}{14.4pt}\selectfont}
+\newcommand{\usmFontSizeFourteen}{\fontsize{14pt}{16.8pt}\selectfont}
+\newcommand{\usmFontSizeSixteen}{\fontsize{16pt}{19.2pt}\selectfont}
+
+\newcommand{\titlePageDefaultFont}{\usmFontSizeFourteen}
+\newcommand{\titlePageEmphasisFont}{\usmFontSizeSixteen}
 
 % https://tex.stackexchange.com/a/63393
 \makeatletter
@@ -84,6 +289,7 @@
 
 % Language-specific quote config
 \RequirePackage[autostyle=true]{csquotes}
+\RequirePackage{xcolor}
 
 
 % Counters
@@ -316,28 +522,38 @@
 \hypersetup{linktoc=all}
 
 % Lista abrevierelor
-\RequirePackage[acronym, automake]{glossaries}
+\RequirePackage[%
+  acronym,%
+  automake,%
+  nogroupskip % Gets the items closer vertically
+]{glossaries}
 \makeglossaries
 
+\RequirePackage{tabularx}
+\RequirePackage{booktabs}
+
 \newglossarystyle{acronymtable}{%
-  \setglossarystyle{long}%
-  \renewcommand{\glossentry}[2]{%
-    \textbf{\glsentryshort{##1}} &
-    \glsentrylong{##1}\tabularnewline
+  \renewenvironment{theglossary}{%
+    \renewcommand{\tabularxcolumn}[1]{>{\arraybackslash}m{####1}}%
+    \noindent\tabularx{\linewidth}{@{} >{\bfseries\raggedright\arraybackslash}m{0.24\linewidth} X @{}}%
+  }{%
+    \endtabularx
   }%
-  \renewcommand{\glspostdescription}{}%
+  \renewcommand*{\glossaryheader}{}%
+  \renewcommand*{\glsgroupheading}[1]{}%
+  \renewcommand{\glossentry}[2]{%
+    \glossentryname{##1} &
+    \glossentrydesc{##1}\tabularnewline
+  }%
+  \renewcommand*{\glsgroupskip}{}%
 }
 \newcommand{\acronymsChapter}{%
   \clearpage
+  \setquotestyle{\mainLanguage}%
   \unnumberedChapter{\acronymsChapterName}
   \begingroup
   \renewcommand{\chapter}[2]{}% suppress glossaries' internal \chapter call
   \renewcommand{\clearpage}{}% suppress glossaries' internal \clearpage call
-  \setglossarystyle{long}%
-  \glssetwidest[0]{}% reset
-  \forallglsentries[\acronymtype]{\thisentry}{%
-    \glssetwidest[0]{\glsentryshort{\thisentry}}%
-  }%
   \printglossary[type=\acronymtype, style=acronymtable]
   \endgroup
 }
@@ -355,14 +571,14 @@
 \newcommand{\acresetall}{\glsresetall}
 \newcommand{\acro}[3][]{%
   \if\relax\detokenize{#1}\relax
-    \newacronym{#2}{#2}{#3}% fallback
+    \newacronym{#2}{#2}{#3}%
   \else
-    \newacronym{#2}{#1}{#3}%
+    \newacronym{#1}{#2}{#3}%
   \fi
 }
 
 % Code blocks
-\RequirePackage{minted}
+\RequirePackage[newfloat]{minted}
 \setminted{%
   % remove indentation from the start of each line by the common amount
   autogobble=true,
@@ -394,6 +610,14 @@
 % Add dots to numbers, only applies to TOC
 \let\savenumberline=\numberline
 \def\numberline#1{\savenumberline{#1.}~}
+
+\makeatletter
+\newlength{\config@appendixTocNumberWidth}
+\newcommand{\configAppendixTocSectionEntries}{%
+  \settowidth{\config@appendixTocNumberWidth}{\anexaLabel{} 99.\ }%
+  \renewcommand*\l@section{\@dottedtocline{1}{1.5em}{\config@appendixTocNumberWidth}}%
+}
+\makeatother
 
 % Chapters must be left aligned and 14 pt.
 % There's no 14 pt available, though, only 14.4 (\large)
@@ -477,6 +701,7 @@
 % Helper functions for some stuff
 \newcommand{\unnumberedChapter}[1]{
   \chapter*{#1}
+  \phantomsection
   \addcontentsline{toc}{chapter}{#1}
 }
 
@@ -503,22 +728,646 @@
 % Some math stuff? I don't even know.
 \RequirePackage{amsmath}
 
-% Make figures use Fig. instead of Figura.
+% Use full figure/table names in captions.
 % Has to be set per-language, otherwise it gets overridden.
-\addto\captionsromanian{\renewcommand{\figurename}{Fig.}}
-\addto\captionsrussian{\renewcommand{\figurename}{Фиг.}}
+\addto\captionsromanian{\renewcommand{\figurename}{Figura}}
+\addto\captionsrussian{\renewcommand{\figurename}{Рисунок}}
+\addto\captionsromanian{\renewcommand{\tablename}{Tabelul}}
+\addto\captionsrussian{\renewcommand{\tablename}{Таблица}}
+\addto\captionsromanian{\renewcommand{\listingname}{Codul}}
+\addto\captionsrussian{\renewcommand{\listingname}{Листинг}}
+
 % Their numbering has to use the chapter number.
+\makeatletter
+\@addtoreset{listing}{chapter}
+\makeatother
 \renewcommand{\thefigure}{\arabic{chapter}.\arabic{figure}}
+\renewcommand{\thetable}{\arabic{chapter}.\arabic{table}}
+\renewcommand{\thelisting}{\arabic{chapter}.\arabic{listing}}
+\renewcommand{\theequation}{\arabic{chapter}.\arabic{equation}}
 
 \RequirePackage[font=bf]{caption}
-\captionsetup[figure]{%
-  % Use . instead of : in figures
-  labelsep=period,%
-  % Set spacing between lines to 1
-  font={stretch=1}}
-\captionsetup[table]{%
-  labelsep=period,%
-  font={stretch=1}}
+
+\newcommand{\setupItemCaptions}{%
+  \captionsetup{%
+    font={bf, stretch=1}, % Force both Bold and single line spacing globally
+    labelsep=period       % Use '.' instead of ':' after the label
+  }
+  \captionsetup[listing]{%
+    font={bf, stretch=1},
+    labelsep=period,
+    justification=raggedright,
+    singlelinecheck=false,
+    position=top
+  }
+}
+\setupItemCaptions{}
+
+% Re-apply the bold configuration inside polyglossia's language hooks 
+% to prevent them from wiping out the style during language setup.
+\gappto\captionsromanian{%
+  \setupItemCaptions{}
+}
+\gappto\captionsrussian{%
+  \setupItemCaptions{}
+}
+
+% cleveref must be loaded AFTER hyperref
+% Determines the type of item referenced and lets you 
+% insert the short form automatically.
+\RequirePackage[english]{cleveref}
+
+% Romanian is not supported by default in cleveref.
+\RequirePackage{etoolbox}
+\gappto\captionsromanian{%
+  \crefname{figure}{fig.}{figurile}%
+  \Crefname{figure}{Fig.}{Figurile}%
+  \crefname{table}{tab.}{tabelele}%
+  \Crefname{table}{Tab.}{Tabelele}%
+  \crefname{listing}{codul}{codurile}%
+  \Crefname{listing}{Codul}{Codurile}%
+  \crefname{equation}{ecuația}{ecuațiile}%
+  \Crefname{equation}{Ecuația}{Ecuațiile}%
+  \crefname{chapter}{capitolul}{capitolele}%
+  \Crefname{chapter}{Capitolul}{Capitolele}%
+  \crefname{section}{secțiunea}{secțiunile}%
+  \Crefname{section}{Secțiunea}{Secțiunile}%
+  \crefname{appendix}{anexa}{anexele}%
+  \Crefname{appendix}{Anexa}{Anexele}%
+}
+\gappto\captionsrussian{%
+  \crefname{figure}{рис.}{рисунки}%
+  \Crefname{figure}{Рис.}{Рисунки}%
+  \crefname{table}{таб.}{таблицы}%
+  \Crefname{table}{Таб.}{Таблицы}%
+  \crefname{listing}{листинг}{листинги}%
+  \Crefname{listing}{Листинг}{Листинги}%
+}
+
+% Full-word wrappers around \labelcref with language-specific inflection.
+% These are defined unconditionally so mixed-language documents can use both APIs.
+\makeatletter
+\newcommand{\config@defineObjectName}[4]{%
+  \expandafter\gdef\csname config@objectName@#1@#2@#3\endcsname{#4}%
+}
+
+\newcommand{\config@defineRussianLowerObjectNames}[7]{%
+  \config@defineObjectName{ru}{nom}{#1}{#2}%
+  \config@defineObjectName{ru}{gen}{#1}{#3}%
+  \config@defineObjectName{ru}{dat}{#1}{#4}%
+  \config@defineObjectName{ru}{acc}{#1}{#5}%
+  \config@defineObjectName{ru}{inst}{#1}{#6}%
+  \config@defineObjectName{ru}{prep}{#1}{#7}%
+}
+
+\newcommand{\config@defineRussianUpperObjectNames}[7]{%
+  \config@defineObjectName{ru}{Nom}{#1}{#2}%
+  \config@defineObjectName{ru}{Gen}{#1}{#3}%
+  \config@defineObjectName{ru}{Dat}{#1}{#4}%
+  \config@defineObjectName{ru}{Acc}{#1}{#5}%
+  \config@defineObjectName{ru}{Inst}{#1}{#6}%
+  \config@defineObjectName{ru}{Prep}{#1}{#7}%
+}
+
+\newcommand{\config@defineRussianPluralLowerObjectNames}[7]{%
+  \config@defineObjectName{ru}{plnom}{#1}{#2}%
+  \config@defineObjectName{ru}{plgen}{#1}{#3}%
+  \config@defineObjectName{ru}{pldat}{#1}{#4}%
+  \config@defineObjectName{ru}{placc}{#1}{#5}%
+  \config@defineObjectName{ru}{plinst}{#1}{#6}%
+  \config@defineObjectName{ru}{plprep}{#1}{#7}%
+}
+
+\newcommand{\config@defineRussianPluralUpperObjectNames}[7]{%
+  \config@defineObjectName{ru}{PlNom}{#1}{#2}%
+  \config@defineObjectName{ru}{PlGen}{#1}{#3}%
+  \config@defineObjectName{ru}{PlDat}{#1}{#4}%
+  \config@defineObjectName{ru}{PlAcc}{#1}{#5}%
+  \config@defineObjectName{ru}{PlInst}{#1}{#6}%
+  \config@defineObjectName{ru}{PlPrep}{#1}{#7}%
+}
+
+\newcommand{\config@defineRomanianLowerObjectNames}[6]{%
+  \config@defineObjectName{ro}{bare}{#1}{#2}%
+  \config@defineObjectName{ro}{def}{#1}{#3}%
+  \config@defineObjectName{ro}{defgd}{#1}{#4}%
+  \config@defineObjectName{ro}{indef}{#1}{#5}%
+  \config@defineObjectName{ro}{indefgd}{#1}{#6}%
+}
+
+\newcommand{\config@defineRomanianUpperObjectNames}[6]{%
+  \config@defineObjectName{ro}{Bare}{#1}{#2}%
+  \config@defineObjectName{ro}{Def}{#1}{#3}%
+  \config@defineObjectName{ro}{Defgd}{#1}{#4}%
+  \config@defineObjectName{ro}{Indef}{#1}{#5}%
+  \config@defineObjectName{ro}{Indefgd}{#1}{#6}%
+}
+
+\newcommand{\config@defineRomanianPluralLowerObjectNames}[6]{%
+  \config@defineObjectName{ro}{plbare}{#1}{#2}%
+  \config@defineObjectName{ro}{pldef}{#1}{#3}%
+  \config@defineObjectName{ro}{pldefgd}{#1}{#4}%
+  \config@defineObjectName{ro}{plindef}{#1}{#5}%
+  \config@defineObjectName{ro}{plindefgd}{#1}{#6}%
+}
+
+\newcommand{\config@defineRomanianPluralUpperObjectNames}[6]{%
+  \config@defineObjectName{ro}{PlBare}{#1}{#2}%
+  \config@defineObjectName{ro}{PlDef}{#1}{#3}%
+  \config@defineObjectName{ro}{PlDefgd}{#1}{#4}%
+  \config@defineObjectName{ro}{PlIndef}{#1}{#5}%
+  \config@defineObjectName{ro}{PlIndefgd}{#1}{#6}%
+}
+
+\config@defineRussianLowerObjectNames{default}{объект}{объекта}{объекту}{объект}{объектом}{объекте}
+\config@defineRussianUpperObjectNames{default}{Объект}{Объекта}{Объекту}{Объект}{Объектом}{Объекте}
+\config@defineRussianPluralLowerObjectNames{default}{объекты}{объектов}{объектам}{объекты}{объектами}{объектах}
+\config@defineRussianPluralUpperObjectNames{default}{Объекты}{Объектов}{Объектам}{Объекты}{Объектами}{Объектах}
+\config@defineRussianLowerObjectNames{figure}{рисунок}{рисунка}{рисунку}{рисунок}{рисунком}{рисунке}
+\config@defineRussianUpperObjectNames{figure}{Рисунок}{Рисунка}{Рисунку}{Рисунок}{Рисунком}{Рисунке}
+\config@defineRussianPluralLowerObjectNames{figure}{рисунки}{рисунков}{рисункам}{рисунки}{рисунками}{рисунках}
+\config@defineRussianPluralUpperObjectNames{figure}{Рисунки}{Рисунков}{Рисункам}{Рисунки}{Рисунками}{Рисунках}
+\config@defineRussianLowerObjectNames{table}{таблица}{таблицы}{таблице}{таблицу}{таблицей}{таблице}
+\config@defineRussianUpperObjectNames{table}{Таблица}{Таблицы}{Таблице}{Таблицу}{Таблицей}{Таблице}
+\config@defineRussianPluralLowerObjectNames{table}{таблицы}{таблиц}{таблицам}{таблицы}{таблицами}{таблицах}
+\config@defineRussianPluralUpperObjectNames{table}{Таблицы}{Таблиц}{Таблицам}{Таблицы}{Таблицами}{Таблицах}
+\config@defineRussianLowerObjectNames{listing}{листинг}{листинга}{листингу}{листинг}{листингом}{листинге}
+\config@defineRussianUpperObjectNames{listing}{Листинг}{Листинга}{Листингу}{Листинг}{Листингом}{Листинге}
+\config@defineRussianPluralLowerObjectNames{listing}{листинги}{листингов}{листингам}{листинги}{листингами}{листингах}
+\config@defineRussianPluralUpperObjectNames{listing}{Листинги}{Листингов}{Листингам}{Листинги}{Листингами}{Листингах}
+\config@defineRussianLowerObjectNames{equation}{уравнение}{уравнения}{уравнению}{уравнение}{уравнением}{уравнении}
+\config@defineRussianUpperObjectNames{equation}{Уравнение}{Уравнения}{Уравнению}{Уравнение}{Уравнением}{Уравнении}
+\config@defineRussianPluralLowerObjectNames{equation}{уравнения}{уравнений}{уравнениям}{уравнения}{уравнениями}{уравнениях}
+\config@defineRussianPluralUpperObjectNames{equation}{Уравнения}{Уравнений}{Уравнениям}{Уравнения}{Уравнениями}{Уравнениях}
+\config@defineRussianLowerObjectNames{chapter}{глава}{главы}{главе}{главу}{главой}{главе}
+\config@defineRussianUpperObjectNames{chapter}{Глава}{Главы}{Главе}{Главу}{Главой}{Главе}
+\config@defineRussianPluralLowerObjectNames{chapter}{главы}{глав}{главам}{главы}{главами}{главах}
+\config@defineRussianPluralUpperObjectNames{chapter}{Главы}{Глав}{Главам}{Главы}{Главами}{Главах}
+\config@defineRussianLowerObjectNames{section}{раздел}{раздела}{разделу}{раздел}{разделом}{разделе}
+\config@defineRussianUpperObjectNames{section}{Раздел}{Раздела}{Разделу}{Раздел}{Разделом}{Разделе}
+\config@defineRussianPluralLowerObjectNames{section}{разделы}{разделов}{разделам}{разделы}{разделами}{разделах}
+\config@defineRussianPluralUpperObjectNames{section}{Разделы}{Разделов}{Разделам}{Разделы}{Разделами}{Разделах}
+\config@defineRussianLowerObjectNames{subsection}{подраздел}{подраздела}{подразделу}{подраздел}{подразделом}{подразделе}
+\config@defineRussianUpperObjectNames{subsection}{Подраздел}{Подраздела}{Подразделу}{Подраздел}{Подразделом}{Подразделе}
+\config@defineRussianPluralLowerObjectNames{subsection}{подразделы}{подразделов}{подразделам}{подразделы}{подразделами}{подразделах}
+\config@defineRussianPluralUpperObjectNames{subsection}{Подразделы}{Подразделов}{Подразделам}{Подразделы}{Подразделами}{Подразделах}
+\config@defineRussianLowerObjectNames{appendix}{приложение}{приложения}{приложению}{приложение}{приложением}{приложении}
+\config@defineRussianUpperObjectNames{appendix}{Приложение}{Приложения}{Приложению}{Приложение}{Приложением}{Приложении}
+\config@defineRussianPluralLowerObjectNames{appendix}{приложения}{приложений}{приложениям}{приложения}{приложениями}{приложениях}
+\config@defineRussianPluralUpperObjectNames{appendix}{Приложения}{Приложений}{Приложениям}{Приложения}{Приложениями}{Приложениях}
+\config@defineRussianLowerObjectNames{subappendix}{приложение}{приложения}{приложению}{приложение}{приложением}{приложении}
+\config@defineRussianUpperObjectNames{subappendix}{Приложение}{Приложения}{Приложению}{Приложение}{Приложением}{Приложении}
+\config@defineRussianPluralLowerObjectNames{subappendix}{приложения}{приложений}{приложениям}{приложения}{приложениями}{приложениях}
+\config@defineRussianPluralUpperObjectNames{subappendix}{Приложения}{Приложений}{Приложениям}{Приложения}{Приложениями}{Приложениях}
+
+\config@defineRomanianLowerObjectNames{default}{obiect}{obiectul}{obiectului}{un obiect}{unui obiect}
+\config@defineRomanianUpperObjectNames{default}{Obiect}{Obiectul}{Obiectului}{Un obiect}{Unui obiect}
+\config@defineRomanianPluralLowerObjectNames{default}{obiecte}{obiectele}{obiectelor}{niște obiecte}{unor obiecte}
+\config@defineRomanianPluralUpperObjectNames{default}{Obiecte}{Obiectele}{Obiectelor}{Niște obiecte}{Unor obiecte}
+\config@defineRomanianLowerObjectNames{figure}{figură}{figura}{figurii}{o figură}{unei figuri}
+\config@defineRomanianUpperObjectNames{figure}{Figură}{Figura}{Figurii}{O figură}{Unei figuri}
+\config@defineRomanianPluralLowerObjectNames{figure}{figuri}{figurile}{figurilor}{niște figuri}{unor figuri}
+\config@defineRomanianPluralUpperObjectNames{figure}{Figuri}{Figurile}{Figurilor}{Niște figuri}{Unor figuri}
+\config@defineRomanianLowerObjectNames{table}{tabel}{tabelul}{tabelului}{un tabel}{unui tabel}
+\config@defineRomanianUpperObjectNames{table}{Tabel}{Tabelul}{Tabelului}{Un tabel}{Unui tabel}
+\config@defineRomanianPluralLowerObjectNames{table}{tabele}{tabelele}{tabelelor}{niște tabele}{unor tabele}
+\config@defineRomanianPluralUpperObjectNames{table}{Tabele}{Tabelele}{Tabelelor}{Niște tabele}{Unor tabele}
+\config@defineRomanianLowerObjectNames{listing}{cod}{codul}{codului}{un cod}{unui cod}
+\config@defineRomanianUpperObjectNames{listing}{Cod}{Codul}{Codului}{Un cod}{Unui cod}
+\config@defineRomanianPluralLowerObjectNames{listing}{coduri}{codurile}{codurilor}{niște coduri}{unor coduri}
+\config@defineRomanianPluralUpperObjectNames{listing}{Coduri}{Codurile}{Codurilor}{Niște coduri}{Unor coduri}
+\config@defineRomanianLowerObjectNames{equation}{ecuație}{ecuația}{ecuației}{o ecuație}{unei ecuații}
+\config@defineRomanianUpperObjectNames{equation}{Ecuație}{Ecuația}{Ecuației}{O ecuație}{Unei ecuații}
+\config@defineRomanianPluralLowerObjectNames{equation}{ecuații}{ecuațiile}{ecuațiilor}{niște ecuații}{unor ecuații}
+\config@defineRomanianPluralUpperObjectNames{equation}{Ecuații}{Ecuațiile}{Ecuațiilor}{Niște ecuații}{Unor ecuații}
+\config@defineRomanianLowerObjectNames{chapter}{capitol}{capitolul}{capitolului}{un capitol}{unui capitol}
+\config@defineRomanianUpperObjectNames{chapter}{Capitol}{Capitolul}{Capitolului}{Un capitol}{Unui capitol}
+\config@defineRomanianPluralLowerObjectNames{chapter}{capitole}{capitolele}{capitolelor}{niște capitole}{unor capitole}
+\config@defineRomanianPluralUpperObjectNames{chapter}{Capitole}{Capitolele}{Capitolelor}{Niște capitole}{Unor capitole}
+\config@defineRomanianLowerObjectNames{section}{secțiune}{secțiunea}{secțiunii}{o secțiune}{unei secțiuni}
+\config@defineRomanianUpperObjectNames{section}{Secțiune}{Secțiunea}{Secțiunii}{O secțiune}{Unei secțiuni}
+\config@defineRomanianPluralLowerObjectNames{section}{secțiuni}{secțiunile}{secțiunilor}{niște secțiuni}{unor secțiuni}
+\config@defineRomanianPluralUpperObjectNames{section}{Secțiuni}{Secțiunile}{Secțiunilor}{Niște secțiuni}{Unor secțiuni}
+\config@defineRomanianLowerObjectNames{subsection}{subsecțiune}{subsecțiunea}{subsecțiunii}{o subsecțiune}{unei subsecțiuni}
+\config@defineRomanianUpperObjectNames{subsection}{Subsecțiune}{Subsecțiunea}{Subsecțiunii}{O subsecțiune}{Unei subsecțiuni}
+\config@defineRomanianPluralLowerObjectNames{subsection}{subsecțiuni}{subsecțiunile}{subsecțiunilor}{niște subsecțiuni}{unor subsecțiuni}
+\config@defineRomanianPluralUpperObjectNames{subsection}{Subsecțiuni}{Subsecțiunile}{Subsecțiunilor}{Niște subsecțiuni}{Unor subsecțiuni}
+\config@defineRomanianLowerObjectNames{appendix}{anexă}{anexa}{anexei}{o anexă}{unei anexe}
+\config@defineRomanianUpperObjectNames{appendix}{Anexă}{Anexa}{Anexei}{O anexă}{Unei anexe}
+\config@defineRomanianPluralLowerObjectNames{appendix}{anexe}{anexele}{anexelor}{niște anexe}{unor anexe}
+\config@defineRomanianPluralUpperObjectNames{appendix}{Anexe}{Anexele}{Anexelor}{Niște anexe}{Unor anexe}
+\config@defineRomanianLowerObjectNames{subappendix}{anexă}{anexa}{anexei}{o anexă}{unei anexe}
+\config@defineRomanianUpperObjectNames{subappendix}{Anexă}{Anexa}{Anexei}{O anexă}{Unei anexe}
+\config@defineRomanianPluralLowerObjectNames{subappendix}{anexe}{anexele}{anexelor}{niște anexe}{unor anexe}
+\config@defineRomanianPluralUpperObjectNames{subappendix}{Anexe}{Anexele}{Anexelor}{Niște anexe}{Unor anexe}
+
+\def\config@extractFirstReferenceLabel#1,#2\@nil{%
+  \def\config@firstReferenceLabel{#1}%
+}
+
+\newcommand{\config@setObjectReferenceType}[1]{%
+  \def\config@objectReferenceType{default}%
+  \expandafter\config@extractFirstReferenceLabel#1,\@nil
+  \expandafter\ifx\csname r@\config@firstReferenceLabel @cref\endcsname\relax
+  \else
+    \cref@gettype{\config@firstReferenceLabel}{\config@objectReferenceType}%
+  \fi
+}
+
+\newcommand{\config@printObjectReferenceName}[2]{%
+  \ifcsname config@objectName@#1@#2@\config@objectReferenceType\endcsname
+    \csname config@objectName@#1@#2@\config@objectReferenceType\endcsname
+  \else
+    \csname config@objectName@#1@#2@default\endcsname
+  \fi
+}
+
+\newcommand{\config@linkedObjectReference}[4]{%
+  \hyperref[#1]{%
+    \config@printObjectReferenceName{#2}{#3}%
+    ~\config@original@labelcref*{#4}%
+  }%
+}
+
+\expandafter\newcommand\csname config@objectReferenceConjunction@ru\endcsname{и}
+\expandafter\newcommand\csname config@objectReferenceConjunction@ro\endcsname{și}
+\newcommand{\config@objectReferenceConjunction}[1]{%
+  \ifcsname config@objectReferenceConjunction@#1\endcsname
+    \csname config@objectReferenceConjunction@#1\endcsname
+  \else
+    \csname config@objectReferenceConjunction@ru\endcsname
+  \fi
+}
+
+\newcount\config@objectReferenceLabelCount
+\newcount\config@objectReferenceLabelIndex
+
+\newcommand{\config@pluralObjectReference}[3]{%
+  \begingroup
+    \def\config@objectReferenceLanguage{#1}%
+    \def\config@objectReferenceForm{#2}%
+    \def\config@objectReferenceLabels{#3}%
+    \config@objectReferenceLabelCount=1\relax
+    \config@pluralObjectReferenceCollect
+}
+
+\newcommand{\config@pluralObjectReferenceCollect}{%
+  \@ifnextchar\bgroup
+    {\config@pluralObjectReferenceCollectOne}
+    {\config@pluralObjectReferenceFinish}%
+}
+
+\newcommand{\config@pluralObjectReferenceCollectOne}[1]{%
+  \expandafter\def\expandafter\config@objectReferenceLabels\expandafter{\config@objectReferenceLabels,#1}%
+  \advance\config@objectReferenceLabelCount by 1\relax
+  \config@pluralObjectReferenceCollect
+}
+
+\newcommand{\config@pluralObjectReferenceSeparator}{%
+  \ifnum\config@objectReferenceLabelIndex=\config@objectReferenceLabelCount
+    ~\config@objectReferenceConjunction{\config@objectReferenceLanguage}~%
+  \else
+    ,~%
+  \fi
+}
+
+\newcommand{\config@printPluralObjectReferenceList}{%
+  \config@objectReferenceLabelIndex=0\relax
+  \@for\config@currentReferenceLabel:=\config@objectReferenceLabels\do{%
+    \advance\config@objectReferenceLabelIndex by 1\relax
+    \ifnum\config@objectReferenceLabelIndex=1
+      \hyperref[\config@currentReferenceLabel]{%
+        \config@printObjectReferenceName{\config@objectReferenceLanguage}{\config@objectReferenceForm}%
+        ~\config@original@labelcref*{\config@currentReferenceLabel}%
+      }%
+    \else
+      \config@pluralObjectReferenceSeparator
+      \hyperref[\config@currentReferenceLabel]{\config@original@labelcref*{\config@currentReferenceLabel}}%
+    \fi
+  }%
+}
+
+\newcommand{\config@pluralObjectReferenceFinish}{%
+    \config@recordReferencedAppendixLabels{\config@objectReferenceLabels}%
+    \config@setObjectReferenceType{\config@objectReferenceLabels}%
+    \config@printPluralObjectReferenceList
+  \endgroup
+}
+
+\newcommand{\config@objectReference}[3]{%
+  \config@recordReferencedAppendixLabels{#3}%
+  \begingroup
+    \config@setObjectReferenceType{#3}%
+    \expandafter\config@linkedObjectReference\expandafter{\config@firstReferenceLabel}{#1}{#2}{#3}%
+  \endgroup
+}
+
+\newcommand{\объект}[1]{\config@objectReference{ru}{nom}{#1}}
+\newcommand{\Объект}[1]{\config@objectReference{ru}{Nom}{#1}}
+\newcommand{\объекта}[1]{\config@objectReference{ru}{gen}{#1}}
+\newcommand{\Объекта}[1]{\config@objectReference{ru}{Gen}{#1}}
+\newcommand{\объекту}[1]{\config@objectReference{ru}{dat}{#1}}
+\newcommand{\Объекту}[1]{\config@objectReference{ru}{Dat}{#1}}
+\newcommand{\объектом}[1]{\config@objectReference{ru}{inst}{#1}}
+\newcommand{\Объектом}[1]{\config@objectReference{ru}{Inst}{#1}}
+\newcommand{\объекте}[1]{\config@objectReference{ru}{prep}{#1}}
+\newcommand{\Объекте}[1]{\config@objectReference{ru}{Prep}{#1}}
+\newcommand{\объектИменительный}[1]{\config@objectReference{ru}{nom}{#1}}
+\newcommand{\ОбъектИменительный}[1]{\config@objectReference{ru}{Nom}{#1}}
+\newcommand{\объектРодительный}[1]{\config@objectReference{ru}{gen}{#1}}
+\newcommand{\ОбъектРодительный}[1]{\config@objectReference{ru}{Gen}{#1}}
+\newcommand{\объектДательный}[1]{\config@objectReference{ru}{dat}{#1}}
+\newcommand{\ОбъектДательный}[1]{\config@objectReference{ru}{Dat}{#1}}
+\newcommand{\объектВинительный}[1]{\config@objectReference{ru}{acc}{#1}}
+\newcommand{\ОбъектВинительный}[1]{\config@objectReference{ru}{Acc}{#1}}
+\newcommand{\объектТворительный}[1]{\config@objectReference{ru}{inst}{#1}}
+\newcommand{\ОбъектТворительный}[1]{\config@objectReference{ru}{Inst}{#1}}
+\newcommand{\объектПредложный}[1]{\config@objectReference{ru}{prep}{#1}}
+\newcommand{\ОбъектПредложный}[1]{\config@objectReference{ru}{Prep}{#1}}
+\newcommand{\объекты}[1]{\config@pluralObjectReference{ru}{plnom}{#1}}
+\newcommand{\Объекты}[1]{\config@pluralObjectReference{ru}{PlNom}{#1}}
+\newcommand{\объектов}[1]{\config@pluralObjectReference{ru}{plgen}{#1}}
+\newcommand{\Объектов}[1]{\config@pluralObjectReference{ru}{PlGen}{#1}}
+\newcommand{\объектам}[1]{\config@pluralObjectReference{ru}{pldat}{#1}}
+\newcommand{\Объектам}[1]{\config@pluralObjectReference{ru}{PlDat}{#1}}
+\newcommand{\объектами}[1]{\config@pluralObjectReference{ru}{plinst}{#1}}
+\newcommand{\Объектами}[1]{\config@pluralObjectReference{ru}{PlInst}{#1}}
+\newcommand{\объектах}[1]{\config@pluralObjectReference{ru}{plprep}{#1}}
+\newcommand{\Объектах}[1]{\config@pluralObjectReference{ru}{PlPrep}{#1}}
+\newcommand{\объектМножественныйИменительный}[1]{\config@pluralObjectReference{ru}{plnom}{#1}}
+\newcommand{\ОбъектМножественныйИменительный}[1]{\config@pluralObjectReference{ru}{PlNom}{#1}}
+\newcommand{\объектМножественныйРодительный}[1]{\config@pluralObjectReference{ru}{plgen}{#1}}
+\newcommand{\ОбъектМножественныйРодительный}[1]{\config@pluralObjectReference{ru}{PlGen}{#1}}
+\newcommand{\объектМножественныйДательный}[1]{\config@pluralObjectReference{ru}{pldat}{#1}}
+\newcommand{\ОбъектМножественныйДательный}[1]{\config@pluralObjectReference{ru}{PlDat}{#1}}
+\newcommand{\объектыВинительный}[1]{\config@pluralObjectReference{ru}{placc}{#1}}
+\newcommand{\ОбъектыВинительный}[1]{\config@pluralObjectReference{ru}{PlAcc}{#1}}
+\newcommand{\объектМножественныйТворительный}[1]{\config@pluralObjectReference{ru}{plinst}{#1}}
+\newcommand{\ОбъектМножественныйТворительный}[1]{\config@pluralObjectReference{ru}{PlInst}{#1}}
+\newcommand{\объектМножественныйПредложный}[1]{\config@pluralObjectReference{ru}{plprep}{#1}}
+\newcommand{\ОбъектМножественныйПредложный}[1]{\config@pluralObjectReference{ru}{PlPrep}{#1}}
+
+\newcommand{\obiect}[1]{\config@objectReference{ro}{bare}{#1}}
+\newcommand{\Obiect}[1]{\config@objectReference{ro}{Bare}{#1}}
+\newcommand{\obiectul}[1]{\config@objectReference{ro}{def}{#1}}
+\newcommand{\Obiectul}[1]{\config@objectReference{ro}{Def}{#1}}
+\newcommand{\obiectului}[1]{\config@objectReference{ro}{defgd}{#1}}
+\newcommand{\Obiectului}[1]{\config@objectReference{ro}{Defgd}{#1}}
+\newcommand{\unObiect}[1]{\config@objectReference{ro}{indef}{#1}}
+\newcommand{\UnObiect}[1]{\config@objectReference{ro}{Indef}{#1}}
+\newcommand{\unuiObiect}[1]{\config@objectReference{ro}{indefgd}{#1}}
+\newcommand{\UnuiObiect}[1]{\config@objectReference{ro}{Indefgd}{#1}}
+\newcommand{\obiecte}[1]{\config@pluralObjectReference{ro}{plbare}{#1}}
+\newcommand{\Obiecte}[1]{\config@pluralObjectReference{ro}{PlBare}{#1}}
+\newcommand{\obiectele}[1]{\config@pluralObjectReference{ro}{pldef}{#1}}
+\newcommand{\Obiectele}[1]{\config@pluralObjectReference{ro}{PlDef}{#1}}
+\newcommand{\obiectelor}[1]{\config@pluralObjectReference{ro}{pldefgd}{#1}}
+\newcommand{\Obiectelor}[1]{\config@pluralObjectReference{ro}{PlDefgd}{#1}}
+\newcommand{\nisteObiecte}[1]{\config@pluralObjectReference{ro}{plindef}{#1}}
+\newcommand{\NisteObiecte}[1]{\config@pluralObjectReference{ro}{PlIndef}{#1}}
+\newcommand{\unorObiecte}[1]{\config@pluralObjectReference{ro}{plindefgd}{#1}}
+\newcommand{\UnorObiecte}[1]{\config@pluralObjectReference{ro}{PlIndefgd}{#1}}
+\makeatother
+
+% Appendix reference validation
+% References are recorded in the aux file so the final latexmk pass can
+% render warnings exactly where the uncovered appendix labels are defined.
+\makeatletter
+\newif\ifconfig@inappendix
+\config@inappendixfalse
+\newif\ifconfig@firstAppendixSection
+\newif\ifconfig@referenceValidationDataReady
+\config@referenceValidationDataReadyfalse
+\let\config@currentAppendixSectionLabel\@empty
+\let\config@currentLabelType\@empty
+\def\config@sectionLabelType{section}
+\def\config@appendixLabelType{appendix}
+\def\config@subappendixLabelType{subappendix}
+\newif\ifconfig@currentLabelIsAppendixSection
+
+\def\config@extractCrefType[#1]#2\@nil{%
+  \def\config@currentLabelType{#1}%
+}
+
+\newcommand{\config@setCurrentLabelType}{%
+  \let\config@currentLabelType\@empty
+  \ifx\cref@currentlabel\@empty
+  \else
+    \expandafter\config@extractCrefType\cref@currentlabel\@nil
+  \fi
+}
+
+\newcommand{\config@clearCurrentAppendixSection}{%
+  \global\let\config@currentAppendixSectionLabel\@empty
+}
+
+\newcommand{\config@setCurrentAppendixSectionLabel}[1]{%
+  \config@setCurrentLabelType
+  \config@currentLabelIsAppendixSectionfalse
+  \ifx\config@currentLabelType\config@sectionLabelType
+    \config@currentLabelIsAppendixSectiontrue
+  \fi
+  \ifx\config@currentLabelType\config@appendixLabelType
+    \config@currentLabelIsAppendixSectiontrue
+  \fi
+  \ifx\config@currentLabelType\config@subappendixLabelType
+    \config@currentLabelIsAppendixSectiontrue
+  \fi
+  \ifconfig@currentLabelIsAppendixSection
+    \gdef\config@currentAppendixSectionLabel{#1}%
+  \fi
+}
+
+\newcommand{\config@mainReferencedLabel}[1]{%
+  \global\@namedef{config@main@referenced@#1}{1}%
+}
+
+\newcommand{\config@appendixReferencedLabel}[1]{%
+  \global\@namedef{config@appendix@referenced@#1}{1}%
+}
+
+\newcommand{\config@markReferenceValidationDataReady}{%
+  \global\config@referenceValidationDataReadytrue
+}
+
+\AtBeginDocument{%
+  \protected@write\@auxout{}{%
+    \string\config@markReferenceValidationDataReady
+  }%
+}
+
+\newcommand{\config@recordReferencedLabel}[1]{%
+  \ifconfig@inappendix
+    \protected@write\@auxout{}{%
+      \string\config@appendixReferencedLabel{#1}%
+    }%
+  \else
+    \protected@write\@auxout{}{%
+      \string\config@mainReferencedLabel{#1}%
+    }%
+  \fi
+}
+
+\newcommand{\config@recordReferencedAppendixLabel}[1]{%
+  \config@recordReferencedLabel{#1}%
+}
+
+\newcommand{\config@recordReferencedAppendixLabels}[1]{%
+  \begingroup
+    \@for\config@referencedLabel:=#1\do{%
+      \ifx\config@referencedLabel\@empty
+      \else
+        \config@recordReferencedLabel{\config@referencedLabel}%
+      \fi
+    }%
+  \endgroup
+}
+
+\newcommand{\config@ifMainLabelReferenced}[3]{%
+  \ifcsname config@main@referenced@#1\endcsname
+    #2%
+  \else
+    #3%
+  \fi
+}
+
+\newcommand{\config@ifLabelReferenced}[3]{%
+  \config@ifMainLabelReferenced{#1}{#2}{#3}%
+}
+
+\newcommand{\config@appendixReferenceWarning}[1]{%
+  \configVisibleWarningMarker
+  \PackageWarning{config}{Appendix label '\detokenize{#1}' is not referenced}%
+  \par\noindent\textbf{\textcolor{red}{%
+    \appendixReferenceWarning{\texttt{\detokenize{#1}}}%
+  }}\par
+}
+
+\newcommand{\config@floatReferenceWarning}[1]{%
+  \configVisibleWarningMarker
+  \PackageWarning{config}{Float label '\detokenize{#1}' is not referenced}%
+  \par\noindent\textbf{\textcolor{red}{%
+    \floatReferenceWarning{\texttt{\detokenize{#1}}}%
+  }}\par
+}
+
+\newcommand{\config@warnIfAppendixLabelUncovered}[1]{%
+  \def\config@checkedAppendixLabel{#1}%
+  \ifx\config@currentAppendixSectionLabel\@empty
+    \config@appendixReferenceWarning{#1}%
+  \else
+    \ifx\config@checkedAppendixLabel\config@currentAppendixSectionLabel
+      \config@appendixReferenceWarning{#1}%
+    \else
+      \config@ifLabelReferenced{\config@currentAppendixSectionLabel}
+        {}
+        {\config@appendixReferenceWarning{#1}}%
+    \fi
+  \fi
+}
+
+\newcommand{\config@checkAppendixLabelReference}[1]{%
+  \ifconfig@inappendix
+    \config@setCurrentAppendixSectionLabel{#1}%
+    \ifconfig@referenceValidationDataReady
+      \config@ifLabelReferenced{#1}
+        {}
+        {\config@warnIfAppendixLabelUncovered{#1}}%
+    \fi
+  \fi
+}
+
+\newcommand{\config@checkFloatLabelReference}[1]{%
+  \ifconfig@inappendix
+  \else
+    \ifconfig@referenceValidationDataReady
+      \config@ifLabelReferenced{#1}
+        {}
+        {\config@floatReferenceWarning{#1}}%
+    \fi
+  \fi
+}
+
+\let\config@original@label\label
+\renewcommand{\label}[1]{%
+  \config@original@label{#1}%
+  \config@checkAppendixLabelReference{#1}%
+}
+
+\NewDocumentCommand{\config@recordingCref}{s m}{%
+  \config@recordReferencedAppendixLabels{#2}%
+  \IfBooleanTF{#1}
+    {\config@original@cref*{#2}}
+    {\config@original@cref{#2}}%
+}
+\NewDocumentCommand{\config@recordingCapitalCref}{s m}{%
+  \config@recordReferencedAppendixLabels{#2}%
+  \IfBooleanTF{#1}
+    {\config@original@Cref*{#2}}
+    {\config@original@Cref{#2}}%
+}
+\NewDocumentCommand{\config@recordingLabelcref}{s m}{%
+  \config@recordReferencedAppendixLabels{#2}%
+  \IfBooleanTF{#1}
+    {\config@original@labelcref*{#2}}
+    {\config@original@labelcref{#2}}%
+}
+
+\newcommand{\config@installReferenceRecorders}{%
+  \let\config@original@T@ref\T@ref
+  \def\T@ref##1{%
+    \config@recordReferencedAppendixLabels{##1}%
+    \config@original@T@ref{##1}%
+  }%
+  \let\config@original@refstar\@refstar
+  \def\@refstar##1{%
+    \config@recordReferencedAppendixLabels{##1}%
+    \config@original@refstar{##1}%
+  }%
+  \let\config@original@T@pageref\T@pageref
+  \def\T@pageref##1{%
+    \config@recordReferencedAppendixLabels{##1}%
+    \config@original@T@pageref{##1}%
+  }%
+  \let\config@original@pagerefstar\@pagerefstar
+  \def\@pagerefstar##1{%
+    \config@recordReferencedAppendixLabels{##1}%
+    \config@original@pagerefstar{##1}%
+  }%
+  \let\config@original@T@nameref\T@nameref
+  \def\T@nameref##1{%
+    \config@recordReferencedAppendixLabels{##1}%
+    \config@original@T@nameref{##1}%
+  }%
+  \let\config@original@namerefstar\@namerefstar
+  \def\@namerefstar##1{%
+    \config@recordReferencedAppendixLabels{##1}%
+    \config@original@namerefstar{##1}%
+  }%
+  \let\config@original@cref\cref
+  \let\cref\config@recordingCref
+  \let\config@original@Cref\Cref
+  \let\Cref\config@recordingCapitalCref
+  \let\config@original@labelcref\labelcref
+  \let\labelcref\config@recordingLabelcref
+}
+\AtBeginDocument{\config@installReferenceRecorders}
+
+\newcommand{\enableAppendixReferenceValidation}{%
+  \config@clearCurrentAppendixSection
+  \config@inappendixtrue
+}
+\newcommand{\disableAppendixReferenceValidation}{\config@inappendixfalse}
+\newcommand{\withoutAppendixReferenceValidation}[1]{%
+  \ifconfig@inappendix
+    \config@inappendixfalse
+    #1%
+    \config@inappendixtrue
+  \else
+    #1%
+  \fi
+}
+\makeatother
 
 % Inserting pictures
 \RequirePackage{graphicx}
@@ -526,28 +1375,183 @@
 \graphicspath{{./images/}}
 
 
-\newif\ifinappendix
-\inappendixfalse
-
-% Center and name image figures
 \usepackage[Export]{adjustbox}
-\newcommand{\imageWithCaption}[2]{%
-  \begin{figure}[H]
+
+\newcommand\placeImageInternal[1]{\includegraphics[max width=\textwidth, max height=0.35\textheight]{#1}}
+
+% Internal helper: handles the starred/label logic shared by \insertImage and \insertTable.
+% #1 - Boolean (star flag)
+% #2 - Optional label
+% #3 - Fallback label (used when #2 is absent in unstarred form)
+% #4 - Command name (for error messages)
+\makeatletter
+\NewDocumentCommand{\insertFloatLabelHelper}{momm}{%
+  \IfBooleanTF{#1}
+    {%
+      \ifconfig@inappendix
+        \IfNoValueF{#2}{%
+          \PackageError{#4}
+            {Label '#2' given with starred \csname #4\endcsname. The starred form suppresses the caption number and cannot produce
+             a \string\label. Remove the optional label argument or use the
+             unstarred form.}
+            {}%
+        }%
+      \else
+        \PackageError{#4}
+          {Starred \csname #4\endcsname is only allowed in appendices. Main-document floats must be numbered and referenced.}
+          {Use the unstarred form with a label, or move this float after \string\appendixChapter.}%
+      \fi
+    }%
+    {%
+      \IfNoValueTF{#2}
+        {%
+          \ifx\relax#3\relax
+            \PackageError{#4}
+              {No label given for \csname #4\endcsname. The unstarred form requires a label argument so the float can be
+               cross-referenced. Add [yourlabel] or use the starred form to
+               suppress numbering entirely.}
+              {}%
+          \else
+            \label{#3}%
+            \config@checkFloatLabelReference{#3}%
+          \fi
+        }%
+        {%
+          \label{#2}%
+          \config@checkFloatLabelReference{#2}%
+        }%
+    }%
+}
+\makeatother
+
+% 1 - Allow \insertImage*
+% 2 - Optional label identifier. Defaults to the image file name.
+% 3 - Image file name.
+% 4 - Caption text.
+\NewDocumentCommand{\insertImage}{somm}{%
+  \begin{figure}[!htbp]
     \centering
-    \includegraphics[max width=\textwidth, max height=0.5\textheight]{#1}
-    % Only insert and increment the caption counter when outside axene
-    \ifinappendix
-      \caption*{#2}%
-    \else
-      \caption{#2}%
-      \label{fig:#1}%
-    \fi
+    \placeImageInternal{#3}
+    \IfBooleanTF{#1}{\caption*{#4}}{\caption{#4}}%
+    \insertFloatLabelHelper{#1}[#2]{#3}{insertImage}%
   \end{figure}%
 }
 
-% Short figure reference.
-% TODO: Add helper for long figure reference?
-\newcommand\refFigure[1]{\MakeLowercase{\figurename} \ref{fig:#1}}
+% 1 - Allow \insertTable*
+% 2 - Label identifier (only valid when no star given).
+% 3 - Caption text.
+% 4 - Table contents.
+\NewDocumentCommand{\insertTable}{somm}{%
+  \begin{table}[!htbp]
+    \centering
+    \IfBooleanTF{#1}{\caption*{#3}}{\caption{#3}}%
+    \insertFloatLabelHelper{#1}[#2]{}{insertTable}%
+    #4
+  \end{table}%
+}
+
+\NewDocumentCommand{\configOptionalCodeCaption}{o}{%
+  \IfNoValueF{#1}{\caption*{#1}}%
+}
+
+% 1 - Optional label identifier. Required in the unstarred form.
+% 2 - Minted options.
+% 3 - Programming language.
+% 4 - Caption text.
+\NewDocumentEnvironment{code}{o O{} m m}{%
+  \VerbatimEnvironment
+  \begin{listing}[!htbp]
+    \caption{#4}%
+    \insertFloatLabelHelper{\BooleanFalse}[#1]{}{code}%
+    \par\noindent
+    \begin{minted}[#2]{#3}%
+}{%
+    \end{minted}%
+  \end{listing}%
+}
+
+% 1 - Minted options.
+% 2 - Programming language.
+\NewDocumentEnvironment{codeWithoutLabel}{O{linenos=false} m}{%
+  \VerbatimEnvironment
+  \insertFloatLabelHelper{\BooleanTrue}{}{codeWithoutLabel}%
+  \begin{listing}[!htbp]
+    \par\noindent
+    \begin{minted}[#1]{#2}%
+}{%
+    \end{minted}%
+  \end{listing}%
+}
+
+\NewDocumentCommand{\insertCodeFile}{s}{%
+  \IfBooleanTF{#1}{\insertCodeFileStar}{\insertCodeFileNumbered}%
+}
+
+% 1 - Optional label identifier. Required in the unstarred form.
+% 2 - Minted options.
+% 3 - Programming language.
+% 4 - Source file path.
+% 5 - Caption text.
+\NewDocumentCommand{\insertCodeFileNumbered}{o O{} m m m}{%
+  \begin{listing}[!htbp]
+    \caption{#5}%
+    \IfNoValueTF{#1}{%
+      \if\relax\detokenize{#2}\relax
+        \insertFloatLabelHelper{\BooleanFalse}{#4}{insertCodeFile}%
+      \else
+        \insertFloatLabelHelper{\BooleanFalse}{}{insertCodeFile}%
+      \fi
+    }{%
+      \insertFloatLabelHelper{\BooleanFalse}[#1]{}{insertCodeFile}%
+    }%
+    \par\noindent
+    \inputminted[#2]{#3}{#4}%
+  \end{listing}%
+}
+
+% 1 - Minted options.
+% 2 - Programming language.
+% 3 - Source file path.
+% 4 - Optional unnumbered caption.
+\NewDocumentCommand{\insertCodeFileStar}{O{} m m o}{%
+  \insertFloatLabelHelper{\BooleanTrue}{}{insertCodeFile}%
+  \begin{listing}[!htbp]
+    \configOptionalCodeCaption[#4]%
+    \par\noindent
+    \inputminted[#1]{#2}{#3}%
+  \end{listing}%
+}
+
+\NewDocumentCommand{\insertCodeSegment}{s}{%
+  \IfBooleanTF{#1}{\insertCodeSegmentStar}{\insertCodeSegmentNumbered}%
+}
+
+% 1 - Optional label identifier. Required in the unstarred form.
+% 2 - Minted options.
+% 3 - Source file path.
+% 4 - Segment name.
+% 5 - Caption text.
+\NewDocumentCommand{\insertCodeSegmentNumbered}{o O{} m m m}{%
+  \begin{listing}[!htbp]
+    \caption{#5}%
+    \insertFloatLabelHelper{\BooleanFalse}[#1]{}{insertCodeSegment}%
+    \par\noindent
+    \inputMintedSegment[#2]{#3}{#4}%
+  \end{listing}%
+}
+
+% 1 - Minted options.
+% 2 - Source file path.
+% 3 - Segment name.
+% 4 - Optional unnumbered caption.
+\NewDocumentCommand{\insertCodeSegmentStar}{O{} m m o}{%
+  \insertFloatLabelHelper{\BooleanTrue}{}{insertCodeSegment}%
+  \begin{listing}[!htbp]
+    \configOptionalCodeCaption[#4]%
+    \par\noindent
+    \inputMintedSegment[#1]{#2}{#3}%
+  \end{listing}%
+}
 
 % See the python script.
 % It inserts the minted listing text.
@@ -555,17 +1559,28 @@
 % so just doing this nonsense instead, where it types its
 % output already formatted for minted use.
 % Good thing I don't use more settings for that command, am I right or am I right?
-\newcommand\inputMintedSegment[2]{%
-    \input{|python3 findSegment.py "#1" "#2"}%
+\newcommand{\codeSegmentWarning}[2]{%
+  \configVisibleWarningMarker
+  \PackageWarning{config}{Code segment '#1' was not found in '#2'}%
+  \par\noindent\textbf{\textcolor{red}{%
+    \codeSegmentReferenceWarning{\texttt{#1}}{\texttt{#2}}%
+  }}\par
 }
 
+\NewDocumentCommand{\inputMintedSegment}{O{}mm}{%
+  \input{|python3 findSegment.py "#2" "#3" "\detokenize{#1}"}%
+}
+
+% change counter
+\RequirePackage{chngcntr}
+
+\makeatletter
 \def\appendixChapter{%
   % Appendices don't have the dot when referencing.
   % If you have multiple chapters in appendices, you'll have to reconfigure this.
   \renewcommand{\thesection}{\arabic{section}}%
   \titleformat{\section}[block]{\normalfont\normalsize\bfseries\filcenter}{\anexaLabel{} \thesection.~}{0pt}{}%
   \appendix
-  \global\inappendixtrue{}%
   %
   % Every section on new page
   % \newcommand{\sectionbreak}{\clearpage}
@@ -574,17 +1589,98 @@
   % but which is also the name of the Appendix chapter, it should be omitted.
   % Makes little sense, but ok I guess.
   \setcounter{chapter}{1}%
+  \enableAppendixReferenceValidation
+
+  \counterwithin{figure}{section}
+  \counterwithin{table}{section}
+  \counterwithin{listing}{section}
+  \counterwithin{equation}{section}
+  % Redefine the numbering for images, tables, code blocks, and equations in appendices.
+  \renewcommand{\thefigure}{\appendixReferenceLetter{}\arabic{section}.\arabic{figure}}
+  \renewcommand{\thetable}{\appendixReferenceLetter{}\arabic{section}.\arabic{table}}
+  \renewcommand{\thelisting}{\appendixReferenceLetter{}\arabic{section}.\arabic{listing}}
+  \renewcommand{\theequation}{\appendixReferenceLetter{}\arabic{section}.\arabic{equation}}
+
   %
   % Counter, again, looks at sections rather than subsections.
-  \def\oldsection{} \let\oldsection=\section{}%
-  \def\section{\stepcounter{num_appendices}\oldsection}%
+  \let\config@oldsection\section
+  \RenewDocumentCommand{\section}{s o m}{%
+    \ifconfig@firstAppendixSection
+      \global\config@firstAppendixSectionfalse
+    \else
+      \clearpage
+    \fi
+    \config@clearCurrentAppendixSection
+    \IfBooleanTF{##1}
+      {%
+        \config@oldsection*{##3}%
+      }%
+      {%
+        \stepcounter{num_appendices}%
+        \IfNoValueTF{##2}
+          {\def\config@appendixTocEntry{##3}}%
+          {\def\config@appendixTocEntry{##2}}%
+        \let\config@original@addcontentsline\addcontentsline
+        \renewcommand{\addcontentsline}[3]{%
+          \ifstrequal{####1}{toc}{%
+            \ifstrequal{####2}{section}{%
+              \config@original@addcontentsline{####1}{####2}{%
+                \protect\numberline{\anexaLabel{} \thesection}\config@appendixTocEntry
+              }%
+            }{%
+              \config@original@addcontentsline{####1}{####2}{####3}%
+            }%
+          }{%
+            \config@original@addcontentsline{####1}{####2}{####3}%
+          }%
+        }%
+        \IfNoValueTF{##2}
+          {\config@oldsection{##3}}%
+          {\config@oldsection[##2]{##3}}%
+        \let\addcontentsline\config@original@addcontentsline
+      }%
+  }%
 
   \unnumberedChapter{\appendixChapterName}
+  \global\config@firstAppendixSectiontrue
+  \addtocontents{toc}{\protect\configAppendixTocSectionEntries}
 }
+\makeatother
 
 % Helper for the title pages
 \RequirePackage{xstring}
 \RequirePackage{mfirstuc}
+
+% Annotation chapters are required only for master theses.
+\makeatletter
+\newif\ifconfig@annotationIsMaster
+\newcommand{\config@detectAnnotationMasterType}{%
+  \global\config@annotationIsMasterfalse
+  \ifdefstring{\documentIsMasterThesis}{true}{\global\config@annotationIsMastertrue}{}%
+}
+\newcommand{\config@annotationChapterWarning}[1]{%
+  \configVisibleWarningMarker
+  \PackageWarning{config}{Annotation chapter '#1' is intended only for master theses}%
+}
+\newcommand{\config@annotationChapterInternal}[4]{%
+  \setquotestyle{#2}%
+  \config@detectAnnotationMasterType
+  \ifconfig@annotationIsMaster
+    \unnumberedChapter{#3}%
+  \else
+    \config@annotationChapterWarning{#1}%
+    \unnumberedChapter{\texorpdfstring{#3 \NoCaseChange{\textcolor{red}{#4}}}{#3 #4}}%
+  \fi
+}
+\newcommand{\annotationChapter}[1]{%
+  \clearpage
+  \IfStrEqCase{#1}{%
+    {ro}{\config@annotationChapterInternal{#1}{romanian}{Adnotare}{ATENȚIE: doar pentru teză de master}}%
+    {ru}{\config@annotationChapterInternal{#1}{russian}{Аннотация}{ВНИМАНИЕ: только для магистратуры}}%
+    {en}{\config@annotationChapterInternal{#1}{english}{Annotation}{WARNING: master thesis only}}%
+  }[\PackageError{config}{Invalid annotation language '#1'}{Use ru, ro, or en with \string\annotationChapter.}]%
+}
+\makeatother
 
 % Helper
 \newcommand{\SplitFirstTwoWords}[1]{%
@@ -597,6 +1693,10 @@
   \SplitFirstTwoWords{#1}%
   % Capitalize first part, print second part in title case
   \MakeUppercase{\lastName}~\capitalisewords{\expandafter\firstName}%
+}
+\newcommand{\regularLastFirstName}[1]{%
+  \SplitFirstTwoWords{#1}%
+  \lastName{}~\firstName{}%
 }
 \newcommand{\firstNameLastName}[1]{%
   \SplitFirstTwoWords{#1}%
@@ -627,6 +1727,7 @@
 \ExplSyntaxOff
 
 \newcommand{\introChapter}{
+  \setquotestyle{\mainLanguage}%
   % I think this one's required to be capitalized.
   \unnumberedChapter{\texorpdfstring{\introLabelUpper}{\introLabel}}
   \markpage{usefulStuffBegin}
@@ -744,8 +1845,8 @@
 
 \providecommand{\declarationPage}{}
 \renewcommand{\declarationPage}{%
-  \input{parts/declaratie_ro}
-  \addtocontents{toc}{%
-    \protect\contentsline{chapter}{Declarație privind contribuția personală}{\pageref{declaratie_ro}}{}%
+  \withoutAppendixReferenceValidation{%
+    \input{parts/declaratie_ro}
+    \addcontentsline{toc}{chapter}{Declarație privind contribuția personală}%
   }
 }

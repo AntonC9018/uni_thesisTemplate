@@ -1,0 +1,23 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage[romanian,custom]{config}
+
+\begin{document}
+\chapter{Stub principal}
+Referinte catre anexa: sectiunea \ref{app:one}, imaginea \ref{fig:app}, tabelul \ref{tab:app}, codul \ref{code:app} si ecuatia \eqref{eq:app}.
+\appendixChapter
+\section{Scenariu de anexa}\label{app:one}
+\insertImage[fig:app]{cat_1.jpg}{Imagine din anexa}
+\insertTable[tab:app]{Tabel din anexa}{%
+  \begin{tabular}{ll}
+    A & B \\
+  \end{tabular}
+}
+\begin{code}[code:app]{text}{Cod din anexa}
+appendix code
+\end{code}
+\begin{equation}
+  \label{eq:app}
+  c = d
+\end{equation}
+Marker ecuatie anexa: \eqref{eq:app}.
+\end{document}

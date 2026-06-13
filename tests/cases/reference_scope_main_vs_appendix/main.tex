@@ -1,0 +1,10 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage[romanian,custom]{config}
+
+\begin{document}
+\chapter{Reference Validation}
+\insertImage[main_only_from_appendix]{cat_1.jpg}{Main image only referenced later}
+\appendixChapter
+\section{Appendix Reference}
+This appendix reference must not satisfy the main-document float: \cref{main_only_from_appendix}.
+\end{document}

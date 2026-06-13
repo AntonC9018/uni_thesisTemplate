@@ -1,53 +1,31 @@
 \documentclass[a4paper,12pt]{report}
 
-\usepackage[russian]{config}
+\usepackage[%
+  % romanian / russian
+  russian,%
+  % an: курсовая
+  % licenta: дипломная
+  % licenta_practica_1/2/3: практика в 1/2/3 году
+  % master: магистерская
+  % master_practica_2: практика на 2 году мастерата
+  licenta% 
+]{config}
+\specialty{informatica_aplicata}
 
 % Метаданные.
 \newcommand{\uniGroupName}{MIA2201}
 
-% Необходимо только для аннотации, для магистратуры.
-\newcommand{\docTitleEng}{Thesis Name} % Doar pentru master
-\newcommand{\docTypeEng}{master thesis}
-\newcommand{\programulDeStudiiEng}{master}
-
 \newcommand{\authorName}{Nume Prenume}
-\newcommand{\programulDeStudiiRo}{master} % licență / master
-\newcommand{\identificatorulCursului}{0613.5 Informatică aplicată} % 0211.7 Design jocurilor
 \newcommand{\conducatorName}{Nume Prenume}
 \newcommand{\conducatorTitleRo}{asistent universitar} % doctor, conferențiar universitar
 
 \newcommand{\authorNameRu}{Фамилия Имя Отчество}
-\newcommand{\programulDeStudiiRu}{магистра} % бакалавриата
-\newcommand{\identificatorulCursuluiRu}{0613.5 Прикладная информатика} % 0211.7 Гейм дизайн
 \newcommand{\conducatorNameRu}{Фамилия Имя}
 \newcommand{\conducatorTitleRu}{асистент университета} % доктор, преподаватель университета
 
-% Если этот документ по практике, уберите % снизу.
-% \newcommand{\isPractica}{}
-
-% Игнорируются для практики:
+\newcommand{\docTitleEng}{Thesis Name} % Нужно только на мастерате
 \newcommand{\docTitleRo}{Explorarea formatului PNG}
 \newcommand{\docTitleRu}{Исследование формата PNG}
-
-% Для практики: 
-% I licență - ознакомительная практика
-% II licență - производственная практика
-% III licență - научно-исследовательская практика
-% II master - производственная практика
-% курсовая / бакалаврская / магистерская (с разными склонениями)
-\newcommand{\docTypeRuPredlozhny}{магистерская работа} 
-\newcommand{\docTypeRuDatelny}{магистерской работе}
-% Practica:
-% I licență - practica de inițiere în specialitate
-% II licență - practica de specialitate
-% III licență - practica de cercetare
-% II master - practica de specialitate
-% de an / de licență / de master (определенный / неопределенный артикль)
-\newcommand{\docTypeRoDefinit}{teza de master} % an / licență / master
-\newcommand{\docTypeRoNedefinit}{teză de master}
-\newcommand{\docTypeRoDativ}{tezei de master}
-
-\newcommand{\studentTypeRu}{выпускник} % студент / выпускник
 
 \newcommand{\yearOfWriting}{\the\year}
 \newcommand{\conferencesList}{Студенческая конференция номер НОМЕР, \yearOfWriting~года}
@@ -66,6 +44,8 @@
 % В дальнейшем всегда пишите \ac{PNG} вместо просто PNG.
 \acro{PNG}{Portable Network Graphics}
 \acro{PR}{Pull Request}
+\acro[url_different_name]{URL}{Uniform Resource Locator}
+\acro{LONG TEST}{VERY LONG NAME VERY LONG NAME VERY LONG NAME VERY LONG NAME VERY LONG NAME VERY LONG NAME VERY LONG NAME VERY LONG NAME}
 
 \begin{document}
 
@@ -75,10 +55,9 @@
 \tableofcontents
 
 % Только для магистратуры!
-\clearpage
-\unnumberedChapter{Аннотация}
+\annotationChapter{ru}
 
-\textbf{к \docTypeRuDatelny{} ``\docTitleRu{}'', студента \authorNameRu{}, группа \uniGroupName{}, программа обучения \programulDeStudiiRu.}
+\textbf{к \docTypeRuDatelny{} \enquote{\docTitleRu{}}, студента \authorNameRu{}, группа \uniGroupName{}, программа обучения \programulDeStudiiRu.}
 
 \textbf{Структура диссертации.}
 Диссертация состоит из: Введения, \chapterCount{} глав, Общих выводов и рекомендаций, Библиографии из \bibliographyEntryCount{} наименований.
@@ -99,26 +78,75 @@
 
 Задачи = шаги, через которые вы это доказываете.
 
-\textbf{Ожидаемые и полученные результаты} можно резюмировать в:
+\textbf{Ожидаемые и полученные результаты.}
+Их можно резюмировать в:
 (1) изучение чего-то
 (2) проектирование чего-то
 (3) реализация чего-то.
 
-\textbf{Важные решённые проблемы} включают: ...
+\textbf{Важная решённая проблема.}
+Важная решённая проблема исследования состоит в ...
 
-\textbf{Практическая ценность.} В результате было получено ...
+\textbf{Значимость, новизна и оригинальность.}
+Работа отличается ...
+
+\textbf{Практическая ценность, внедрение результатов и публикация.}
+В результате было получено ...
 
 Весь исходный код проекта доступен на GitHub по следующей ссылке: \github.
 
 Полученные результаты были представлены на \textbf{\conferencesList}\cite{self}.
 
 % Только для магистратуры!
-\clearpage
-\unnumberedChapter{Annotation}
+\annotationChapter{ro}
 
-\textbf{of the \docTypeEng{} ``\docTitleEng'' of the student \authorName{}, group \uniGroupName{}, \programulDeStudiiEng{} study program.}
+\textbf{la \docTypeRoNedefinit{} \enquote{\docTitleRo{}}, a studentului \authorName{}, grupa \uniGroupName{}, programul de studii \programulDeStudiiRo.}
+
+\textbf{Structura tezei.}
+Teza constă din: Introducere, \chapterCount{} capitole, Concluzii generale și recomandări, Bibliografie \bibliographyEntryCount{} titluri.
+Textul de bază cuprinde \usefulPageCount{} de pagini și \anexeCount{} anexe.
+
+\textbf{Cuvinte-cheie:}
+\textit{\acrshort{PNG}, cuvânt 1, cuvânt 2}
+
+\textbf{Actualitatea.}
+
+Unde se folosesc tehnologiile, de ce e importantă temă.
+
+\textbf{Scopul și obiectivele cercetării.}
+
+Scopul = ce încercați să demonstrați prin această teză.
+
+Obiectivele = lucrurile prin care demonstrați asta.
+
+\textbf{Rezultatele preconizate și obținute.}
+Acestea rezumă în:
+(1) studierea ceva
+(2) proiectarea ceva
+(3) implementarea ceva.
+
+\textbf{Problema importantă rezolvată.}
+Problema importantă rezolvată în cercetare constă în ...
+
+\textbf{Semnificația, noutatea și originalitatea.}
+Lucrarea se deosebește prin ...
+
+\textbf{Valoarea aplicativă, implementarea rezultatelor și publicarea.}
+Ca rezultat s-a obținut ...
+
+Toate codurile sursă a proiectului pot fi accesate pe GitHub după următorul link: \github.
+
+Rezultatele obținute au fost raportate la \textbf{\conferencesList}\cite{self}.
+
+% Только для магистратуры!
+\annotationChapter{en}
+
+\textbf{of the \docTypeEng{} \enquote{\docTitleEng{}} of the student \authorName{}, group \uniGroupName{}, \programulDeStudiiEng{} study program.}
 
 \textbf{The structure of the thesis.}
+The thesis is made up of: Introduction, \chapterCount{} chapters,
+General conclusions and recommendations, Bibliography of \bibliographyEntryCount{} titles.
+Base text takes up \usefulPageCount{} pages and has \anexeCount{} appendicies.
 
 \textbf{Keywords:}
 \textit{}
@@ -127,12 +155,16 @@
 
 \textbf{Purpose and objectives of this research.}
 
-\textbf{Important resolved problems} are:
+\textbf{The planned and obtained results.}
 
-\textbf{Applicative value.} 
+\textbf{Important resolved problem.}
+
+\textbf{Significance, novelty, and originality.}
+
+\textbf{Applicative value, implementation of results, and publication.}
 
 The entire source code can be obtained by accessing the GitHub repository
-by the following URL: \github. 
+by the following \gls{url_different_name}: \github. 
 
 The obtained results were reported at \textbf{\conferencesList}\cite{self}.
 
@@ -148,6 +180,10 @@ The obtained results were reported at \textbf{\conferencesList}\cite{self}.
 
 То же самое.
 
+\textbf{Критерии достижения задач.}
+
+Как вы покажете, что каждая задача была выполнена.
+
 \textbf{Методологическая и технологическая база.}
 
 Какие библиотеки / инструменты / ресурсы вы использовали.
@@ -156,15 +192,31 @@ The obtained results were reported at \textbf{\conferencesList}\cite{self}.
 
 Возможно, вдохновения.
 
+\textbf{Экспериментальная база исследования.}
+
+Какие данные, сценарии, пользователи, среды, наборы тестов или другие экспериментальные условия использовались.
+
 \textbf{Научная новизна / оригинальность.}
 
 Чем ваша диссертация / продукт отличается от других существующих приложений / решений / исследований.
+
+\textbf{Конкретный вклад автора.}
+
+Какие части результатов являются вашим личным вкладом.
+
+\textbf{Теоретическая значимость полученных результатов.}
+
+Что результаты уточняют, объясняют или систематизируют на теоретическом уровне.
 
 \textbf{Практическая ценность.}
 
 Для чего может быть использовано приложение.
 То, что оно помогло вам изучить эти технологии, недостаточно,
 нужно указать что-то помимо этого.
+
+\textbf{Апробация, публикация и внедрение результатов.}
+
+Где результаты были представлены, опубликованы, проверены или внедрены.
 
 Можно также сделать такой список:
 \begin{itemize}
@@ -196,6 +248,27 @@ The obtained results were reported at \textbf{\conferencesList}\cite{self}.
 для написания даже примитивной работы на \LaTeX{}, и поскольку
 цель — изучить \LaTeX{} на достаточно продвинутом уровне для написания
 диссертации, эта информация необходима для перехода к более глубоким идеям.
+
+\subsection{Сокращения}
+
+\verb|\acronymsChapter| это команда, которая вставляет список сокращений.
+Когда у сокращений длинные определения, они автоматичекски красиво отформатируются в таблице,
+с минимальным количеством переходов на новую строку.
+
+Сами сокращения определяются до начала документа, используя \verb|\acro| или \verb|\newacronym|.
+
+\verb|\acro| --- это переопределенная команда, использованная в шаблоне.
+Первый параметр в квадратных скобках позволяет дать идентификатор сокращению, используя который
+будет происходить отсылка к нему в исходном файле работы.
+Иначе, имя идентификатора будет то же, что и сокращение.
+
+\verb|\newacronym| ожидает обязательно отдельного идентификатора, что нужно редко, 
+поэтому \verb|\acro| использовать проще.
+
+Если определенные сокращения не указать через 
+\verb|\gls| или \verb|\acrshort| или аналогичный макрос в работе,
+они не появятся в списке сокращений.
+По этой причине здесь упоминается \acrshort{LONG TEST}.
 
 \subsection{Цитирование источников}
 
@@ -266,6 +339,11 @@ The obtained results were reported at \textbf{\conferencesList}\cite{self}.
 
 Можно \textbf{применять} \textit{в предложении}, или \texttt{\textit{\textbf{комбинировать}}}.
 
+\subsection{Кавычки}
+
+Для коротких цитат используйте \verb|\enquote{...}|:
+\enquote{это короткая цитата}.
+
 Можно подчеркивать код, например \verb|#include<iostream> int a{~8};|.
 
 Когда \verb|\verb| используется для \verb|\subsection|, необходимо применить \verb|\cprotect| к этой \verb|\subsection|.
@@ -277,47 +355,52 @@ The obtained results were reported at \textbf{\conferencesList}\cite{self}.
 
 Когда у вас есть таблица, необходимо дать на неё ссылку.
 Название таблицы должно находится \textbf{над} таблицей.
-Пример \refFigure{pixel_order_table} таблицы:
+\Объект{pixel_order_table} предоставляет пример вставки таблиц с автоматической нумерацией.
 
-\begin{figure}[!ht]
-\centering
-\caption{Таблица порядка пикселей\\вторая строка в названии\\третья строка}
-\label{fig:pixel_order_table}
-\begin{tabular}{c c c c c c c c}
-    1 & 6 & 4 & 6 & 2 & 6 & 4 & 6 \\
-    7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 \\
-    5 & 6 & 5 & 6 & 5 & 6 & 5 & 6 \\
-    7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 \\
-    3 & 6 & 4 & 6 & 3 & 6 & 4 & 6 \\
-    7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 \\
-    5 & 6 & 5 & 6 & 5 & 6 & 5 & 6 \\
-    7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 \\
-\end{tabular}
-\end{figure}
+\insertTable[pixel_order_table]{Таблица порядка пикселей\\вторая строка в названии\\третья строка}{%
+  \begin{tabular}{c c c c c c c c}
+      1 & 6 & 4 & 6 & 2 & 6 & 4 & 6 \\
+      7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 \\
+      5 & 6 & 5 & 6 & 5 & 6 & 5 & 6 \\
+      7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 \\
+      3 & 6 & 4 & 6 & 3 & 6 & 4 & 6 \\
+      7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 \\
+      5 & 6 & 5 & 6 & 5 & 6 & 5 & 6 \\
+      7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 \\
+  \end{tabular}
+}
 
 \cprotect\section{Библиотека \verb|minted| для кода}
 
 \subsection{Общая информация}
 
 Библиотека \verb|minted| используется для стилизации кода.
+Блоки кода вставляются через вспомогательные команды из шаблона,
+чтобы получить нумерацию, подпись и автоматическое размещение.
 
 \subsection{Прямая вставка блока кода}
 
-\begin{minted}{cpp}
+\Объект{code_direct_example} показывает прямую вставку блока кода.
+
+\begin{code}[code_direct_example]{cpp}{Пример прямой вставки блока кода}
 // любой код здесь
 int main()
 {
     std::cout << "hello";
 }
-\end{minted}
+\end{code}
 
 \subsection{Вставка целого файла}
 
-\inputminted[]{zig}{../src/sourcefile.zig}
+\Объект{../src/sourcefile.zig} вставляет целый файл.
+
+\insertCodeFile{zig}{../src/sourcefile.zig}{Полный исходный файл}
 
 \subsection{Вставка части файла}
 
-\inputminted[firstline=2,lastline=5]{zig}{../src/sourcefile.zig}
+\Объект{code_range_example} вставляет только диапазон строк, переданный через опции \verb|minted|.
+
+\insertCodeFile[code_range_example][firstline=2,lastline=5]{zig}{../src/sourcefile.zig}{Диапазон строк из файла}
 
 \subsection{Вставка сегмента из файла}
 
@@ -329,31 +412,29 @@ int main()
 Язык программирования определяется из расширения файла. 
 Для добаления расширений, которые еще не поддерживаются, изменяйте \texttt{findSegment.py}.
 
-\inputMintedSegment{../src/sourcefile.zig}{example}
+\Объект{code_segment_example} вставляет сегмент, выделенный комментариями в исходном файле.
+
+\insertCodeSegment[code_segment_example]{../src/sourcefile.zig}{example}{Отмеченный сегмент из файла}
 
 \subsection{Вставка текста на много строк как код}
 
-\begin{minted}{text}
+\Объект{code_text_example} вставляет обычный текст как блок кода.
+
+\begin{code}[code_text_example]{text}{Многострочный текст как код}
 Regular text
 Multiline
 With any characters |||
-\end{minted}
+\end{code}
 
 Чтобы вставить только текст, без номера строки, необходимо добавить \verb|[linenos=false]|.
 
-\begin{minted}[linenos=false]{text}
+\Объект{code_text_no_lines_example} скрывает номера строк через опции \verb|minted|.
+
+\begin{code}[code_text_no_lines_example][linenos=false]{text}{Текст без номеров строк}
 Regular text
 Multiline
 With any characters |||
-\end{minted}
-
-Также можно использовать \verb|\begin{verbatim}|, который переопределен на использование \verb|minted|.
-
-\begin{verbatim}
-Regular text
-Multiline
-With any characters |||
-\end{verbatim}
+\end{code}
 
 \section{Изображения}
 
@@ -361,29 +442,35 @@ With any characters |||
 
 Этот шаблон предлагает только одну функцию для изображений, 
 которая также автоматически регистрирует его как фигуру.
-Можно использовать и что-либо другое, если она вам не подходит.
+
+Картинка будет установлена \textit{не сразу} после упоминания,
+а появится автоматически в наиболее близком месте к точке упоминания,
+так, чтобы минимизировать пустое место, 
+оставляемое, когда картинка не вмещается.
+
+Можно использовать и что-либо другое, если функция вам не подходит.
 Для стандартизации, однако, хорошо предложить свой метод через \gls{PR}, чтобы добавить его в шаблон.
 
 \subsection{Центрированное изображение}
 
 Когда вы добавляете изображение, делайте на него ссылку в тексте.
 
-На \refFigure{interface_sketch.png} представлен эскиз графического интерфейса.
+На \объекте{interface_sketch.png} представлен эскиз графического интерфейса.
 
-\imageWithCaption{interface_sketch.png}{Эскиз графического интерфейса}
+\insertImage{interface_sketch.png}{Эскиз графического интерфейса}
 
 Этот метод ограничивает максимальную ширину и высоту изображений, 
 не давая им выйти за экран и не изменяя их соотношений.
-Например, на \refFigure{wide.png} широкая картинка не выйдет за пределы, 
-а \refFigure{long.png} она не уйдет за страницу.
+Например, на \объекте{wide.png} широкая картинка не выйдет за пределы,
+а на \объекте{long.png} она не уйдет за страницу.
 
-\imageWithCaption{wide.png}{Широкая полоса}
+\insertImage{wide.png}{Широкая полоса}
 
-\imageWithCaption{long.png}{Длинная полоса}
+\insertImage{long.png}{Длинная полоса}
 
 \section{Приложения}
 
-\subsection{Когда использовать приложение vs прямой код?}
+\subsection{Выбор между приложением и прямой вставкой кода}
 
 Когда содержание кода не является строго необходимым
 для его объяснения на высоком уровне в тексте.
@@ -394,6 +481,20 @@ With any characters |||
 \subsection{Как сделать ссылку}
 
 См. приложение \ref{appendix:example_min}.
+
+В приложении \ref{unnumbered_appendix} представлено приложение без нумерации предметов внутри.
+
+В приложении \ref{numbered_appendix} представлено приложение с нумерацией предметов внутри,
+а именно:
+
+\Объекты{cat_1}{cat_2} демонстриуют котов:
+\begin{itemize}
+  \item \Объект{cat_1} демонстрирует кота номер 1
+  \item \Объект{cat_2} демонстрирует кота номер 2
+\end{itemize}
+
+В приложении \ref{whole_appendix_reference} представлен пример, где
+ссылка на всё приложение покрывает пронумерованные изображения, таблицы и блоки кода внутри него.
 
 \chapterConclusionSection{intro_chapter_title}
 
@@ -451,17 +552,58 @@ With any characters |||
 \appendixChapter
 
 \section{Функция min в тестовой программе на JavaScript}\label{appendix:example_min}
-\inputminted{js}{../src/appendix_example.js}
+\insertCodeFile*{js}{../src/appendix_example.js}
 
-\section{Пример картинок в приложениях}
+\section{Без нумерации}\label{unnumbered_appendix}
 
-\imageWithCaption{cat_1.jpg}{Картинка 1}
+\insertImage*{cat_1.jpg}{Кот}
 
-\imageWithCaption{cat_2.jpg}{Картинка 2}
+Когда прямая ссылка идет только на все приложение,
+а не на индивидуальные картинки, таблицы или блоки кода изнутри,
+их не обязательно нумеровать.
 
-\ifundef{\isPractica}{
-  \declarationPage{}
+\insertTable*{Пример таблицы без нумерации}{%
+  \begin{tabular}{c c c}
+    Hello & 1 & 2 \\
+    A & B & C \\
+    D & E & F
+  \end{tabular}
 }
+
+Для прямого ненумерованного кода в приложениях можно использовать окружение \verb|codeWithoutLabel|.
+
+\begin{codeWithoutLabel}{js}
+function min(a, b) {
+  return a < b ? a : b;
+}
+\end{codeWithoutLabel}
+
+\section{Картинка с нумерацией}\label{numbered_appendix}
+
+Это есть смысл делать, если в приложении больше 1 предмета.
+
+\insertImage[cat_1]{cat_1.jpg}{Кот 1}
+
+\insertImage[cat_2]{cat_2.jpg}{Кот 2}
+
+\section{Ссылка на всё приложение}\label{whole_appendix_reference}
+
+В этом случае пронумерованные элементы внутри приложения покрываются ссылкой на приложение.
+
+\insertImage[whole_appendix_cat]{cat_1.jpg}{Кот, покрытый ссылкой на приложение}
+
+\insertTable[whole_appendix_table]{Таблица, покрытая ссылкой на приложение}{%
+  \begin{tabular}{c c}
+    Элемент & Значение \\
+    Изображение & 1 \\
+    Таблица & 2
+  \end{tabular}
+}
+
+\insertCodeFile[whole_appendix_code][]{js}{../src/appendix_example.js}{Код, покрытый ссылкой на приложение}
+
+
+\ifdefstring{\documentIsPractice}{false}{\declarationPage{}}{}
 
 \end{document}
 % vim: fdm=syntax

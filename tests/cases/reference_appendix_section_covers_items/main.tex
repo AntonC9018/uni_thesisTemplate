@@ -1,0 +1,18 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage[romanian,custom]{config}
+
+\begin{document}
+\chapter{Reference Validation}
+The appendix is referenced from the main document: \ref{appendix:covered}.
+\appendixChapter
+\section{Covered Appendix}\label{appendix:covered}
+\insertImage[covered_appendix_image]{cat_1.jpg}{Covered appendix image}
+\insertTable[covered_appendix_table]{Covered appendix table}{%
+  \begin{tabular}{ll}
+    A & B \\
+  \end{tabular}
+}
+\begin{code}[covered_appendix_code]{text}{Covered appendix code}
+appendix code
+\end{code}
+\end{document}

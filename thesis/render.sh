@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 set -o errexit -o noclobber -o nounset
 
 LONGOPTS=force,input:
@@ -34,3 +35,9 @@ if [ "$force" = "y" ]; then
     git clean -Xfd
 fi
 'latexmk' '--shell-escape' '-xelatex' "$input"
+
+log_file="${input%.tex}.log"
+if [ -f "$log_file" ] && grep -q "CONFIG_VISIBLE_WARNING" "$log_file"; then
+    echo "render.sh: visible warning found in $log_file" >&2
+    exit 4
+fi

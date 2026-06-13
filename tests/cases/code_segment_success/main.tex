@@ -1,0 +1,8 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage[romanian,custom]{config}
+
+\begin{document}
+\chapter{Code Segment}
+Segment reference: \ref{code:segment}.
+\insertCodeSegment[code:segment][linenos=false]{source.zig}{example}{Segment listing}
+\end{document}

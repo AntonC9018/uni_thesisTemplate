@@ -1,0 +1,25 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage[romanian,custom]{config}
+
+\begin{document}
+\chapter{Referințe}
+Forme pentru imagine: \obiect{fig:main}; \obiectul{fig:main}; \obiectului{fig:main}; \unObiect{fig:main}; \unuiObiect{fig:main}.
+Forme la plural pentru imagine: \obiecte{fig:main}; \obiectele{fig:main}; \obiectelor{fig:main}; \nisteObiecte{fig:main}; \unorObiecte{fig:main}.
+Listă de imagini: \Obiectele{fig:main}{fig:second}{fig:third}.
+Forme pentru tabel: \Obiectul{tab:main}; \obiectului{tab:main}; \unObiect{tab:main}; \unuiObiect{tab:main}.
+Forme la plural pentru tabel: \Obiectele{tab:main}; \obiectelor{tab:main}; \nisteObiecte{tab:main}; \unorObiecte{tab:main}.
+Forme pentru cod: \Obiectul{code:main}; \obiectului{code:main}; \unObiect{code:main}; \unuiObiect{code:main}.
+Forme la plural pentru cod: \Obiectele{code:main}; \obiectelor{code:main}; \nisteObiecte{code:main}; \unorObiecte{code:main}.
+
+\insertImage[fig:main]{cat_1.jpg}{Imagine principală}
+\insertImage[fig:second]{cat_1.jpg}{Imagine secundară}
+\insertImage[fig:third]{cat_1.jpg}{Imagine terțiară}
+\insertTable[tab:main]{Tabel principal}{%
+  \begin{tabular}{ll}
+    A & B \\
+  \end{tabular}
+}
+\begin{code}[code:main]{text}{Cod principal}
+main code
+\end{code}
+\end{document}

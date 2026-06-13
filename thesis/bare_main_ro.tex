@@ -1,44 +1,31 @@
 \documentclass[a4paper,12pt]{report}
 
-\usepackage[romanian]{config}
+\usepackage[
+  % romanian / russian
+  romanian,%
+  % an: teza de an
+  % licenta: teza de licenta
+  % licenta_practica_1/2/3: practica la anul 1/2/3
+  % master: teza de master
+  % master_practica_2: practica de specialitate la anul 2 
+  master%
+]{config}
+\specialty{informatica_aplicata}
 
 % Metadate.
 \newcommand{\uniGroupName}{MIA2201}
 
-% Necesar doar pentru adnotare la teză de master.
-\newcommand{\docTitleEng}{Numele tezei}
-\newcommand{\docTypeEng}{master thesis}
-\newcommand{\programulDeStudiiEng}{master}
-
 \newcommand{\authorName}{Nume Prenume} % Fără patronimic
-\newcommand{\programulDeStudiiRo}{master} % licență / master. <programul de> se adăugă automat.
-\newcommand{\identificatorulCursului}{0613.5 Informatică aplicată} % 0211.7 Design jocurilor
 \newcommand{\conducatorName}{Nume Prenume}
 \newcommand{\conducatorTitleRo}{asistent universitar} % doctor, conferențiar universitar
 
-% Dacă documentul este la practică, ștergeți % de mai jos.
-% \newcommand{\isPractica}{}
-
-% Este ignorat pentru practică.
 \newcommand{\docTitleRo}{Explorarea formatului PNG}
-
-% Practica:
-% I licență - practica de inițiere în specialitate
-% II licență - practica de specialitate
-% III licență - practica de cercetare
-% II master - practica de specialitate
-% de an / de licență / de master (articolul definit sau nedefinit)
-\newcommand{\docTypeRoDefinit}{teza de master} % an / licență / master
-\newcommand{\docTypeRoNedefinit}{teză de master}
-\newcommand{\docTypeRoDativ}{tezei de master}
+\newcommand{\docTitleEng}{Numele tezei}
 
 \newcommand{\yearOfWriting}{\the\year}
 \newcommand{\conferencesList}{Conferința Studențească, Editia NUMARUL-a, \yearOfWriting}
 \newcommand{\github}{\url{https://github.com/USER/REPO}}
 \newcommand{\outputDate}{\today}
-
-% student (teza de an) / absolvent (teza de licență) / masterand (teza de master)
-\newcommand{\studentTypeRo}{absolvent}
 
 % none - n-am folosit AI
 % text - am folosit AI exclusiv pentru suport tehnic (corectare lingvistică, formatare, organizare preliminară)
@@ -52,6 +39,8 @@
 % În viitor, mereu scrieți \gls{PNG} în loc de pur și simplu PNG.
 \acro{PNG}{Portable Network Graphics}
 \acro{PR}{Pull Request}
+\acro[url_other_name]{URL}{Pull Request}
+\acro{LONG TEST}{VERY LONG NAME VERY LONG NAME VERY LONG NAME VERY LONG NAME VERY LONG NAME VERY LONG NAME VERY LONG NAME VERY LONG NAME}
 
 \begin{document}
 
@@ -61,10 +50,9 @@
 \tableofcontents
 
 % Doar pentru teză de master!
-\clearpage
-\unnumberedChapter{Adnotare}
+\annotationChapter{ro}
 
-\textbf{la \docTypeRoNedefinit{} ``\docTitleRo{}'', a studentului \authorName{}, grupa \uniGroupName{}, programul de studii \programulDeStudiiRo.}
+\textbf{la \docTypeRoNedefinit{} \enquote{\docTitleRo{}}, a studentului \authorName{}, grupa \uniGroupName{}, programul de studii \programulDeStudiiRo.}
 
 \textbf{Structura tezei.}
 Teza constă din: Introducere, \chapterCount{} capitole, Concluzii generale și recomandări, Bibliografie \bibliographyEntryCount{} titluri.
@@ -85,24 +73,29 @@ Scopul = ce încercați să demonstrați prin această teză.
 
 Obiectivele = lucrurile prin care demonstrați asta.
 
-\textbf{Rezultatele preconizate și obținute} rezumă în: 
+\textbf{Rezultatele preconizate și obținute.}
+Acestea rezumă în:
 (1) studierea ceva
 (2) proiectarea ceva
 (3) implementarea ceva.
 
-\textbf{Problemele importante rezolvate} sunt: ...
+\textbf{Problema importantă rezolvată.}
+Problema importantă rezolvată în cercetare constă în ...
 
-\textbf{Valoarea aplicativă.} Ca rezultat s-a obținut ...
+\textbf{Semnificația, noutatea și originalitatea.}
+Lucrarea se deosebește prin ...
+
+\textbf{Valoarea aplicativă, implementarea rezultatelor și publicarea.}
+Ca rezultat s-a obținut ...
 
 Toate codurile sursă a proiectului pot fi accesate pe GitHub după următorul link: \github.
 
 Rezultatele obținute au fost raportate la \textbf{\conferencesList}\cite{self}.
 
 % Doar pentru teză de master!
-\clearpage
-\unnumberedChapter{Annotation}
+\annotationChapter{en}
 
-\textbf{of the \docTypeEng{} ``\docTitleEng'' of the student \authorName{}, group \uniGroupName{}, \programulDeStudiiEng{} study program.}
+\textbf{of the \docTypeEng{} \enquote{\docTitleEng{}} of the student \authorName{}, group \uniGroupName{}, \programulDeStudiiEng{} study program.}
 
 \textbf{The structure of the thesis.}
 The thesis is made up of: Introduction, \chapterCount{} chapters,
@@ -116,14 +109,16 @@ Base text takes up \usefulPageCount{} pages and has \anexeCount{} appendicies.
 
 \textbf{Purpose and objectives of this research.}
 
-\textbf{The planned and obtained results}
+\textbf{The planned and obtained results.}
 
-\textbf{Important resolved problems} are:
+\textbf{Important resolved problem.}
 
-\textbf{Applicative value.} 
+\textbf{Significance, novelty, and originality.}
+
+\textbf{Applicative value, implementation of results, and publication.}
 
 The entire source code can be obtained by accessing the GitHub repository
-by the following URL: \github. 
+by the following \gls{url_other_name}: \github. 
 
 The obtained results were reported at \textbf{\conferencesList}\cite{self}.
 
@@ -139,6 +134,10 @@ Tot aceeași chestie ca și la adnotare, dar mai pe lung.
 
 Tot aceeași.
 
+\textbf{Criteriile de atingere a obiectivelor.}
+
+Cum veți demonstra că fiecare obiectiv a fost realizat.
+
 \textbf{Suportul metodologic și tehnologic.}
 
 Ce fel de librării / instrumente / resurse ați folosit.
@@ -147,16 +146,31 @@ Ce fel de abordare ați luat.
 
 Poate inspirațiile.
 
+\textbf{Baza experimentală a cercetării.}
 
-\textbf{Noutatea stiințifică/originalitatea.}
+Ce date, scenarii, utilizatori, medii, seturi de testare sau alte condiții experimentale ați folosit.
+
+\textbf{Noutatea științifică/originalitatea.}
 
 Ce vă diferă teza / produs de alte aplicații / soluții / studii deja existente.
+
+\textbf{Aportul concret al autorului.}
+
+Care părți din rezultate sunt contribuția voastră personală.
+
+\textbf{Semnificația teoretică a rezultatelor obținute.}
+
+Ce clarifică, explică sau sistematizează rezultatele la nivel teoretic.
 
 \textbf{Valoarea aplicativă.}
 
 Pentru ce poate fi folosită aplicația.
 Faptul că v-a ajutat să studiați aceste tehnologii nu ajunge, 
 trebuie să mai specificați ceva în afară de asta.
+
+\textbf{Aprobarea, publicarea și implementarea rezultatelor.}
+
+Unde au fost raportate, publicate, testate sau implementate rezultatele.
 
 Puteți face și astfel de listă:
 \begin{itemize}
@@ -189,6 +203,28 @@ pentru a putea scrie chiar o lucrare primitivă în \LaTeX{}, și deoarece
 scopul este să cunoască \LaTeX{} la nivel destul de avansat pentru a putea
 scrie teza, este aceste informații sunt esențiale pentru a putea proceda la
 niște idei mai adânce.
+
+
+\subsection{Prescurtări}
+
+\verb|\acronymsChapter| este comanda care inserează lista de prescurtări.
+Când prescurtările au definiții lungi, acestea vor fi formatate automat frumos în tabel,
+cu un număr minim de treceri la un rând nou.
+
+Prescurtările în sine sunt definite înainte de începutul documentului, folosind \verb|\acro| sau \verb|\newacronym|.
+
+\verb|\acro| este o comandă redefinită, folosită în șablon.
+Primul parametru în paranteze pătrate permite acordarea unui identificator prescurtării, prin care
+se va face referința la ea în fișierul sursă al lucrării.
+Altfel, numele identificatorului va fi același ca prescurtarea.
+
+\verb|\newacronym| necesită obligatoriu un identificator separat, ceea ce este rar necesar,
+de aceea \verb|\acro| este mai ușor de utilizat.
+
+Dacă prescurtările definite nu sunt menționate prin
+\verb|\gls| sau \verb|\acrshort| sau un macro similar în lucrare,
+ele nu vor apărea în lista de prescurtări.
+Din acest motiv, \acrshort{LONG TEST} este menționat aici.
 
 \subsection{Citarea surselor}
 
@@ -260,6 +296,11 @@ Ordonate. Folosiți de exemplu pentru o listă de pași consecutivi:
 
 Puteți să le \textbf{aplicați} \textit{într-o propoziție}, sau să le \texttt{\textit{\textbf{combinați}}}.
 
+\subsection{Ghilimele}
+
+Pentru citate scurte folosiți \verb|\enquote{...}|:
+\enquote{acesta este un citat scurt}.
+
 Puteți sublinia codul, de exemplu \verb|#include<iostrea> int a{~8};|.
 
 Când \verb|\verb| este utilizat pentru \verb|\subsection|,
@@ -273,23 +314,20 @@ Utilizați simbolul care nu este folosit în codul ce trebuie inserat ca atare.
 
 Când aveți un tabel, trebuie să dați referința la el.
 Denumirea tabelului trebuie să se afle \textbf{deasupra} tabelului.
-Exemplu \refFigure{pixel_order_table} de un tabel: 
+\Obiectul{pixel_order_table} prezintă un exemplu de inserare a tabelelor cu numerotare automată.
 
-\begin{figure}[!ht]
-\centering
-  \caption{Tabelul ordonării pixelilor\\a doua linie în titlu\\a treia linie}
-\label{fig:pixel_order_table}
-\begin{tabular}{c c c c c c c c}
-    1 & 6 & 4 & 6 & 2 & 6 & 4 & 6 \\
-    7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 \\
-    5 & 6 & 5 & 6 & 5 & 6 & 5 & 6 \\
-    7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 \\
-    3 & 6 & 4 & 6 & 3 & 6 & 4 & 6 \\
-    7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 \\
-    5 & 6 & 5 & 6 & 5 & 6 & 5 & 6 \\
-    7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 \\
-\end{tabular}
-\end{figure}
+\insertTable[pixel_order_table]{Tabelul ordonării pixelilor\\a doua linie în titlu\\a treia linie}{%
+  \begin{tabular}{c c c c c c c c}
+      1 & 6 & 4 & 6 & 2 & 6 & 4 & 6 \\
+      7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 \\
+      5 & 6 & 5 & 6 & 5 & 6 & 5 & 6 \\
+      7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 \\
+      3 & 6 & 4 & 6 & 3 & 6 & 4 & 6 \\
+      7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 \\
+      5 & 6 & 5 & 6 & 5 & 6 & 5 & 6 \\
+      7 & 7 & 7 & 7 & 7 & 7 & 7 & 7 \\
+  \end{tabular}
+}
 
 
 \cprotect\section{Librăria \verb|minted| pentru cod}
@@ -297,24 +335,32 @@ Exemplu \refFigure{pixel_order_table} de un tabel:
 \subsection{Informații generale}
 
 Librăria \verb|minted| se folosește pentru a stiliza codul.
+Blocurile de cod se inserează prin helper-ele template-ului, la fel ca imaginile și tabelele,
+pentru a primi numerotare, inscripție și plasare automată.
 
 \subsection{Inserarea directă a unui bloc de cod}
 
-\begin{minted}{cpp}
+\Obiectul{code_direct_example} prezintă inserarea directă a unui bloc de cod.
+
+\begin{code}[code_direct_example]{cpp}{Exemplu de bloc de cod inserat direct}
 // orice cod aici
 int main()
 {
     std::cout << "hello";
 }
-\end{minted}
+\end{code}
 
 \subsection{Inserarea unui fișier întreg}
 
-\inputminted[]{zig}{../src/sourcefile.zig}
+\Obiectul{../src/sourcefile.zig} inserează un fișier întreg.
+
+\insertCodeFile{zig}{../src/sourcefile.zig}{Fișier sursă complet}
 
 \subsection{Inserarea unei bucăți din fișier}
 
-\inputminted[firstline=2,lastline=5]{zig}{../src/sourcefile.zig}
+\Obiectul{code_range_example} inserează numai intervalul de linii transmis prin opțiunile \verb|minted|.
+
+\insertCodeFile[code_range_example][firstline=2,lastline=5]{zig}{../src/sourcefile.zig}{Interval de linii din fișier}
 
 \subsection{Inserarea unui segment din fișier}
 
@@ -326,37 +372,42 @@ Această funcționalitate este implementată cu ajutorul scriptului \texttt{find
 Limbajul de programare este determinat pe baza extensiei fișierului.
 Pentru a adăuga extensii care nu sunt încă suportate, modificați \texttt{findSegment.py}.
 
-\inputMintedSegment{../src/sourcefile.zig}{example}
+\Obiectul{code_segment_example} inserează un segment delimitat prin comentarii în fișierul sursă.
+
+\insertCodeSegment[code_segment_example]{../src/sourcefile.zig}{example}{Segment marcat din fișier}
 
 \subsection{Inserarea textului pe mai multe rânduri ca cod}
 
-\begin{minted}{text}
+\Obiectul{code_text_example} inserează text simplu ca bloc de cod.
+
+\begin{code}[code_text_example]{text}{Text pe mai multe rânduri inserat ca cod}
 Regular text
 Multiline
 With any characters |||
-\end{minted}
+\end{code}
 
 Pentru a insera doar text, fără numărul de rând, este necesar să adăugați \verb|[linenos=false]|
 
-\begin{minted}[linenos=false]{text}
+\Obiectul{code_text_no_lines_example} ascunde numerele de rând prin opțiunile \verb|minted|.
+
+\begin{code}[code_text_no_lines_example][linenos=false]{text}{Text fără numere de rând}
 Regular text
 Multiline
 With any characters |||
-\end{minted}
-
-Se mai poate folosi \verb|\begin{verbatim}|, care este redefinit să folosească \verb|minted|.
-
-\begin{verbatim}
-Regular text
-Multiline
-With any characters |||
-\end{verbatim}
+\end{code}
 
 \section{Imagini}
 
 \subsection{Introducere}
 
-Acest șablon propune doar o funcție pentru imagini, care ține și de figure automat.
+Acest șablon propune doar o funcție pentru imagini, 
+care înregistrează automat imaginea ca figură.
+
+Imaginea va fi plasată \textit{nu imediat} după mențiune,
+ci va apărea automat în locul cel mai apropiat de punctul de mențiune,
+astfel încât să minimizeze spațiul gol
+lăsat atunci când imaginea nu încape.
+
 Puteți folosi altceva dacă nu vă aranjează.
 Pentru standardizare, însă, ar fi bine să vă propuneți metoda cu un \gls{PR} ca s-o adăugați în șablon.
 
@@ -364,22 +415,22 @@ Pentru standardizare, însă, ar fi bine să vă propuneți metoda cu un \gls{PR
 
 Când dați o imagine, la ea numaidecât să faceți și referința.
 
-În \refFigure{interface_sketch.png} este prezentată o schiță a interfeței grafice.
+În \obiectul{interface_sketch.png} este prezentată o schiță a interfeței grafice.
 
-\imageWithCaption{interface_sketch.png}{Schița interfeței grafice}
+\insertImage{interface_sketch.png}{Schița interfeței grafice}
 
 Această metodă limitează lățimea și înălțimea maximă ale imaginilor,
 fără a le permite să iasă în afara paginii și fără a le modifica raportul de aspect.
-De exemplu, în \refFigure{wide.png} o imagine lată nu va depăși limitele paginii,
-iar în \refFigure{long.png} nu va ieși în afara paginii.
+De exemplu, în \obiectul{wide.png} o imagine lată nu va depăși limitele paginii,
+iar în \obiectul{long.png} nu va ieși în afara paginii.
 
-\imageWithCaption{wide.png}{Bandă lată}
+\insertImage{wide.png}{Bandă lată}
 
-\imageWithCaption{long.png}{Bandă lungă}
+\insertImage{long.png}{Bandă lungă}
 
 \section{Anexe}
 
-\subsection{Când se folosește o anexă vs codul direct?}
+\subsection{Alegerea între anexă și cod direct}
 
 Atunci când conținutul codului nu este strict esențial 
 pentru a-l explica la nivel înalt în text.
@@ -390,6 +441,20 @@ pentru a-l explica la nivel înalt în text.
 \subsection{Cum se face referința}
 
 A se vedea anexa \ref{appendix:example_min}.
+
+În anexa \ref{unnumbered_appendix} este prezentată o anexă fără numerotarea elementelor din interior.
+
+În anexa \ref{numbered_appendix} este prezentată o anexă cu numerotarea elementelor din interior,
+și anume:
+
+\Obiectele{cat_1}{cat_2} demonstrează pisicile.
+\begin{itemize}
+  \item \Obiectul{cat_1} demonstrează pisica numărul 1
+  \item \Obiectul{cat_2} demonstrează pisica numărul 2
+\end{itemize}
+
+În anexa \ref{whole_appendix_reference} este prezentat un exemplu în care
+referința la întreaga anexă acoperă imaginile, tabelele și blocurile de cod numerotate din ea.
 
 \chapterConclusionSection{intro_chapter_title}
 
@@ -445,17 +510,57 @@ Rezultatele obținute au fost raportate la \textbf{\conferencesList}\cite{self}.
 \appendixChapter
 
 \section{Funcția min într-un program test JavaScript}\label{appendix:example_min}
-\inputminted{js}{../src/appendix_example.js}
+\insertCodeFile*{js}{../src/appendix_example.js}
 
-\section{Exemple de imagini în anexe}
+\section{Fără numerotare}\label{unnumbered_appendix}
 
-\imageWithCaption{cat_1.jpg}{Imaginea 1}
+\insertImage*{cat_1.jpg}{Pisică}
 
-\imageWithCaption{cat_2.jpg}{Imaginea 2}
+Când referința directă este doar la întreaga anexă,
+nu la imaginile, tabelele sau blocurile de cod individuale din interior,
+acestea nu trebuie neapărat numerotate.
 
-\ifundef{\isPractica}{
-  \declarationPage{}
+\insertTable*{Exemplu de tabel fără numerotare}{%
+  \begin{tabular}{c c c}
+    Hello & 1 & 2 \\
+    A & B & C \\
+    D & E & F
+  \end{tabular}
 }
+
+Pentru cod direct nenumerotat în anexe se poate folosi mediul \verb|codeWithoutLabel|.
+
+\begin{codeWithoutLabel}{js}
+function min(a, b) {
+  return a < b ? a : b;
+}
+\end{codeWithoutLabel}
+
+\section{Imagine cu numerotare}\label{numbered_appendix}
+
+Are sens să procedați astfel dacă în anexă există mai mult de un element.
+
+\insertImage[cat_1]{cat_1.jpg}{Pisica 1}
+
+\insertImage[cat_2]{cat_2.jpg}{Pisica 2}
+
+\section{Referință la întreaga anexă}\label{whole_appendix_reference}
+
+În acest caz, elementele numerotate din anexă sunt acoperite de referința la anexă.
+
+\insertImage[whole_appendix_cat]{cat_1.jpg}{Pisică acoperită de referința la anexă}
+
+\insertTable[whole_appendix_table]{Tabel acoperit de referința la anexă}{%
+  \begin{tabular}{c c}
+    Element & Valoare \\
+    Imagine & 1 \\
+    Tabel & 2
+  \end{tabular}
+}
+
+\insertCodeFile[whole_appendix_code][]{js}{../src/appendix_example.js}{Cod acoperit de referința la anexă}
+
+\ifdefstring{\documentIsPractice}{false}{\declarationPage{}}{}
 
 \end{document}
 % vim: fdm=syntax

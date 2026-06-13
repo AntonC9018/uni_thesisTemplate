@@ -1,0 +1,21 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage[romanian,custom]{config}
+
+\begin{document}
+\markpage{usefulStuffBegin}
+\chapter{Primul capitol}
+Prima sursa este citata aici \cite{counter_source_one}.
+\chapter{Al doilea capitol}
+A doua sursa este citata aici \cite{counter_source_two}.
+\bibliographyChapter
+\appendixChapter
+\section{Prima anexa}
+Continut pentru prima anexa.
+\section{A doua anexa}
+Continut pentru a doua anexa.
+
+Counter marker: chapters=\chapterCount{},
+bibliography=\bibliographyEntryCount{},
+useful=\usefulPageCount{},
+appendices=\anexeCount{}.
+\end{document}

@@ -1,59 +1,52 @@
 \begin{titlepage}
+  \titlePageDefaultFont
   \vspace*{\fill}
   \begin{center}
     \vspace*{1cm}
 
-    \large
-    \uppercase{\textbf{МОЛДАВСКИЙ ГОСУДАРСТВЕННЫЙ УНИВЕРСИТЕТ  \\}}
+    {\titlePageEmphasisFont
+    \uppercase{\textbf{МОЛДАВСКИЙ ГОСУДАРСТВЕННЫЙ УНИВЕРСИТЕТ\\}}}
 
-    \normalsize
     \uppercase{\textbf{ФАКУЛЬТЕТ МАТЕМАТИКИ И ИНФОРМАТИКИ}}
     \vspace{0.1cm}
 
-    \normalsize
     \uppercase{\textbf{ДЕПАРТАМЕНТ ИНФОРМАТИКИ}}
     \vspace{3.0cm}
 
-    \large
-    \textbf{\correctName{\authorNameRu}}
+    {\titlePageEmphasisFont
+    \textbf{\correctName{\authorNameRu}}}
     \vspace{1.5cm}
 
-    \Large
-    \ifdefined\isPractica
-      \textbf{\MakeUppercase{Отчет по \docTypeRuDatelny}}
-    \else
+    {\titlePageEmphasisFont
+    \ifdefstring{\documentIsPractice}{true}{%
+      \textbf{Отчет по \docTypeRuDatelny}
+    }{%
       \textbf{\MakeUppercase{\docTitleRu}}
-    \fi
+    }}
     \vspace{0.75cm}
 
-    \large
     \textbf{\MakeUppercase{\identificatorulCursuluiRu{}}}
     \vspace{0.5cm}
 
-    \normalsize
-
-    \ifdefined\isPractica
+    \ifdefstring{\documentIsPractice}{true}{%
       \vspace{\baselineskip}
-    \else
+    }{%
       \textbf{\capfirst{\docTypeRuPredlozhny{}}}
-    \fi
+    }
 
   \end{center}
   \vfill
 
-  \normalsize
-
   \begin{flushleft}
     \newcommand{\signatureField}{\textUnderLine{4cm}{(подпись)}}
 
-    \begin{tabular}{p{4.5cm} p{4cm} p{8cm}}
-      Директор департамента: & \signatureField{} & КАПЧЕЛЯ Титу, \\
-                             &                   & доктор физико-математических наук, \\
-                             &                   & преподаватель университета \\
-      Научный руководитель:  & \signatureField{} & \correctName{\conducatorNameRu}, \\
-                             &                   & \conducatorTitleRu{} \\
-      Автор:                 & \signatureField{} & \correctName{\authorNameRu}, \\
-                             &                   & студент группы \uniGroupName{} \\
+    \begin{tabular}{@{}p{4.4cm} p{4cm} p{8cm}@{}}
+      Зав. департаментом: & \signatureField{} & КАПЧЕЛЯ Титу, \\
+                                &                   & доктор физико-математических наук, преподаватель университета \\
+      Науч. руководитель:     & \signatureField{} & \correctName{\conducatorNameRu}, \\
+                                &                   & \conducatorTitleRu{} \\
+      Автор:                    & \signatureField{} & \correctName{\authorNameRu}, \\
+                                &                   & \studentTypeRu{} группы \uniGroupName{} \\
     \end{tabular}
 
   \end{flushleft}
