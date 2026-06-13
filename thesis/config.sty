@@ -1,43 +1,230 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{config}
 
+\newcount\config@languageOptionCount
+\newcount\config@documentTypeOptionCount
+\def\config@selectedDocumentType{}
+\newif\ifconfig@customDocumentType
+\newif\ifconfig@specialtySelected
+
+\newcommand{\config@selectLanguage}{\advance\config@languageOptionCount by 1 }
+\newcommand{\config@selectDocumentType}[1]{%
+  \advance\config@documentTypeOptionCount by 1
+  \def\config@selectedDocumentType{#1}%
+}
+
+\newcommand{\programulDeStudiiRo}{}
+\newcommand{\programulDeStudiiRu}{}
+\newcommand{\programulDeStudiiEng}{}
+\newcommand{\identificatorulCursului}{}
+\newcommand{\identificatorulCursuluiRu}{}
+\newcommand{\docTypeEng}{}
+\newcommand{\docTypeRoDefinit}{}
+\newcommand{\docTypeRoNedefinit}{}
+\newcommand{\docTypeRoDativ}{}
+\newcommand{\docTypeRuPredlozhny}{}
+\newcommand{\docTypeRuDatelny}{}
+\newcommand{\studentTypeRo}{}
+\newcommand{\studentTypeRu}{}
+\newcommand{\documentIsPractice}{false}
+\newcommand{\documentIsMasterThesis}{false}
+
+\newcommand{\config@setProgramBachelor}{%
+  \renewcommand{\programulDeStudiiRo}{licență}%
+  \renewcommand{\programulDeStudiiRu}{бакалавриата}%
+  \renewcommand{\programulDeStudiiEng}{bachelor}%
+}
+\newcommand{\config@setProgramMaster}{%
+  \renewcommand{\programulDeStudiiRo}{master}%
+  \renewcommand{\programulDeStudiiRu}{магистра}%
+  \renewcommand{\programulDeStudiiEng}{master}%
+}
+\newcommand{\config@setRegularDocument}[9]{%
+  \renewcommand{\docTypeRoDefinit}{#1}%
+  \renewcommand{\docTypeRoNedefinit}{#2}%
+  \renewcommand{\docTypeRoDativ}{#3}%
+  \renewcommand{\docTypeRuPredlozhny}{#4}%
+  \renewcommand{\docTypeRuDatelny}{#5}%
+  \renewcommand{\docTypeEng}{#6}%
+  \renewcommand{\studentTypeRo}{#7}%
+  \renewcommand{\studentTypeRu}{#8}%
+  \renewcommand{\documentIsMasterThesis}{#9}%
+  \renewcommand{\documentIsPractice}{false}%
+}
+\newcommand{\config@setPracticeDocument}[6]{%
+  \renewcommand{\docTypeRoDefinit}{#1}%
+  \renewcommand{\docTypeRoNedefinit}{#1}%
+  \renewcommand{\docTypeRoDativ}{#1}%
+  \renewcommand{\docTypeRuPredlozhny}{#2}%
+  \renewcommand{\docTypeRuDatelny}{#3}%
+  \renewcommand{\docTypeEng}{practice report}%
+  \renewcommand{\studentTypeRo}{#4}%
+  \renewcommand{\studentTypeRu}{#5}%
+  \renewcommand{\documentIsPractice}{true}%
+  \renewcommand{\documentIsMasterThesis}{false}%
+  #6%
+}
+\newcommand{\config@applyDocumentTypeMaster}{%
+  \config@setProgramMaster
+  \config@setRegularDocument{teza de master}{teză de master}{tezei de master}{магистерская работа}{магистерской работе}{master thesis}{masterand}{магистрант}{true}%
+}
+\newcommand{\config@applyDocumentTypeAn}{%
+  \config@setProgramBachelor
+  \config@setRegularDocument{teza de an}{teză de an}{tezei de an}{курсовая работа}{курсовой работе}{course paper}{student}{студент}{false}%
+}
+\newcommand{\config@applyDocumentTypeLicenta}{%
+  \config@setProgramBachelor
+  \config@setRegularDocument{teza de licență}{teză de licență}{tezei de licență}{дипломная работа}{дипломной работе}{bachelor thesis}{absolvent}{выпускник}{false}%
+}
+\newcommand{\config@applyDocumentTypeLicentaPracticaOne}{%
+  \config@setPracticeDocument{practica de inițiere în specialitate}{ознакомительная практика}{ознакомительной практике}{student}{студент}{\config@setProgramBachelor}%
+}
+\newcommand{\config@applyDocumentTypeLicentaPracticaTwo}{%
+  \config@setPracticeDocument{practica de specialitate}{производственная практика}{производственной практике}{student}{студент}{\config@setProgramBachelor}%
+}
+\newcommand{\config@applyDocumentTypeLicentaPracticaThree}{%
+  \config@setPracticeDocument{practica de cercetare}{научно-исследовательская практика}{научно-исследовательской практике}{student}{студент}{\config@setProgramBachelor}%
+}
+\newcommand{\config@applyDocumentTypeMasterPracticaTwo}{%
+  \config@setPracticeDocument{practica de specialitate}{производственная практика}{производственной практике}{masterand}{магистрант}{\config@setProgramMaster}%
+}
+\newcommand{\config@applyDocumentTypeCustom}{%
+  \config@customDocumentTypetrue
+}
+\newcommand{\config@applySelectedDocumentType}{%
+  \ifx\config@selectedDocumentType\config@documentTypeMaster
+    \config@applyDocumentTypeMaster
+  \else\ifx\config@selectedDocumentType\config@documentTypeAn
+    \config@applyDocumentTypeAn
+  \else\ifx\config@selectedDocumentType\config@documentTypeLicenta
+    \config@applyDocumentTypeLicenta
+  \else\ifx\config@selectedDocumentType\config@documentTypeLicentaPracticaOne
+    \config@applyDocumentTypeLicentaPracticaOne
+  \else\ifx\config@selectedDocumentType\config@documentTypeLicentaPracticaTwo
+    \config@applyDocumentTypeLicentaPracticaTwo
+  \else\ifx\config@selectedDocumentType\config@documentTypeLicentaPracticaThree
+    \config@applyDocumentTypeLicentaPracticaThree
+  \else\ifx\config@selectedDocumentType\config@documentTypeMasterPracticaTwo
+    \config@applyDocumentTypeMasterPracticaTwo
+  \else\ifx\config@selectedDocumentType\config@documentTypeCustom
+    \config@applyDocumentTypeCustom
+  \fi\fi\fi\fi\fi\fi\fi\fi
+}
+\newcommand{\config@setBachelorSpecialty}[4]{%
+  \renewcommand{\identificatorulCursului}{#1 #2}%
+  \renewcommand{\identificatorulCursuluiRu}{#1 #3}%
+}
+\newcommand{\config@setMasterSpecialty}[3]{%
+  \renewcommand{\identificatorulCursului}{#2}%
+  \renewcommand{\identificatorulCursuluiRu}{#3}%
+}
+\newcommand{\specialty}[1]{%
+  \config@specialtySelectedtrue
+  \ifx\config@selectedDocumentType\config@documentTypeMaster
+    \config@setMasterSpecialty{#1}{Informatică aplicată}{Прикладная информатика}%
+    \def\config@requestedSpecialty{#1}%
+    \ifx\config@requestedSpecialty\config@specialtyInformaticaAplicata
+    \else
+      \PackageError{config}{Unsupported specialty '#1' for master document type}{Only informatica_aplicata is supported for master-degree document types.}%
+    \fi
+  \else\ifx\config@selectedDocumentType\config@documentTypeMasterPracticaTwo
+    \config@setMasterSpecialty{#1}{Informatică aplicată}{Прикладная информатика}%
+    \def\config@requestedSpecialty{#1}%
+    \ifx\config@requestedSpecialty\config@specialtyInformaticaAplicata
+    \else
+      \PackageError{config}{Unsupported specialty '#1' for master document type}{Only informatica_aplicata is supported for master-degree document types.}%
+    \fi
+  \else
+    \IfStrEqCase{#1}{%
+      {design_jocurilor}{\config@setBachelorSpecialty{0211.7}{Designul Jocurilor}{Гейм дизайн}{}}%
+      {informatica}{\config@setBachelorSpecialty{0613.4}{Informatică}{Информатика}{}}%
+      {informatica_aplicata}{\config@setBachelorSpecialty{0613.5}{Informatică aplicată}{Прикладная информатика}{}}%
+      {informatica_stiinte_educatiei}{\config@setBachelorSpecialty{0114.2}{Informatică (Științe ale educației)}{Информатика (Педагогические науки)}{}}%
+    }[\PackageError{config}{Unsupported specialty '#1'}{Use one of the documented \string\specialty values.}]%
+  \fi\fi
+}
+\def\config@documentTypeMaster{master}
+\def\config@documentTypeAn{an}
+\def\config@documentTypeLicenta{licenta}
+\def\config@documentTypeLicentaPracticaOne{licenta_practica_1}
+\def\config@documentTypeLicentaPracticaTwo{licenta_practica_2}
+\def\config@documentTypeLicentaPracticaThree{licenta_practica_3}
+\def\config@documentTypeMasterPracticaTwo{master_practica_2}
+\def\config@documentTypeCustom{custom}
+\def\config@specialtyInformaticaAplicata{informatica_aplicata}
+
+\newcommand{\config@appendixReferenceWarningRo}[1]{ATENȚIE: această anexă sau acest element din anexă nu este referit în text: #1.}
+\newcommand{\config@floatReferenceWarningRo}[1]{ATENȚIE: această imagine, acest tabel sau acest bloc de cod nu este referit în text: #1.}
+\newcommand{\config@codeSegmentReferenceWarningRo}[2]{ATENȚIE: segmentul de cod nu a fost găsit: #1 în #2.}
+\newcommand{\config@appendixReferenceWarningRu}[1]{ВНИМАНИЕ: это приложение или элемент приложения не упоминается в тексте: #1.}
+\newcommand{\config@floatReferenceWarningRu}[1]{ВНИМАНИЕ: этот рисунок, таблица или блок кода не упоминается в тексте: #1.}
+\newcommand{\config@codeSegmentReferenceWarningRu}[2]{ВНИМАНИЕ: сегмент кода не найден: #1 в #2.}
+
 \DeclareOption{romanian}{%
-  \newcommand{\mainLanguage}{romanian}%
-  \newcommand{\otherLanguage}{russian}%
-  \newcommand{\chapterConclusionLabel}{Concluzii pentru capitol \arabic{chapter}}%
-  \newcommand{\figureShortLabel}{Fig.}%
-  \newcommand{\anexaLabel}{Anexa}%
-  \newcommand{\introLabel}{Introducere}%
-  \newcommand{\titlePage}{\input{parts/foaie_de_titlu_ro}}%
-  \newcommand{\appendixChapterName}{Anexe}%
-  \newcommand{\acronymsChapterName}{Lista abrevierelor}%
-  \newcommand{\appendixReferenceLetter}{A}%
-  \newcommand{\appendixReferenceWarning}[1]{ATENȚIE: această anexă sau acest element din anexă nu este referit în text: #1.}%
-  \newcommand{\floatReferenceWarning}[1]{ATENȚIE: această imagine, acest tabel sau acest bloc de cod nu este referit în text: #1.}%
-  \newcommand{\codeSegmentReferenceWarning}[2]{ATENȚIE: segmentul de cod nu a fost găsit: #1 în #2.}%
+  \config@selectLanguage
+  \def\mainLanguage{romanian}%
+  \def\otherLanguage{russian}%
+  \def\chapterConclusionLabel{Concluzii pentru capitol \arabic{chapter}}%
+  \def\figureShortLabel{Fig.}%
+  \def\anexaLabel{Anexa}%
+  \def\introLabel{Introducere}%
+  \def\titlePage{\input{parts/foaie_de_titlu_ro}}%
+  \def\appendixChapterName{Anexe}%
+  \def\acronymsChapterName{Lista abrevierelor}%
+  \def\appendixReferenceLetter{A}%
+  \let\appendixReferenceWarning\config@appendixReferenceWarningRo
+  \let\floatReferenceWarning\config@floatReferenceWarningRo
+  \let\codeSegmentReferenceWarning\config@codeSegmentReferenceWarningRo
 }
 \DeclareOption{russian}{%
-  \newcommand{\mainLanguage}{russian}%
-  \newcommand{\otherLanguage}{romanian}%
-  \newcommand{\chapterConclusionLabel}{Выводы для главы \arabic{chapter}}%
-  \newcommand{\figureShortLabel}{Фиг.}%
-  \newcommand{\anexaLabel}{Приложение}%
-  \newcommand{\introLabel}{Введение}%
-  \newcommand{\titlePage}{
+  \config@selectLanguage
+  \def\mainLanguage{russian}%
+  \def\otherLanguage{romanian}%
+  \def\chapterConclusionLabel{Выводы для главы \arabic{chapter}}%
+  \def\figureShortLabel{Фиг.}%
+  \def\anexaLabel{Приложение}%
+  \def\introLabel{Введение}%
+  \def\titlePage{%
     % Always include
     \input{parts/foaie_de_titlu_ro}
     % Only include if the language is RU
     \input{parts/foaie_de_titlu_ru}
   }%
-  \newcommand{\appendixChapterName}{Приложения}%
-  \newcommand{\acronymsChapterName}{Список сокращений}%
-  \newcommand{\appendixReferenceLetter}{П}%
-  \newcommand{\appendixReferenceWarning}[1]{ВНИМАНИЕ: это приложение или элемент приложения не упоминается в тексте: #1.}%
-  \newcommand{\floatReferenceWarning}[1]{ВНИМАНИЕ: этот рисунок, таблица или блок кода не упоминается в тексте: #1.}%
-  \newcommand{\codeSegmentReferenceWarning}[2]{ВНИМАНИЕ: сегмент кода не найден: #1 в #2.}%
+  \def\appendixChapterName{Приложения}%
+  \def\acronymsChapterName{Список сокращений}%
+  \def\appendixReferenceLetter{П}%
+  \let\appendixReferenceWarning\config@appendixReferenceWarningRu
+  \let\floatReferenceWarning\config@floatReferenceWarningRu
+  \let\codeSegmentReferenceWarning\config@codeSegmentReferenceWarningRu
 }
-\DeclareOption*{\PackageError{config}{Invalid option '\CurrentOption'}{Pass the language option}}
+\DeclareOption{master}{\config@selectDocumentType{master}}
+\DeclareOption{an}{\config@selectDocumentType{an}}
+\DeclareOption{licenta}{\config@selectDocumentType{licenta}}
+\DeclareOption{licenta_practica_1}{\config@selectDocumentType{licenta_practica_1}}
+\DeclareOption{licenta_practica_2}{\config@selectDocumentType{licenta_practica_2}}
+\DeclareOption{licenta_practica_3}{\config@selectDocumentType{licenta_practica_3}}
+\DeclareOption{master_practica_2}{\config@selectDocumentType{master_practica_2}}
+\DeclareOption{custom}{\config@selectDocumentType{custom}}
+\DeclareOption*{\PackageError{config}{Invalid option '\CurrentOption'}{Pass exactly one language option and exactly one document type option.}}
 \ProcessOptions\relax
+\ifnum\config@languageOptionCount=1\relax
+\else
+  \PackageError{config}{Expected exactly one language option}{Pass exactly one of romanian or russian.}%
+\fi
+\ifnum\config@documentTypeOptionCount=1\relax
+  \config@applySelectedDocumentType
+\else
+  \PackageError{config}{Expected exactly one document type option}{Pass exactly one supported document type option, for example master or licenta.}%
+\fi
+\AtBeginDocument{%
+  \ifconfig@customDocumentType
+  \else
+    \ifconfig@specialtySelected
+    \else
+      \PackageError{config}{Missing specialty selector}{Call \string\specialty{...} after importing config.}%
+    \fi
+  \fi
+}
 
 \newcommand{\usmFontSizeTwelve}{\fontsize{12pt}{14.4pt}\selectfont}
 \newcommand{\usmFontSizeFourteen}{\fontsize{14pt}{16.8pt}\selectfont}
@@ -1102,6 +1289,25 @@
   \config@checkAppendixLabelReference{#1}%
 }
 
+\NewDocumentCommand{\config@recordingCref}{s m}{%
+  \config@recordReferencedAppendixLabels{#2}%
+  \IfBooleanTF{#1}
+    {\config@original@cref*{#2}}
+    {\config@original@cref{#2}}%
+}
+\NewDocumentCommand{\config@recordingCapitalCref}{s m}{%
+  \config@recordReferencedAppendixLabels{#2}%
+  \IfBooleanTF{#1}
+    {\config@original@Cref*{#2}}
+    {\config@original@Cref{#2}}%
+}
+\NewDocumentCommand{\config@recordingLabelcref}{s m}{%
+  \config@recordReferencedAppendixLabels{#2}%
+  \IfBooleanTF{#1}
+    {\config@original@labelcref*{#2}}
+    {\config@original@labelcref{#2}}%
+}
+
 \newcommand{\config@installReferenceRecorders}{%
   \let\config@original@T@ref\T@ref
   \def\T@ref##1{%
@@ -1134,26 +1340,11 @@
     \config@original@namerefstar{##1}%
   }%
   \let\config@original@cref\cref
-  \RenewDocumentCommand{\cref}{s m}{%
-    \config@recordReferencedAppendixLabels{##2}%
-    \IfBooleanTF{##1}
-      {\config@original@cref*{##2}}
-      {\config@original@cref{##2}}%
-  }%
+  \let\cref\config@recordingCref
   \let\config@original@Cref\Cref
-  \RenewDocumentCommand{\Cref}{s m}{%
-    \config@recordReferencedAppendixLabels{##2}%
-    \IfBooleanTF{##1}
-      {\config@original@Cref*{##2}}
-      {\config@original@Cref{##2}}%
-  }%
+  \let\Cref\config@recordingCapitalCref
   \let\config@original@labelcref\labelcref
-  \RenewDocumentCommand{\labelcref}{s m}{%
-    \config@recordReferencedAppendixLabels{##2}%
-    \IfBooleanTF{##1}
-      {\config@original@labelcref*{##2}}
-      {\config@original@labelcref{##2}}%
-  }%
+  \let\labelcref\config@recordingLabelcref
 }
 \AtBeginDocument{\config@installReferenceRecorders}
 
@@ -1457,49 +1648,9 @@
 % Annotation chapters are required only for master theses.
 \makeatletter
 \newif\ifconfig@annotationIsMaster
-\newif\ifconfig@annotationSawThesisType
-\newif\ifconfig@annotationThesisTypeMismatch
-\newcommand{\config@checkAnnotationMasterProgram}[1]{%
-  \global\config@annotationSawThesisTypetrue
-  \ifdefstring{#1}{master}{}{\global\config@annotationThesisTypeMismatchtrue}%
-}
-\newcommand{\config@checkAnnotationMasterText}[1]{%
-  \global\config@annotationSawThesisTypetrue
-  \IfSubStr{#1}{master}{}{\global\config@annotationThesisTypeMismatchtrue}%
-}
 \newcommand{\config@detectAnnotationMasterType}{%
   \global\config@annotationIsMasterfalse
-  \global\config@annotationSawThesisTypefalse
-  \global\config@annotationThesisTypeMismatchfalse
-  \ifcsdef{programulDeStudiiRo}{%
-    \config@checkAnnotationMasterProgram{\programulDeStudiiRo}%
-  }{}%
-  \ifcsdef{docTypeRoNedefinit}{%
-    \config@checkAnnotationMasterText{\docTypeRoNedefinit}%
-  }{}%
-  \ifcsdef{docTypeRoDefinit}{%
-    \config@checkAnnotationMasterText{\docTypeRoDefinit}%
-  }{}%
-  \ifcsdef{docTypeRoDativ}{%
-    \config@checkAnnotationMasterText{\docTypeRoDativ}%
-  }{}%
-  \ifdefined\isPractica
-    \global\config@annotationSawThesisTypetrue
-    \global\config@annotationThesisTypeMismatchtrue
-  \fi
-  \ifconfig@annotationSawThesisType
-    \ifconfig@annotationThesisTypeMismatch
-    \else
-      \global\config@annotationIsMastertrue
-    \fi
-  \else
-    \ifcsdef{programulDeStudiiEng}{%
-      \ifdefstring{\programulDeStudiiEng}{master}{\global\config@annotationIsMastertrue}{}%
-    }{}%
-    \ifcsdef{docTypeEng}{%
-      \IfSubStr{\docTypeEng}{master}{\global\config@annotationIsMastertrue}{}%
-    }{}%
-  \fi
+  \ifdefstring{\documentIsMasterThesis}{true}{\global\config@annotationIsMastertrue}{}%
 }
 \newcommand{\config@annotationChapterWarning}[1]{%
   \PackageWarning{config}{Annotation chapter '#1' is intended only for master theses}%

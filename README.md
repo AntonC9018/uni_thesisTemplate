@@ -54,7 +54,23 @@ Run `source ./setup.sh`. It is going to:
    mv thesis/bare_main_ro.tex thesis/main.tex
    ```
 
-2. **Compile the PDF:**
+2. **Choose the document type and specialty:** In `main.tex`, the template import must include one language and one document type:
+
+   ```tex
+   \usepackage[romanian,master]{config}
+   \specialty{informatica_aplicata}
+   ```
+
+   For Russian and practice reports, use the same pattern:
+
+   ```tex
+   \usepackage[russian,master_practica_2]{config}
+   \specialty{informatica_aplicata}
+   ```
+
+   Supported document types are `master`, `an`, `licenta`, `licenta_practica_1`, `licenta_practica_2`, `licenta_practica_3`, `master_practica_2`, and `custom`.
+
+3. **Compile the PDF:**
 
    ```shell
    cd thesis
@@ -89,5 +105,4 @@ To recompile having cleared the cache, run `./render.sh -f`.
 
 > Note that clearing the cache relies on `git`, 
 > so you **must have your project be a git repository.**
-
 

@@ -21,21 +21,21 @@
       \vspace{1.5cm}
 
       {\titlePageEmphasisFont
-      \ifdefined\isPractica
-        \textbf{\MakeUppercase{Raport la \docTypeRoNedefinit}}
-      \else
+      \ifdefstring{\documentIsPractice}{true}{%
+        \textbf{Raport la \docTypeRoNedefinit}
+      }{%
         \textbf{\MakeUppercase{\docTitleRo}}
-      \fi}
+      }}
       \vspace{0.75cm}
 
       \textbf{\MakeUppercase{\identificatorulCursului{}}}
       \vspace{0.5cm}
 
-      \ifdefined\isPractica
+      \ifdefstring{\documentIsPractice}{true}{%
         \vspace{\baselineskip}
-      \else
+      }{%
         \textbf{\capfirst{\docTypeRoNedefinit}}
-      \fi
+      }
   
     \end{center}
   \vfill

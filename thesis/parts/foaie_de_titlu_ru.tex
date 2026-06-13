@@ -18,21 +18,21 @@
     \vspace{1.5cm}
 
     {\titlePageEmphasisFont
-    \ifdefined\isPractica
-      \textbf{\MakeUppercase{Отчет по \docTypeRuDatelny}}
-    \else
+    \ifdefstring{\documentIsPractice}{true}{%
+      \textbf{Отчет по \docTypeRuDatelny}
+    }{%
       \textbf{\MakeUppercase{\docTitleRu}}
-    \fi}
+    }}
     \vspace{0.75cm}
 
     \textbf{\MakeUppercase{\identificatorulCursuluiRu{}}}
     \vspace{0.5cm}
 
-    \ifdefined\isPractica
+    \ifdefstring{\documentIsPractice}{true}{%
       \vspace{\baselineskip}
-    \else
+    }{%
       \textbf{\capfirst{\docTypeRuPredlozhny{}}}
-    \fi
+    }
 
   \end{center}
   \vfill

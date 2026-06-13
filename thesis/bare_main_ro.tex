@@ -1,44 +1,31 @@
 \documentclass[a4paper,12pt]{report}
 
-\usepackage[romanian]{config}
+\usepackage[
+  % romanian / russian
+  romanian,%
+  % an: teza de an
+  % licenta: teza de licenta
+  % licenta_practica_1/2/3: practica la anul 1/2/3
+  % master: teza de master
+  % master_practica_2: practica de specialitate la anul 2 
+  master%
+]{config}
+\specialty{informatica_aplicata}
 
 % Metadate.
 \newcommand{\uniGroupName}{MIA2201}
 
-% Necesar doar pentru adnotare la teză de master.
-\newcommand{\docTitleEng}{Numele tezei}
-\newcommand{\docTypeEng}{master thesis}
-\newcommand{\programulDeStudiiEng}{master}
-
 \newcommand{\authorName}{Nume Prenume} % Fără patronimic
-\newcommand{\programulDeStudiiRo}{master} % licență / master. <programul de> se adăugă automat.
-\newcommand{\identificatorulCursului}{0613.5 Informatică aplicată} % 0211.7 Design jocurilor
 \newcommand{\conducatorName}{Nume Prenume}
 \newcommand{\conducatorTitleRo}{asistent universitar} % doctor, conferențiar universitar
 
-% Dacă documentul este la practică, ștergeți % de mai jos.
-% \newcommand{\isPractica}{}
-
-% Este ignorat pentru practică.
 \newcommand{\docTitleRo}{Explorarea formatului PNG}
-
-% Practica:
-% I licență - practica de inițiere în specialitate
-% II licență - practica de specialitate
-% III licență - practica de cercetare
-% II master - practica de specialitate
-% de an / de licență / de master (articolul definit sau nedefinit)
-\newcommand{\docTypeRoDefinit}{teza de master} % an / licență / master
-\newcommand{\docTypeRoNedefinit}{teză de master}
-\newcommand{\docTypeRoDativ}{tezei de master}
+\newcommand{\docTitleEng}{Numele tezei}
 
 \newcommand{\yearOfWriting}{\the\year}
 \newcommand{\conferencesList}{Conferința Studențească, Editia NUMARUL-a, \yearOfWriting}
 \newcommand{\github}{\url{https://github.com/USER/REPO}}
 \newcommand{\outputDate}{\today}
-
-% student (teza de an) / absolvent (teza de licență) / masterand (teza de master)
-\newcommand{\studentTypeRo}{masterand}
 
 % none - n-am folosit AI
 % text - am folosit AI exclusiv pentru suport tehnic (corectare lingvistică, formatare, organizare preliminară)
@@ -573,9 +560,7 @@ Are sens să procedați astfel dacă în anexă există mai mult de un element.
 
 \insertCodeFile[whole_appendix_code][]{js}{../src/appendix_example.js}{Cod acoperit de referința la anexă}
 
-\ifundef{\isPractica}{
-  \declarationPage{}
-}
+\ifdefstring{\documentIsPractice}{false}{\declarationPage{}}{}
 
 \end{document}
 % vim: fdm=syntax
