@@ -34,6 +34,11 @@ def assert_pdf_not_contains(result: LatexBuildResult, unexpected: str) -> None:
     assert unexpected not in text, f"PDF text unexpectedly contains {unexpected!r}"
 
 
+def assert_pdf_text_is_linked(result: LatexBuildResult, visible_text: str) -> None:
+    destination_page = pdf.find_link_destination_for_text(result.pdf_path, visible_text)
+    assert destination_page is not None, f"No internal link found for text {visible_text!r}"
+
+
 def assert_log_contains(result: LatexBuildResult, expected: str) -> None:
     compact_log = re.sub(r"\n\s*", "", result.log_text)
     assert expected in result.log_text or expected in compact_log, f"Log does not contain {expected!r}"

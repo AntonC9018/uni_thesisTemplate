@@ -378,7 +378,7 @@ The obtained results were reported at \textbf{\conferencesList}\cite{self}.
 
 Когда у вас есть таблица, необходимо дать на неё ссылку.
 Название таблицы должно находится \textbf{над} таблицей.
-Таблица~\labelcref{pixel_order_table} предоставляет пример вставки таблиц с автоматической нумерацией.
+\Объект{pixel_order_table} предоставляет пример вставки таблиц с автоматической нумерацией.
 
 \insertTable[pixel_order_table]{Таблица порядка пикселей\\вторая строка в названии\\третья строка}{%
   \begin{tabular}{c c c c c c c c}
@@ -403,7 +403,7 @@ The obtained results were reported at \textbf{\conferencesList}\cite{self}.
 
 \subsection{Прямая вставка блока кода}
 
-Листинг~\labelcref{code_direct_example} показывает прямую вставку блока кода.
+\Объект{code_direct_example} показывает прямую вставку блока кода.
 
 \insertCode[code_direct_example]{cpp}{Пример прямой вставки блока кода}{
 // любой код здесь
@@ -415,13 +415,13 @@ int main()
 
 \subsection{Вставка целого файла}
 
-Листинг~\labelcref{../src/sourcefile.zig} вставляет целый файл.
+\Объект{../src/sourcefile.zig} вставляет целый файл.
 
 \insertCodeFile{zig}{../src/sourcefile.zig}{Полный исходный файл}
 
 \subsection{Вставка части файла}
 
-Листинг~\labelcref{code_range_example} вставляет только диапазон строк, переданный через опции \verb|minted|.
+\Объект{code_range_example} вставляет только диапазон строк, переданный через опции \verb|minted|.
 
 \insertCodeFile[code_range_example][firstline=2,lastline=5]{zig}{../src/sourcefile.zig}{Диапазон строк из файла}
 
@@ -435,13 +435,13 @@ int main()
 Язык программирования определяется из расширения файла. 
 Для добаления расширений, которые еще не поддерживаются, изменяйте \texttt{findSegment.py}.
 
-Листинг~\labelcref{code_segment_example} вставляет сегмент, выделенный комментариями в исходном файле.
+\Объект{code_segment_example} вставляет сегмент, выделенный комментариями в исходном файле.
 
 \insertCodeSegment[code_segment_example]{../src/sourcefile.zig}{example}{Отмеченный сегмент из файла}
 
 \subsection{Вставка текста на много строк как код}
 
-Листинг~\labelcref{code_text_example} вставляет обычный текст как блок кода.
+\Объект{code_text_example} вставляет обычный текст как блок кода.
 
 \insertCode[code_text_example]{text}{Многострочный текст как код}{
 Regular text
@@ -451,7 +451,7 @@ With any characters |||
 
 Чтобы вставить только текст, без номера строки, необходимо добавить \verb|[linenos=false]|.
 
-Листинг~\labelcref{code_text_no_lines_example} скрывает номера строк через опции \verb|minted|.
+\Объект{code_text_no_lines_example} скрывает номера строк через опции \verb|minted|.
 
 \insertCode[code_text_no_lines_example][linenos=false]{text}{Текст без номеров строк}{
 Regular text
@@ -478,14 +478,14 @@ With any characters |||
 
 Когда вы добавляете изображение, делайте на него ссылку в тексте.
 
-На Рисунке~\labelcref{interface_sketch.png} представлен эскиз графического интерфейса.
+На \объекте{interface_sketch.png} представлен эскиз графического интерфейса.
 
 \insertImage{interface_sketch.png}{Эскиз графического интерфейса}
 
 Этот метод ограничивает максимальную ширину и высоту изображений, 
 не давая им выйти за экран и не изменяя их соотношений.
-Например, на Рисунке~\labelcref{wide.png} широкая картинка не выйдет за пределы,
-а на Рисунке~\labelcref{long.png} она не уйдет за страницу.
+Например, на \объекте{wide.png} широкая картинка не выйдет за пределы,
+а на \объекте{long.png} она не уйдет за страницу.
 
 \insertImage{wide.png}{Широкая полоса}
 
@@ -510,8 +510,8 @@ With any characters |||
 В приложении \ref{numbered_appendix} представлено приложение с нумерацией предметов внутри,
 а именно:
 \begin{itemize}
-  \item Рисунок~\labelcref{cat_1} демонстрирует кота номер 1
-  \item Рисунок~\labelcref{cat_2} демонстрирует кота номер 2
+  \item \Объект{cat_1} демонстрирует кота номер 1
+  \item \Объект{cat_2} демонстрирует кота номер 2
 \end{itemize}
 
 В приложении \ref{whole_appendix_reference} представлен пример, где

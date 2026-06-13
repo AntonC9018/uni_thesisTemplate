@@ -327,7 +327,7 @@ Utilizați simbolul care nu este folosit în codul ce trebuie inserat ca atare.
 
 Când aveți un tabel, trebuie să dați referința la el.
 Denumirea tabelului trebuie să se afle \textbf{deasupra} tabelului.
-Tabelul~\labelcref{pixel_order_table} prezintă un exemplu de inserare a tabelelor cu numerotare automată.
+\Obiectul{pixel_order_table} prezintă un exemplu de inserare a tabelelor cu numerotare automată.
 
 \insertTable[pixel_order_table]{Tabelul ordonării pixelilor\\a doua linie în titlu\\a treia linie}{%
   \begin{tabular}{c c c c c c c c}
@@ -353,7 +353,7 @@ pentru a primi numerotare, inscripție și plasare automată.
 
 \subsection{Inserarea directă a unui bloc de cod}
 
-Codul~\labelcref{code_direct_example} prezintă inserarea directă a unui bloc de cod.
+\Obiectul{code_direct_example} prezintă inserarea directă a unui bloc de cod.
 
 \insertCode[code_direct_example]{cpp}{Exemplu de bloc de cod inserat direct}{
 // orice cod aici
@@ -365,13 +365,13 @@ int main()
 
 \subsection{Inserarea unui fișier întreg}
 
-Codul~\labelcref{../src/sourcefile.zig} inserează un fișier întreg.
+\Obiectul{../src/sourcefile.zig} inserează un fișier întreg.
 
 \insertCodeFile{zig}{../src/sourcefile.zig}{Fișier sursă complet}
 
 \subsection{Inserarea unei bucăți din fișier}
 
-Codul~\labelcref{code_range_example} inserează numai intervalul de linii transmis prin opțiunile \verb|minted|.
+\Obiectul{code_range_example} inserează numai intervalul de linii transmis prin opțiunile \verb|minted|.
 
 \insertCodeFile[code_range_example][firstline=2,lastline=5]{zig}{../src/sourcefile.zig}{Interval de linii din fișier}
 
@@ -385,13 +385,13 @@ Această funcționalitate este implementată cu ajutorul scriptului \texttt{find
 Limbajul de programare este determinat pe baza extensiei fișierului.
 Pentru a adăuga extensii care nu sunt încă suportate, modificați \texttt{findSegment.py}.
 
-Codul~\labelcref{code_segment_example} inserează un segment delimitat prin comentarii în fișierul sursă.
+\Obiectul{code_segment_example} inserează un segment delimitat prin comentarii în fișierul sursă.
 
 \insertCodeSegment[code_segment_example]{../src/sourcefile.zig}{example}{Segment marcat din fișier}
 
 \subsection{Inserarea textului pe mai multe rânduri ca cod}
 
-Codul~\labelcref{code_text_example} inserează text simplu ca bloc de cod.
+\Obiectul{code_text_example} inserează text simplu ca bloc de cod.
 
 \insertCode[code_text_example]{text}{Text pe mai multe rânduri inserat ca cod}{
 Regular text
@@ -401,7 +401,7 @@ With any characters |||
 
 Pentru a insera doar text, fără numărul de rând, este necesar să adăugați \verb|[linenos=false]|
 
-Codul~\labelcref{code_text_no_lines_example} ascunde numerele de rând prin opțiunile \verb|minted|.
+\Obiectul{code_text_no_lines_example} ascunde numerele de rând prin opțiunile \verb|minted|.
 
 \insertCode[code_text_no_lines_example][linenos=false]{text}{Text fără numere de rând}{
 Regular text
@@ -428,14 +428,14 @@ Pentru standardizare, însă, ar fi bine să vă propuneți metoda cu un \gls{PR
 
 Când dați o imagine, la ea numaidecât să faceți și referința.
 
-În Figura~\labelcref{interface_sketch.png} este prezentată o schiță a interfeței grafice.
+În \obiectul{interface_sketch.png} este prezentată o schiță a interfeței grafice.
 
 \insertImage{interface_sketch.png}{Schița interfeței grafice}
 
 Această metodă limitează lățimea și înălțimea maximă ale imaginilor,
 fără a le permite să iasă în afara paginii și fără a le modifica raportul de aspect.
-De exemplu, în Figura~\labelcref{wide.png} o imagine lată nu va depăși limitele paginii,
-iar în Figura~\labelcref{long.png} nu va ieși în afara paginii.
+De exemplu, în \obiectul{wide.png} o imagine lată nu va depăși limitele paginii,
+iar în \obiectul{long.png} nu va ieși în afara paginii.
 
 \insertImage{wide.png}{Bandă lată}
 
@@ -460,8 +460,8 @@ A se vedea anexa \ref{appendix:example_min}.
 În anexa \ref{numbered_appendix} este prezentată o anexă cu numerotarea elementelor din interior,
 și anume:
 \begin{itemize}
-  \item Figura~\labelcref{cat_1} demonstrează pisica numărul 1
-  \item Figura~\labelcref{cat_2} demonstrează pisica numărul 2
+  \item \Obiectul{cat_1} demonstrează pisica numărul 1
+  \item \Obiectul{cat_2} demonstrează pisica numărul 2
 \end{itemize}
 
 În anexa \ref{whole_appendix_reference} este prezentat un exemplu în care

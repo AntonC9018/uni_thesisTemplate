@@ -1,0 +1,27 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage[russian]{config}
+
+\begin{document}
+\chapter{Ссылки}\label{chap:main}
+Формы для рисунка: \объект{fig:main}; \объекта{fig:main}; \объекту{fig:main}; \объектВинительный{fig:main}; \объектом{fig:main}; \объекте{fig:main}.
+Формы множественного числа для рисунка: \объекты{fig:main}; \объектов{fig:main}; \объектам{fig:main}; \объектыВинительный{fig:main}; \объектами{fig:main}; \объектах{fig:main}.
+Формы для таблицы: \Объект{tab:main}; \объектВинительный{tab:main}; \объекте{tab:main}.
+Формы множественного числа для таблицы: \Объекты{tab:main}; \объектов{tab:main}; \объектыВинительный{tab:main}; \объектах{tab:main}.
+Формы для кода: \Объект{code:main}; \объектом{code:main}.
+Формы множественного числа для кода: \Объекты{code:main}; \объектов{code:main}; \объектами{code:main}.
+Формы для уравнения и главы: \Объект{eq:main}; \Объект{chap:main}.
+
+\insertImage[fig:main]{cat_1.jpg}{Основной рисунок}
+\insertTable[tab:main]{Основная таблица}{%
+  \begin{tabular}{ll}
+    A & B \\
+  \end{tabular}
+}
+\begin{code}[code:main]{text}{Основной листинг}
+main code
+\end{code}
+\begin{equation}
+  \label{eq:main}
+  a = b
+\end{equation}
+\end{document}
