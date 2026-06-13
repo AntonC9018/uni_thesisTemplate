@@ -557,28 +557,29 @@
 \renewcommand{\theequation}{\arabic{chapter}.\arabic{equation}}
 
 \RequirePackage[font=bf]{caption}
-% Set global caption configurations
-\captionsetup{%
-  font={bf, stretch=1}, % Force both Bold and single line spacing globally
-  labelsep=period       % Use '.' instead of ':' after the label
+
+\newcommand{\setupItemCaptions}{%
+  \captionsetup{%
+    font={bf, stretch=1}, % Force both Bold and single line spacing globally
+    labelsep=period       % Use '.' instead of ':' after the label
+  }
+  \captionsetup[listing]{%
+    font={bf, stretch=1},
+    labelsep=period,
+    justification=raggedright,
+    singlelinecheck=false,
+    position=top
+  }
 }
-\captionsetup[listing]{%
-  font={bf, stretch=1},
-  labelsep=period,
-  justification=raggedright,
-  singlelinecheck=false,
-  position=top
-}
+\setupItemCaptions{}
 
 % Re-apply the bold configuration inside polyglossia's language hooks 
 % to prevent them from wiping out the style during language setup.
 \gappto\captionsromanian{%
-  \captionsetup{font={bf, stretch=1}, labelsep=period}%
-  \captionsetup[listing]{font={bf, stretch=1}, labelsep=period, justification=raggedright, singlelinecheck=false, position=top}%
+  \setupItemCaptions{}
 }
 \gappto\captionsrussian{%
-  \captionsetup{font={bf, stretch=1}, labelsep=period}%
-  \captionsetup[listing]{font={bf, stretch=1}, labelsep=period, justification=raggedright, singlelinecheck=false, position=top}%
+  \setupItemCaptions{}
 }
 
 % cleveref must be loaded AFTER hyperref
