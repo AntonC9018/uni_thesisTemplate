@@ -7,8 +7,8 @@ from tests.lib.latex import build_latex_case
 @pytest.mark.parametrize(
     ("input_file", "expected_text"),
     [
-        ("main.tex", ("Anexa 1.", "Figura A1.1.", "Tabelul A1.1.", "(A1.1)")),
-        ("main_ru.tex", ("Приложение 1.", "Рисунок П1.1.", "Таблица П1.1.", "(П1.1)")),
+        ("main.tex", ("Anexa 1.", "Figura A1.1.", "Tabelul A1.1.", "Codul A1.1.", "(A1.1)")),
+        ("main_ru.tex", ("Приложение 1.", "Рисунок П1.1.", "Таблица П1.1.", "Листинг П1.1.", "(П1.1)")),
     ],
 )
 def test_appendix_numbering_and_localization(case_dir, tmp_path, input_file, expected_text):

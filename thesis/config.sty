@@ -13,7 +13,7 @@
   \newcommand{\acronymsChapterName}{Lista abrevierelor}%
   \newcommand{\appendixReferenceLetter}{A}%
   \newcommand{\appendixReferenceWarning}[1]{ATENȚIE: această anexă sau acest element din anexă nu este referit în text: #1.}%
-  \newcommand{\floatReferenceWarning}[1]{ATENȚIE: această imagine sau acest tabel nu este referit în text: #1.}%
+  \newcommand{\floatReferenceWarning}[1]{ATENȚIE: această imagine, acest tabel sau acest bloc de cod nu este referit în text: #1.}%
   \newcommand{\codeSegmentReferenceWarning}[2]{ATENȚIE: segmentul de cod nu a fost găsit: #1 în #2.}%
 }
 \DeclareOption{russian}{%
@@ -33,7 +33,7 @@
   \newcommand{\acronymsChapterName}{Список сокращений}%
   \newcommand{\appendixReferenceLetter}{П}%
   \newcommand{\appendixReferenceWarning}[1]{ВНИМАНИЕ: это приложение или элемент приложения не упоминается в тексте: #1.}%
-  \newcommand{\floatReferenceWarning}[1]{ВНИМАНИЕ: этот рисунок или таблица не упоминается в тексте: #1.}%
+  \newcommand{\floatReferenceWarning}[1]{ВНИМАНИЕ: этот рисунок, таблица или блок кода не упоминается в тексте: #1.}%
   \newcommand{\codeSegmentReferenceWarning}[2]{ВНИМАНИЕ: сегмент кода не найден: #1 в #2.}%
 }
 \DeclareOption*{\PackageError{config}{Invalid option '\CurrentOption'}{Pass the language option}}
@@ -388,7 +388,7 @@
 }
 
 % Code blocks
-\RequirePackage{minted}
+\RequirePackage[newfloat]{minted}
 \setminted{%
   % remove indentation from the start of each line by the common amount
   autogobble=true,
@@ -544,10 +544,16 @@
 \addto\captionsrussian{\renewcommand{\figurename}{Рисунок}}
 \addto\captionsromanian{\renewcommand{\tablename}{Tabelul}}
 \addto\captionsrussian{\renewcommand{\tablename}{Таблица}}
+\addto\captionsromanian{\renewcommand{\listingname}{Codul}}
+\addto\captionsrussian{\renewcommand{\listingname}{Листинг}}
 
 % Their numbering has to use the chapter number.
+\makeatletter
+\@addtoreset{listing}{chapter}
+\makeatother
 \renewcommand{\thefigure}{\arabic{chapter}.\arabic{figure}}
 \renewcommand{\thetable}{\arabic{chapter}.\arabic{table}}
+\renewcommand{\thelisting}{\arabic{chapter}.\arabic{listing}}
 \renewcommand{\theequation}{\arabic{chapter}.\arabic{equation}}
 
 \RequirePackage[font=bf]{caption}
@@ -556,14 +562,23 @@
   font={bf, stretch=1}, % Force both Bold and single line spacing globally
   labelsep=period       % Use '.' instead of ':' after the label
 }
+\captionsetup[listing]{%
+  font={bf, stretch=1},
+  labelsep=period,
+  justification=raggedright,
+  singlelinecheck=false,
+  position=top
+}
 
 % Re-apply the bold configuration inside polyglossia's language hooks 
 % to prevent them from wiping out the style during language setup.
 \gappto\captionsromanian{%
   \captionsetup{font={bf, stretch=1}, labelsep=period}%
+  \captionsetup[listing]{font={bf, stretch=1}, labelsep=period, justification=raggedright, singlelinecheck=false, position=top}%
 }
 \gappto\captionsrussian{%
   \captionsetup{font={bf, stretch=1}, labelsep=period}%
+  \captionsetup[listing]{font={bf, stretch=1}, labelsep=period, justification=raggedright, singlelinecheck=false, position=top}%
 }
 
 % cleveref must be loaded AFTER hyperref
@@ -578,6 +593,8 @@
   \Crefname{figure}{Fig.}{Figurile}%
   \crefname{table}{tab.}{tabelele}%
   \Crefname{table}{Tab.}{Tabelele}%
+  \crefname{listing}{codul}{codurile}%
+  \Crefname{listing}{Codul}{Codurile}%
   \crefname{equation}{ecuația}{ecuațiile}%
   \Crefname{equation}{Ecuația}{Ecuațiile}%
   \crefname{chapter}{capitolul}{capitolele}%
@@ -592,6 +609,8 @@
   \Crefname{figure}{Рис.}{Рисунки}%
   \crefname{table}{таб.}{таблицы}%
   \Crefname{table}{Таб.}{Таблицы}%
+  \crefname{listing}{листинг}{листинги}%
+  \Crefname{listing}{Листинг}{Листинги}%
 }
 
 % Appendix reference validation
@@ -903,6 +922,96 @@
   \end{table}%
 }
 
+\NewDocumentCommand{\configOptionalCodeCaption}{o}{%
+  \IfNoValueF{#1}{\caption*{#1}}%
+}
+
+% 1 - Optional label identifier. Required in the unstarred form.
+% 2 - Minted options.
+% 3 - Programming language.
+% 4 - Caption text.
+\NewDocumentEnvironment{code}{o O{} m m}{%
+  \VerbatimEnvironment
+  \begin{listing}[!htbp]
+    \caption{#4}%
+    \insertFloatLabelHelper{\BooleanFalse}[#1]{}{code}%
+    \par\noindent
+    \begin{minted}[#2]{#3}%
+}{%
+    \end{minted}%
+  \end{listing}%
+}
+
+\NewDocumentCommand{\insertCodeFile}{s}{%
+  \IfBooleanTF{#1}{\insertCodeFileStar}{\insertCodeFileNumbered}%
+}
+
+% 1 - Optional label identifier. Required in the unstarred form.
+% 2 - Minted options.
+% 3 - Programming language.
+% 4 - Source file path.
+% 5 - Caption text.
+\NewDocumentCommand{\insertCodeFileNumbered}{o O{} m m m}{%
+  \begin{listing}[!htbp]
+    \caption{#5}%
+    \IfNoValueTF{#1}{%
+      \if\relax\detokenize{#2}\relax
+        \insertFloatLabelHelper{\BooleanFalse}{#4}{insertCodeFile}%
+      \else
+        \insertFloatLabelHelper{\BooleanFalse}{}{insertCodeFile}%
+      \fi
+    }{%
+      \insertFloatLabelHelper{\BooleanFalse}[#1]{}{insertCodeFile}%
+    }%
+    \par\noindent
+    \inputminted[#2]{#3}{#4}%
+  \end{listing}%
+}
+
+% 1 - Minted options.
+% 2 - Programming language.
+% 3 - Source file path.
+% 4 - Optional unnumbered caption.
+\NewDocumentCommand{\insertCodeFileStar}{O{} m m o}{%
+  \insertFloatLabelHelper{\BooleanTrue}{}{insertCodeFile}%
+  \begin{listing}[!htbp]
+    \configOptionalCodeCaption[#4]%
+    \par\noindent
+    \inputminted[#1]{#2}{#3}%
+  \end{listing}%
+}
+
+\NewDocumentCommand{\insertCodeSegment}{s}{%
+  \IfBooleanTF{#1}{\insertCodeSegmentStar}{\insertCodeSegmentNumbered}%
+}
+
+% 1 - Optional label identifier. Required in the unstarred form.
+% 2 - Minted options.
+% 3 - Source file path.
+% 4 - Segment name.
+% 5 - Caption text.
+\NewDocumentCommand{\insertCodeSegmentNumbered}{o O{} m m m}{%
+  \begin{listing}[!htbp]
+    \caption{#5}%
+    \insertFloatLabelHelper{\BooleanFalse}[#1]{}{insertCodeSegment}%
+    \par\noindent
+    \inputMintedSegment[#2]{#3}{#4}%
+  \end{listing}%
+}
+
+% 1 - Minted options.
+% 2 - Source file path.
+% 3 - Segment name.
+% 4 - Optional unnumbered caption.
+\NewDocumentCommand{\insertCodeSegmentStar}{O{} m m o}{%
+  \insertFloatLabelHelper{\BooleanTrue}{}{insertCodeSegment}%
+  \begin{listing}[!htbp]
+    \configOptionalCodeCaption[#4]%
+    \par\noindent
+    \inputMintedSegment[#1]{#2}{#3}%
+  \end{listing}%
+}
+
 % See the python script.
 % It inserts the minted listing text.
 % I couldn't find how to extract the output of a script,
@@ -916,8 +1025,8 @@
   }}\par
 }
 
-\newcommand\inputMintedSegment[2]{%
-    \input{|python3 findSegment.py "#1" "#2"}%
+\NewDocumentCommand{\inputMintedSegment}{O{}mm}{%
+  \input{|python3 findSegment.py "#2" "#3" "\detokenize{#1}"}%
 }
 
 % change counter
@@ -942,10 +1051,12 @@
 
   \counterwithin{figure}{section}
   \counterwithin{table}{section}
+  \counterwithin{listing}{section}
   \counterwithin{equation}{section}
-  % Redefine the numbering for images and tables in appendices.
+  % Redefine the numbering for images, tables, code blocks, and equations in appendices.
   \renewcommand{\thefigure}{\appendixReferenceLetter{}\arabic{section}.\arabic{figure}}
   \renewcommand{\thetable}{\appendixReferenceLetter{}\arabic{section}.\arabic{table}}
+  \renewcommand{\thelisting}{\appendixReferenceLetter{}\arabic{section}.\arabic{listing}}
   \renewcommand{\theequation}{\appendixReferenceLetter{}\arabic{section}.\arabic{equation}}
 
   %

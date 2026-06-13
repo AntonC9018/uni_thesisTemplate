@@ -3,14 +3,17 @@
 
 \begin{document}
 \chapter{Numerotare mixta}
-Referinte principale: imaginea \ref{fig:main}, tabelul \ref{tab:main} si ecuatia \eqref{eq:main}.
-Referinte catre anexa viitoare: sectiunea \ref{app:one}, imaginea \ref{fig:app}, tabelul \ref{tab:app} si ecuatia \eqref{eq:app}.
+Referinte principale: imaginea \ref{fig:main}, tabelul \ref{tab:main}, codul \ref{code:main} si ecuatia \eqref{eq:main}.
+Referinte catre anexa viitoare: sectiunea \ref{app:one}, imaginea \ref{fig:app}, tabelul \ref{tab:app}, codul \ref{code:app} si ecuatia \eqref{eq:app}.
 \insertImage[fig:main]{cat_1.jpg}{Imagine principala}
 \insertTable[tab:main]{Tabel principal}{%
   \begin{tabular}{ll}
     A & B \\
   \end{tabular}
 }
+\begin{code}[code:main]{text}{Cod principal}
+main code
+\end{code}
 \begin{equation}
   \label{eq:main}
   a = b
@@ -24,6 +27,9 @@ Marker ecuatie principala: \eqref{eq:main}.
     A & B \\
   \end{tabular}
 }
+\begin{code}[code:app]{text}{Cod din anexa}
+appendix code
+\end{code}
 \begin{equation}
   \label{eq:app}
   c = d

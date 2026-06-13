@@ -42,6 +42,7 @@ def print_warning(segment_name, file_path):
 def main():
     filePath = sys.argv[1]
     segmentName = sys.argv[2]
+    extraOptions = sys.argv[3].strip() if len(sys.argv) > 3 else ""
     language = os.path.splitext(filePath)[1].lstrip(".").lower()
 
     if language not in COMMENT_STYLES:
@@ -69,11 +70,11 @@ def main():
         print_warning(segmentName, filePath)
         return 0
 
-    print(
-        f"\\inputminted[firstline={segmentBegin + 2},lastline={segmentEnd}]"
-        f"{{{language}}}{{{filePath}}}",
-        flush=True,
-    )
+    options = f"firstline={segmentBegin + 2},lastline={segmentEnd}"
+    if extraOptions:
+        options = f"{options},{extraOptions}"
+
+    print(f"\\inputminted[{options}]{{{language}}}{{{filePath}}}", flush=True)
     return 0
 
 

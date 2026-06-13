@@ -6,9 +6,11 @@ def test_multiple_reference_warnings_survive_one_build(build):
     expected = (
         ("Float", "unreferenced_main_image"),
         ("Float", "unreferenced_main_table"),
+        ("Float", "unreferenced_main_code"),
         ("Appendix", "appendix:uncovered"),
         ("Appendix", "uncovered_appendix_image"),
         ("Appendix", "uncovered_appendix_table"),
+        ("Appendix", "uncovered_appendix_code"),
     )
     for warning_kind, label in expected:
         assert_pdf_contains(build, label)

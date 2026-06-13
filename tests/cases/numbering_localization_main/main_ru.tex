@@ -3,13 +3,16 @@
 
 \begin{document}
 \chapter{Основная нумерация}
-Основные ссылки: рисунок \ref{fig:main}, таблица \ref{tab:main} и уравнение \eqref{eq:main}.
+Основные ссылки: рисунок \ref{fig:main}, таблица \ref{tab:main}, листинг \ref{code:main} и уравнение \eqref{eq:main}.
 \insertImage[fig:main]{cat_1.jpg}{Основной рисунок}
 \insertTable[tab:main]{Основная таблица}{%
   \begin{tabular}{ll}
     A & B \\
   \end{tabular}
 }
+\begin{code}[code:main]{text}{Основной листинг}
+main code
+\end{code}
 \begin{equation}
   \label{eq:main}
   a = b

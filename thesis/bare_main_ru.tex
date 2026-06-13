@@ -398,24 +398,32 @@ The obtained results were reported at \textbf{\conferencesList}\cite{self}.
 \subsection{Общая информация}
 
 Библиотека \verb|minted| используется для стилизации кода.
+Блоки кода вставляются через helper-команды шаблона, как рисунки и таблицы,
+чтобы получить нумерацию, подпись и автоматическое размещение.
 
 \subsection{Прямая вставка блока кода}
 
-\begin{minted}{cpp}
+Листинг~\labelcref{code_direct_example} показывает прямую вставку блока кода.
+
+\begin{code}[code_direct_example]{cpp}{Пример прямой вставки блока кода}
 // любой код здесь
 int main()
 {
     std::cout << "hello";
 }
-\end{minted}
+\end{code}
 
 \subsection{Вставка целого файла}
 
-\inputminted[]{zig}{../src/sourcefile.zig}
+Листинг~\labelcref{../src/sourcefile.zig} вставляет целый файл.
+
+\insertCodeFile{zig}{../src/sourcefile.zig}{Полный исходный файл}
 
 \subsection{Вставка части файла}
 
-\inputminted[firstline=2,lastline=5]{zig}{../src/sourcefile.zig}
+Листинг~\labelcref{code_range_example} вставляет только диапазон строк, переданный через опции \verb|minted|.
+
+\insertCodeFile[code_range_example][firstline=2,lastline=5]{zig}{../src/sourcefile.zig}{Диапазон строк из файла}
 
 \subsection{Вставка сегмента из файла}
 
@@ -427,31 +435,29 @@ int main()
 Язык программирования определяется из расширения файла. 
 Для добаления расширений, которые еще не поддерживаются, изменяйте \texttt{findSegment.py}.
 
-\inputMintedSegment{../src/sourcefile.zig}{example}
+Листинг~\labelcref{code_segment_example} вставляет сегмент, выделенный комментариями в исходном файле.
+
+\insertCodeSegment[code_segment_example]{../src/sourcefile.zig}{example}{Отмеченный сегмент из файла}
 
 \subsection{Вставка текста на много строк как код}
 
-\begin{minted}{text}
+Листинг~\labelcref{code_text_example} вставляет обычный текст как блок кода.
+
+\begin{code}[code_text_example]{text}{Многострочный текст как код}
 Regular text
 Multiline
 With any characters |||
-\end{minted}
+\end{code}
 
 Чтобы вставить только текст, без номера строки, необходимо добавить \verb|[linenos=false]|.
 
-\begin{minted}[linenos=false]{text}
+Листинг~\labelcref{code_text_no_lines_example} скрывает номера строк через опции \verb|minted|.
+
+\begin{code}[code_text_no_lines_example][linenos=false]{text}{Текст без номеров строк}
 Regular text
 Multiline
 With any characters |||
-\end{minted}
-
-Также можно использовать \verb|\begin{verbatim}|, который переопределен на использование \verb|minted|.
-
-\begin{verbatim}
-Regular text
-Multiline
-With any characters |||
-\end{verbatim}
+\end{code}
 
 \section{Изображения}
 
@@ -509,7 +515,7 @@ With any characters |||
 \end{itemize}
 
 В приложении \ref{whole_appendix_reference} представлен пример, где
-ссылка на всё приложение покрывает пронумерованные изображения и таблицы внутри него.
+ссылка на всё приложение покрывает пронумерованные изображения, таблицы и блоки кода внутри него.
 
 \chapterConclusionSection{intro_chapter_title}
 
@@ -567,17 +573,15 @@ With any characters |||
 \appendixChapter
 
 \section{Функция min в тестовой программе на JavaScript}\label{appendix:example_min}
-\inputminted{js}{../src/appendix_example.js}
+\insertCodeFile*{js}{../src/appendix_example.js}
 
 \section{Без нумерации}\label{unnumbered_appendix}
 
 \insertImage*{cat_1.jpg}{Кот}
 
 Когда прямая ссылка идет только на все приложение,
-а не на индивидуальные картинки изнутри,
+а не на индивидуальные картинки, таблицы или блоки кода изнутри,
 их не обязательно нумеровать.
-
-То же с таблицами
 
 \insertTable*{Пример таблицы без нумерации}{%
   \begin{tabular}{c c c}
@@ -586,6 +590,14 @@ With any characters |||
     D & E & F
   \end{tabular}
 }
+
+Для прямого ненумерованного кода в приложениях можно использовать окружение \verb|verbatim|.
+
+\begin{verbatim}
+function min(a, b) {
+  return a < b ? a : b;
+}
+\end{verbatim}
 
 \section{Картинка с нумерацией}\label{numbered_appendix}
 
@@ -608,6 +620,8 @@ With any characters |||
     Таблица & 2
   \end{tabular}
 }
+
+\insertCodeFile[whole_appendix_code][linenos=false]{js}{../src/appendix_example.js}{Код, покрытый ссылкой на приложение}
 
 
 \ifundef{\isPractica}{

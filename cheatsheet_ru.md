@@ -48,17 +48,18 @@
 
 | Что нужно | Команда |
 | --- | --- |
-| Код: весь файл | `\inputminted{zig}{../src/sourcefile.zig}` |
-| Код: диапазон строк | `\inputminted[firstline=2,lastline=5]{zig}{../src/sourcefile.zig}` |
-| Код: отмеченный сегмент | `\inputMintedSegment{../src/sourcefile.zig}{example}` |
-| Код: дословный текст | `\begin{verbatim}...\end{verbatim}` |
+| Нумерованный код: прямой текст | `\begin{code}[code_id]{zig}{Надпись}...\end{code}` |
+| Нумерованный код: весь файл, метка `../src/sourcefile.zig` | `\insertCodeFile{zig}{../src/sourcefile.zig}{Надпись}` |
+| Нумерованный код: диапазон строк | `\insertCodeFile[code_id][firstline=2,lastline=5]{zig}{../src/sourcefile.zig}{Надпись}` |
+| Нумерованный код: отмеченный сегмент | `\insertCodeSegment[code_id]{../src/sourcefile.zig}{example}{Надпись}` |
+| Ненумерованный код в приложениях | `\insertCodeFile*{zig}{../src/sourcefile.zig}` |
 | Нумерованная картинка, метка для обращения - `interface.png` | `\insertImage{interface.png}{Надпись}` |
 | Нумерованная картинка, метка для обращения `interface` | `\insertImage[interface]{interface.png}{Надпись}` |
 | Ненумерованная картинка | `\insertImage*{interface.png}{Надпись}` |
 | Нумерованная таблица с меткой `table_id` | `\insertTable[table_id]{Надпись}{\begin{tabular}{c c} A & B \end{tabular}}` |
 | Ненумерованная таблица | `\insertTable*{Надпись}{\begin{tabular}{c c} A & B \end{tabular}}` |
 
-> Все картинки и таблицы должны быть упомянуты в тексте, используя `\Cref`.
+> Все картинки, таблицы и блоки кода должны быть упомянуты в тексте, используя `\Cref`.
 > Если упомянуто все приложение, можно не упоминать картинки изнутри.
 > 
 > Вы увидите ошибки, если это не будет выполнено.

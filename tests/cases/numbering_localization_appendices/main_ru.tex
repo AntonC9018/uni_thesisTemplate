@@ -3,7 +3,7 @@
 
 \begin{document}
 \chapter{Основная заглушка}
-Ссылки на приложение: раздел \ref{app:one}, рисунок \ref{fig:app}, таблица \ref{tab:app} и уравнение \eqref{eq:app}.
+Ссылки на приложение: раздел \ref{app:one}, рисунок \ref{fig:app}, таблица \ref{tab:app}, листинг \ref{code:app} и уравнение \eqref{eq:app}.
 \appendixChapter
 \section{Сценарий приложения}\label{app:one}
 \insertImage[fig:app]{cat_1.jpg}{Рисунок из приложения}
@@ -12,6 +12,9 @@
     A & B \\
   \end{tabular}
 }
+\begin{code}[code:app]{text}{Листинг из приложения}
+appendix code
+\end{code}
 \begin{equation}
   \label{eq:app}
   c = d

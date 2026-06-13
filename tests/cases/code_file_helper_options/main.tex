@@ -1,0 +1,11 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage[romanian]{config}
+
+\begin{document}
+\chapter{Code File}
+Full file helper reference: \ref{source.txt}.
+\insertCodeFile{text}{source.txt}{Full file helper listing}
+
+Options helper reference: \ref{code:file-options}.
+\insertCodeFile[code:file-options][firstline=2,lastline=2,linenos=false]{text}{source.txt}{Options file helper listing}
+\end{document}

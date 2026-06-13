@@ -48,15 +48,16 @@ Compilarea trebuie pornită din directorul `thesis`.
 
 | Ce vrei | Scrii |
 | --- | --- |
-| Cod: fișier întreg | `\inputminted{zig}{../src/sourcefile.zig}` |
-| Cod: interval de linii | `\inputminted[firstline=2,lastline=5]{zig}{../src/sourcefile.zig}` |
-| Cod: segment marcat | `\inputMintedSegment{../src/sourcefile.zig}{example}` |
-| Cod: text literal | `\begin{verbatim}...\end{verbatim}` |
+| Cod numerotat: text direct | `\begin{code}[code_id]{zig}{Inscripție}...\end{code}` |
+| Cod numerotat: fișier întreg, eticheta este `../src/sourcefile.zig` | `\insertCodeFile{zig}{../src/sourcefile.zig}{Inscripție}` |
+| Cod numerotat: interval de linii | `\insertCodeFile[code_id][firstline=2,lastline=5]{zig}{../src/sourcefile.zig}{Inscripție}` |
+| Cod numerotat: segment marcat | `\insertCodeSegment[code_id]{../src/sourcefile.zig}{example}{Inscripție}` |
+| Cod nenumerotat în anexe | `\insertCodeFile*{zig}{../src/sourcefile.zig}` |
 | Imagine numerotată, eticheta pentru referință este `interface.png` | `\insertImage{interface.png}{Inscripție}` |
 | Imagine numerotată, eticheta pentru referință este `interface` | `\insertImage[interface]{interface.png}{Inscripție}` |
 | Imagine nenumerotată | `\insertImage*{interface.png}{Inscripție}` |
 | Tabel numerotat cu eticheta `table_id` | `\insertTable[table_id]{Inscripție}{\begin{tabular}{c c} A & B \end{tabular}}` |
 | Tabel nenumerotat | `\insertTable*{Inscripție}{\begin{tabular}{c c} A & B \end{tabular}}` |
 
-> Toate imaginile și tabelele trebuie menționate în text cu `\Cref`.
+> Toate imaginile, tabelele și blocurile de cod trebuie menționate în text cu `\Cref`.
 > Dacă este menționată întreaga anexă, elementele din ea pot rămâne nemenționate direct.
