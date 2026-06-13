@@ -355,13 +355,13 @@ pentru a primi numerotare, inscripție și plasare automată.
 
 Codul~\labelcref{code_direct_example} prezintă inserarea directă a unui bloc de cod.
 
-\begin{code}[code_direct_example]{cpp}{Exemplu de bloc de cod inserat direct}
+\insertCode[code_direct_example]{cpp}{Exemplu de bloc de cod inserat direct}{
 // orice cod aici
 int main()
 {
     std::cout << "hello";
 }
-\end{code}
+}
 
 \subsection{Inserarea unui fișier întreg}
 
@@ -393,21 +393,21 @@ Codul~\labelcref{code_segment_example} inserează un segment delimitat prin come
 
 Codul~\labelcref{code_text_example} inserează text simplu ca bloc de cod.
 
-\begin{code}[code_text_example]{text}{Text pe mai multe rânduri inserat ca cod}
+\insertCode[code_text_example]{text}{Text pe mai multe rânduri inserat ca cod}{
 Regular text
 Multiline
 With any characters |||
-\end{code}
+}
 
 Pentru a insera doar text, fără numărul de rând, este necesar să adăugați \verb|[linenos=false]|
 
 Codul~\labelcref{code_text_no_lines_example} ascunde numerele de rând prin opțiunile \verb|minted|.
 
-\begin{code}[code_text_no_lines_example][linenos=false]{text}{Text fără numere de rând}
+\insertCode[code_text_no_lines_example][linenos=false]{text}{Text fără numere de rând}{
 Regular text
 Multiline
 With any characters |||
-\end{code}
+}
 
 \section{Imagini}
 
@@ -539,13 +539,13 @@ acestea nu trebuie neapărat numerotate.
   \end{tabular}
 }
 
-Pentru cod direct nenumerotat în anexe se poate folosi mediul \verb|verbatim|.
+Pentru cod direct nenumerotat în anexe se poate folosi comanda \verb|\insertCode*|.
 
-\begin{verbatim}
+\insertCode*{
 function min(a, b) {
   return a < b ? a : b;
 }
-\end{verbatim}
+}
 
 \section{Imagine cu numerotare}\label{numbered_appendix}
 

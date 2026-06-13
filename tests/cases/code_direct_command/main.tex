@@ -1,0 +1,29 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage[romanian]{config}
+
+\begin{document}
+\chapter{Direct Code Command}
+Direct command reference: \ref{code:direct-command}.
+Appendix reference: \ref{app:plain-code}.
+
+\insertCode[code:direct-command]{cpp}{Direct command listing}{
+#include <iostream>
+int main()
+{
+    std::cout << "hello";
+    // percent % remains code text
+    return 0;
+}
+}
+
+\appendixChapter
+\section{Plain Code}\label{app:plain-code}
+Plain command block:
+
+\insertCode*{
+Regular text
+Multiline
+With braces { kept }
+Hash # and percent % are literal
+}
+\end{document}

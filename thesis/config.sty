@@ -943,6 +943,36 @@
   \end{listing}%
 }
 
+\NewDocumentCommand{\insertCode}{s}{%
+  \IfBooleanTF{#1}{\insertCodeStar}{\insertCodeNumbered}%
+}
+
+% 1 - Optional label identifier. Required for numbered direct code.
+% 2 - Minted options.
+% 3 - Programming language.
+% 4 - Caption text.
+% 5 - Code body, read by \FVExtraReadVArg.
+\NewDocumentCommand{\insertCodeNumbered}{o O{} m m}{%
+  \begin{listing}[!htbp]
+    \caption{#4}%
+    \insertFloatLabelHelper{\BooleanFalse}[#1]{}{insertCode}%
+    \par\noindent
+    \FVExtraReadVArg{\insertCodeNumberedFinish{stripnl=true,#2}{#3}}%
+}
+
+% 1 - Code body, read by \FVExtraReadVArg.
+\NewDocumentCommand{\insertCodeStar}{}{%
+  \insertFloatLabelHelper{\BooleanTrue}{}{insertCode}%
+  \begin{listing}[!htbp]
+    \par\noindent
+    \FVExtraReadVArg{\insertCodeNumberedFinish{stripnl=true,linenos=false}{text}}%
+}
+
+\long\def\insertCodeNumberedFinish#1#2#3{%
+    \RobustMintProcess{#1}{#2}{#3}%
+  \end{listing}%
+}
+
 \NewDocumentCommand{\insertCodeFile}{s}{%
   \IfBooleanTF{#1}{\insertCodeFileStar}{\insertCodeFileNumbered}%
 }

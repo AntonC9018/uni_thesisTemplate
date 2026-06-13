@@ -17,9 +17,11 @@ from tests.lib.latex import build_latex_case
         ("main.tex", "Package insertImage Error", "only allowed in appendices"),
         ("main_starred_table.tex", "Package insertTable Error", "only allowed in appendices"),
         ("main_starred_code.tex", "Package insertCodeFile Error", "only allowed in appendices"),
+        ("main_starred_insert_code.tex", "Package insertCode Error", "only allowed in appendices"),
         ("main_starred_image_with_label.tex", "Package insertImage Error", "bad_starred_label"),
         ("main_unstarred_table_missing_label.tex", "Package insertTable Error", "No label given"),
         ("main_unstarred_code_missing_label.tex", "Package code Error", "No label given"),
+        ("main_unstarred_insert_code_missing_label.tex", "Package insertCode Error", "No label given"),
     ],
 )
 def test_float_macro_api_errors(case_dir, tmp_path, input_file, package_error, message_fragment):
@@ -38,6 +40,7 @@ def test_starred_floats_are_allowed_in_appendices(case_dir, tmp_path):
     assert_pdf_contains(result, "Appendix starred table caption")
     assert_pdf_contains(result, "file helper code")
     assert_pdf_contains(result, "segment helper code")
+    assert_pdf_contains(result, "direct starred appendix code")
     assert_pdf_not_contains(result, "Codul")
     assert_log_not_contains(result, "only allowed in appendices")
 
