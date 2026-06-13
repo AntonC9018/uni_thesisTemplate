@@ -48,7 +48,8 @@ Compilarea trebuie pornită din directorul `thesis`.
 
 | Ce vrei | Scrii |
 | --- | --- |
-| Cod numerotat: text direct | `\begin{code}[code_id]{zig}{Inscripție}...\end{code}` |
+| Cod numerotat: text direct | `\insertCode[code_id]{zig}{Inscripție}{...}` |
+| Cod direct nenumerotat în anexe | `\insertCode*{...}` |
 | Cod numerotat: fișier întreg, eticheta este `../src/sourcefile.zig` | `\insertCodeFile{zig}{../src/sourcefile.zig}{Inscripție}` |
 | Cod numerotat: interval de linii | `\insertCodeFile[code_id][firstline=2,lastline=5]{zig}{../src/sourcefile.zig}{Inscripție}` |
 | Cod numerotat: segment marcat | `\insertCodeSegment[code_id]{../src/sourcefile.zig}{example}{Inscripție}` |

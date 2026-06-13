@@ -48,7 +48,8 @@
 
 | Что нужно | Команда |
 | --- | --- |
-| Нумерованный код: прямой текст | `\begin{code}[code_id]{zig}{Надпись}...\end{code}` |
+| Нумерованный код: прямой текст | `\insertCode[code_id]{zig}{Надпись}{...}` |
+| Прямой ненумерованный код в приложениях | `\insertCode*{...}` |
 | Нумерованный код: весь файл, метка `../src/sourcefile.zig` | `\insertCodeFile{zig}{../src/sourcefile.zig}{Надпись}` |
 | Нумерованный код: диапазон строк | `\insertCodeFile[code_id][firstline=2,lastline=5]{zig}{../src/sourcefile.zig}{Надпись}` |
 | Нумерованный код: отмеченный сегмент | `\insertCodeSegment[code_id]{../src/sourcefile.zig}{example}{Надпись}` |
