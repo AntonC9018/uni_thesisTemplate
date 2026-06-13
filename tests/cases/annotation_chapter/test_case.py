@@ -22,7 +22,7 @@ def test_annotation_chapter_sets_contextual_quote_styles(build):
 def test_annotation_chapter_warns_when_document_is_not_master(case_dir, tmp_path):
     result = build_latex_case(case_dir, tmp_path, "main_non_master.tex")
 
-    assert_build_succeeded(result)
+    assert_build_failed(result)
     assert_pdf_contains(result, "ATENȚIE: doar pentru teză de master")
     assert_log_contains(
         result,
@@ -41,7 +41,7 @@ def test_annotation_chapter_warns_for_practice_documents(case_dir, tmp_path):
         build_dir.mkdir()
         result = build_latex_case(case_dir, build_dir, input_file)
 
-        assert_build_succeeded(result)
+        assert_build_failed(result)
         assert_pdf_contains(result, "ATENȚIE: doar pentru teză de master")
         assert_log_contains(
             result,

@@ -159,6 +159,9 @@
 \newcommand{\config@appendixReferenceWarningRu}[1]{ВНИМАНИЕ: это приложение или элемент приложения не упоминается в тексте: #1.}
 \newcommand{\config@floatReferenceWarningRu}[1]{ВНИМАНИЕ: этот рисунок, таблица или блок кода не упоминается в тексте: #1.}
 \newcommand{\config@codeSegmentReferenceWarningRu}[2]{ВНИМАНИЕ: сегмент кода не найден: #1 в #2.}
+\newcommand{\configVisibleWarningMarker}{%
+  \PackageWarningNoLine{config}{CONFIG_VISIBLE_WARNING}%
+}
 
 \DeclareOption{romanian}{%
   \config@selectLanguage
@@ -1233,6 +1236,7 @@
 }
 
 \newcommand{\config@appendixReferenceWarning}[1]{%
+  \configVisibleWarningMarker
   \PackageWarning{config}{Appendix label '\detokenize{#1}' is not referenced}%
   \par\noindent\textbf{\textcolor{red}{%
     \appendixReferenceWarning{\texttt{\detokenize{#1}}}%
@@ -1240,6 +1244,7 @@
 }
 
 \newcommand{\config@floatReferenceWarning}[1]{%
+  \configVisibleWarningMarker
   \PackageWarning{config}{Float label '\detokenize{#1}' is not referenced}%
   \par\noindent\textbf{\textcolor{red}{%
     \floatReferenceWarning{\texttt{\detokenize{#1}}}%
@@ -1555,6 +1560,7 @@
 % output already formatted for minted use.
 % Good thing I don't use more settings for that command, am I right or am I right?
 \newcommand{\codeSegmentWarning}[2]{%
+  \configVisibleWarningMarker
   \PackageWarning{config}{Code segment '#1' was not found in '#2'}%
   \par\noindent\textbf{\textcolor{red}{%
     \codeSegmentReferenceWarning{\texttt{#1}}{\texttt{#2}}%
@@ -1653,6 +1659,7 @@
   \ifdefstring{\documentIsMasterThesis}{true}{\global\config@annotationIsMastertrue}{}%
 }
 \newcommand{\config@annotationChapterWarning}[1]{%
+  \configVisibleWarningMarker
   \PackageWarning{config}{Annotation chapter '#1' is intended only for master theses}%
 }
 \newcommand{\config@annotationChapterInternal}[4]{%

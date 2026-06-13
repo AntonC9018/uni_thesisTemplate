@@ -1,8 +1,8 @@
-from tests.lib.assertions import assert_build_succeeded, assert_log_contains, assert_pdf_contains
+from tests.lib.assertions import assert_build_failed, assert_log_contains, assert_pdf_contains
 
 
 def test_multiple_reference_warnings_survive_one_build(build):
-    assert_build_succeeded(build)
+    assert_build_failed(build)
     expected = (
         ("Float", "unreferenced_main_image"),
         ("Float", "unreferenced_main_table"),
