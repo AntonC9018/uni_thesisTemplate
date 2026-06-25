@@ -155,11 +155,13 @@
 
 \newcommand{\config@appendixReferenceWarningRo}[1]{ATENȚIE: această anexă sau acest element din anexă nu este referit în text: #1.}
 \newcommand{\config@floatReferenceWarningRo}[1]{ATENȚIE: această imagine, acest tabel sau acest bloc de cod nu este referit în text: #1.}
+\newcommand{\config@bibliographyReferenceWarningRo}[1]{ATENȚIE: aceste surse nu sunt citate în text: #1.}
 \newcommand{\config@codeSegmentReferenceWarningRo}[2]{ATENȚIE: segmentul de cod nu a fost găsit: #1 în #2.}
 \newcommand{\config@volumePageRangeWarningRo}[4]{ATENȚIE: #1 trebuie să aibă #3-#4 pagini, acum are #2.}
 \newcommand{\config@volumeMinimumWarningRo}[3]{ATENȚIE: #1 trebuie să aibă cel puțin #3, acum are #2.}
 \newcommand{\config@appendixReferenceWarningRu}[1]{ВНИМАНИЕ: это приложение или элемент приложения не упоминается в тексте: #1.}
 \newcommand{\config@floatReferenceWarningRu}[1]{ВНИМАНИЕ: этот рисунок, таблица или блок кода не упоминается в тексте: #1.}
+\newcommand{\config@bibliographyReferenceWarningRu}[1]{ВНИМАНИЕ: эти источники не упоминаются в тексте: #1.}
 \newcommand{\config@codeSegmentReferenceWarningRu}[2]{ВНИМАНИЕ: сегмент кода не найден: #1 в #2.}
 \newcommand{\config@volumePageRangeWarningRu}[4]{ВНИМАНИЕ: #1 должен занимать #3-#4 страницы, сейчас #2.}
 \newcommand{\config@volumeMinimumWarningRu}[3]{ВНИМАНИЕ: #1 должен содержать минимум #3, сейчас #2.}
@@ -187,6 +189,7 @@
   \def\appendixReferenceLetter{A}%
   \let\appendixReferenceWarning\config@appendixReferenceWarningRo
   \let\floatReferenceWarning\config@floatReferenceWarningRo
+  \let\bibliographyReferenceWarning\config@bibliographyReferenceWarningRo
   \let\codeSegmentReferenceWarning\config@codeSegmentReferenceWarningRo
   \let\volumePageRangeWarning\config@volumePageRangeWarningRo
   \let\volumeMinimumWarning\config@volumeMinimumWarningRo
@@ -216,6 +219,7 @@
   \def\appendixReferenceLetter{П}%
   \let\appendixReferenceWarning\config@appendixReferenceWarningRu
   \let\floatReferenceWarning\config@floatReferenceWarningRu
+  \let\bibliographyReferenceWarning\config@bibliographyReferenceWarningRu
   \let\codeSegmentReferenceWarning\config@codeSegmentReferenceWarningRu
   \let\volumePageRangeWarning\config@volumePageRangeWarningRu
   \let\volumeMinimumWarning\config@volumeMinimumWarningRu
@@ -364,6 +368,21 @@
 \DeclareFieldFormat*{urldate}{\bibstring{urlseen}~#1}
 \DeclareFieldFormat*{pagetotal}{#1~p.}
 \DeclareFieldFormat*{isbn}{ISBN: #1}
+
+\makeatletter
+\let\config@original@nocite\nocite
+\newcommand{\config@nociteReferenceWarning}[1]{%
+  \configVisibleWarningMarker
+  \PackageWarning{config}{Bibliography source(s) '\detokenize{#1}' inserted with \string\nocite\space but not cited}%
+  \par\noindent\textbf{\textcolor{red}{%
+    \bibliographyReferenceWarning{\texttt{\detokenize{#1}}}%
+  }}\par
+}
+\RenewDocumentCommand{\nocite}{m}{%
+  \config@original@nocite{#1}%
+  \config@nociteReferenceWarning{#1}%
+}
+\makeatother
 
 % if 1 author: CURMANSCHII, A.
 % if 2 authors: CURMANSCHII, A., another author
