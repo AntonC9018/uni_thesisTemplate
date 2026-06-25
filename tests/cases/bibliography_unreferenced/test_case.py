@@ -5,6 +5,7 @@ from tests.lib.assertions import (
     assert_build_failed,
     assert_build_succeeded,
     assert_log_contains,
+    assert_log_not_contains,
     assert_pdf_contains,
     assert_pdf_not_contains,
 )
@@ -21,7 +22,16 @@ def test_unreferenced_bibliography_entries_are_not_listed(build):
     assert_build_succeeded(build)
     assert_pdf_contains(build, "Referenced Regression Source")
     assert_pdf_not_contains(build, "Unreferenced Regression Source")
+    assert_log_not_contains(build, "Bibliography source(s)")
     assert "unreferenced_source" not in build.artifact_text(".bbl")
+
+
+def test_nocite_for_cited_source_does_not_warn(case_dir, tmp_path):
+    result = build_input(case_dir, tmp_path, "main_cite_and_nocite.tex")
+
+    assert_build_succeeded(result)
+    assert_pdf_contains(result, "Referenced Regression Source")
+    assert_log_not_contains(result, "Bibliography source(s)")
 
 
 def test_nocite_produces_visible_and_log_warning(case_dir, tmp_path):

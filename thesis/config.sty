@@ -370,17 +370,17 @@
 \DeclareFieldFormat*{isbn}{ISBN: #1}
 
 \makeatletter
-\let\config@original@nocite\nocite
-\newcommand{\config@nociteReferenceWarning}[1]{%
+\newcommand{\config@nociteReferenceWarning}{%
   \configVisibleWarningMarker
-  \PackageWarning{config}{Bibliography source(s) '\detokenize{#1}' inserted with \string\nocite\space but not cited}%
+  \PackageWarning{config}{Bibliography source(s) '\abx@field@entrykey' inserted with \string\nocite\space but not cited}%
   \par\noindent\textbf{\textcolor{red}{%
-    \bibliographyReferenceWarning{\texttt{\detokenize{#1}}}%
+    \bibliographyReferenceWarning{\texttt{\abx@field@entrykey}}%
   }}\par
 }
-\RenewDocumentCommand{\nocite}{m}{%
-  \config@original@nocite{#1}%
-  \config@nociteReferenceWarning{#1}%
+\AtEveryBibitem{%
+  \ifnocite
+    {\config@nociteReferenceWarning}
+    {}%
 }
 \makeatother
 
@@ -571,17 +571,21 @@
 \RequirePackage{tabularx}
 \RequirePackage{booktabs}
 
+\newcommand{\configAcronymNameCell}[1]{%
+  \begin{tabular}[c]{@{}>{\bfseries\raggedright\arraybackslash}l@{}}#1\end{tabular}%
+}
+
 \newglossarystyle{acronymtable}{%
   \renewenvironment{theglossary}{%
     \renewcommand{\tabularxcolumn}[1]{>{\arraybackslash}m{####1}}%
-    \noindent\tabularx{\linewidth}{@{} >{\bfseries\raggedright\arraybackslash}m{0.24\linewidth} X @{}}%
+    \noindent\tabularx{\linewidth}{@{} l X @{}}%
   }{%
     \endtabularx
   }%
   \renewcommand*{\glossaryheader}{}%
   \renewcommand*{\glsgroupheading}[1]{}%
   \renewcommand{\glossentry}[2]{%
-    \glossentryname{##1} &
+    \configAcronymNameCell{\glossentryname{##1}} &
     \glossentrydesc{##1}\tabularnewline
   }%
   \renewcommand*{\glsgroupskip}{}%
