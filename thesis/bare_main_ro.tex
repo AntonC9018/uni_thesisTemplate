@@ -309,8 +309,8 @@ Pentru citate scurte folosiți \verb|\enquote{...}|:
 
 Puteți sublinia codul, de exemplu \verb|#include<iostrea> int a{~8};|.
 
-Când \verb|\verb| este utilizat pentru \verb|\subsection|,
-este necesar să aplicați \verb|\cprotect| la acea \verb|\subsection|.
+Când textul literal trebuie folosit într-un argument fragil, de exemplu într-un titlu,
+o inscripție sau un tabel, salvați-l cu \verb|\SaveVerb| și inserați-l cu \verb|\UseVerb|.
 
 De asemenea, \verb|\verb| poate fi utilizat nu doar cu \verb!|! pentru a marca începutul și sfârșitul,
 adică \verb!\verb|code|!, ci și, de exemplu, \verb|\verb!code!|.
@@ -336,7 +336,9 @@ Denumirea tabelului trebuie să se afle \textbf{deasupra} tabelului.
 }
 
 
-\cprotect\section{Librăria \verb|minted| pentru cod}
+\SaveVerb{mintedLibraryName}|minted|
+
+\section[Librăria minted pentru cod]{Librăria \UseVerb{mintedLibraryName} pentru cod}
 
 \subsection{Informații generale}
 
@@ -401,6 +403,27 @@ Regular text
 Multiline
 With any characters |||
 \end{code}
+
+\subsection{Inserarea codului literal în tabele}
+
+Pentru fragmente scurte de cod care trebuie să apară într-un tabel sau în inscripția lui,
+salvați textul literal înainte de tabel și inserați-l cu \verb|\UseVerb|.
+
+\SaveVerb{tableHttpRoute}|GET /users/{id}?q=a&b%20c|
+\SaveVerb{tableJsonConfig}|{"path": "C:\tmp\{id}", "enabled": true}|
+
+\Obiectul{inline_code_table_example} prezintă inserarea unor fragmente salvate cu \verb|\SaveVerb|.
+
+\insertTable[inline_code_table_example]{Fragmente de cod salvate: \UseVerb{tableHttpRoute}}{%
+  \begin{tabularx}{\textwidth}{l X}
+    \toprule
+    Context & Fragment \\
+    \midrule
+    Rută HTTP & \UseVerb{tableHttpRoute} \\
+    Configurare JSON & \UseVerb{tableJsonConfig} \\
+    \bottomrule
+  \end{tabularx}
+}
 
 \section{Imagini}
 

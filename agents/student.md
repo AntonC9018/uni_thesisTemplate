@@ -22,5 +22,6 @@
   * silently insert captions if they are missing in the source but are required
   * silently format inline code as such
   * edit the bibliography file, pasting in the new sources
+  * never change the text size - any text size other than the template default for a given context is wrong
   
   

@@ -351,7 +351,8 @@ The obtained results were reported at \textbf{\conferencesList}\cite{self}.
 
 Можно подчеркивать код, например \verb|#include<iostream> int a{~8};|.
 
-Когда \verb|\verb| используется для \verb|\subsection|, необходимо применить \verb|\cprotect| к этой \verb|\subsection|.
+Когда дословный текст нужно использовать в хрупком аргументе, например в заголовке,
+подписи или таблице, сохраните его через \verb|\SaveVerb| и вставьте через \verb|\UseVerb|.
 
 Также, \verb|\verb| можно использовать не только с \verb!|! для обозначения начала и конца, то есть \verb!\verb|code|!, но можно и, например, \verb|\verb!code!|. 
 Используйте тот символ, который не используется в коде, который необходимо вставить как есть.
@@ -375,7 +376,9 @@ The obtained results were reported at \textbf{\conferencesList}\cite{self}.
   \end{tabular}
 }
 
-\cprotect\section{Библиотека \verb|minted| для кода}
+\SaveVerb{mintedLibraryName}|minted|
+
+\section[Библиотека minted для кода]{Библиотека \UseVerb{mintedLibraryName} для кода}
 
 \subsection{Общая информация}
 
@@ -440,6 +443,27 @@ Regular text
 Multiline
 With any characters |||
 \end{code}
+
+\subsection{Вставка дословного кода в таблицы}
+
+Для коротких фрагментов кода, которые должны появиться в таблице или её подписи,
+сохраните дословный текст перед таблицей и вставьте его через \verb|\UseVerb|.
+
+\SaveVerb{tableHttpRoute}|GET /users/{id}?q=a&b%20c|
+\SaveVerb{tableJsonConfig}|{"path": "C:\tmp\{id}", "enabled": true}|
+
+\Объект{inline_code_table_example} показывает вставку фрагментов, сохраненных через \verb|\SaveVerb|.
+
+\insertTable[inline_code_table_example]{Фрагменты кода сохранены: \UseVerb{tableHttpRoute}}{%
+  \begin{tabularx}{\textwidth}{l X}
+    \toprule
+    Контекст & Фрагмент \\
+    \midrule
+    HTTP-маршрут & \UseVerb{tableHttpRoute} \\
+    JSON-конфигурация & \UseVerb{tableJsonConfig} \\
+    \bottomrule
+  \end{tabularx}
+}
 
 \section{Изображения}
 

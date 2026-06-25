@@ -33,7 +33,7 @@
 | Ссылка на объект (картинка, таблица) | `\Объект{label_1}` | например, 'Рисунок 1.1' |
 | Ссылка на объект в предложном падеже | `\объекте{label_1}` | 'рисунке 1.1' |
 | Ссылка на несколько объектов | `\объекты{label_1}{label_2}` | 'рисунки 1.1 и 1.2' |
-| Команда в заголовке | `\cprotect\section{Библиотека \verb!minted!}` | нужно для `\verb` в заголовках |
+| Дословный текст в заголовке/подписи/таблице | `\SaveVerb{lib}!minted!` затем `\section{Библиотека \UseVerb{lib}}` | сохраняет дословный текст до хрупкого аргумента |
 
 ## Структура документа
 
@@ -65,6 +65,7 @@
 | Нумерованный код: диапазон строк | `\insertCodeFile[code_id][firstline=2,lastline=5]{java}{../src/sourcefile.java}{Надпись}` |
 | Нумерованный код: отмеченный сегмент | `\insertCodeSegment[code_id]{../src/sourcefile.zig}{example}{Надпись}` |
 | Ненумерованный код в приложениях | `\insertCodeFile*{java}{../src/sourcefile.java}` |
+| Короткий код в таблице или подписи | `\SaveVerb{route}!GET /users/{id}?q=a&b%20c!` затем `\UseVerb{route}` |
 | Нумерованная картинка, метка для обращения - `interface.png` | `\insertImage{interface.png}{Надпись}` |
 | Нумерованная картинка, метка для обращения `interface` | `\insertImage[interface]{interface.png}{Надпись}` |
 | Ненумерованная картинка | `\insertImage*{interface.png}{Надпись}` |

@@ -33,7 +33,7 @@ Compilarea trebuie pornită din directorul `thesis`.
 | Referințe la un obiect (imagine, tabel) | `\Obiectul{label_1}` | de ex. 'Imaginea 1.1' |
 | Referințe la un obiect în cazul genitiv | `\unuiObiect{label_1}`, `\obiectului{label_1}` | 'imaginei 1.1' |
 | Referințe la mai multe obiecte | `\obiectele{label_1}{label_2}` | 'imaginile 1.1 și 1.2' |
-| Comandă în titlu | `\cprotect\section{Librăria \verb!minted!}` | necesar pentru `\verb` în titluri |
+| Text literal în titlu/inscripție/tabel | `\SaveVerb{lib}!minted!` apoi `\section{Librăria \UseVerb{lib}}` | salvează textul literal înainte de argumentul fragil |
 
 ## Structura documentului
 
@@ -65,6 +65,7 @@ Compilarea trebuie pornită din directorul `thesis`.
 | Cod numerotat: interval de linii | `\insertCodeFile[code_id][firstline=2,lastline=5]{java}{../src/sourcefile.java}{Inscripție}` |
 | Cod numerotat: segment marcat | `\insertCodeSegment[code_id]{../src/sourcefile.zig}{example}{Inscripție}` |
 | Cod nenumerotat în anexe | `\insertCodeFile*{java}{../src/sourcefile.java}` |
+| Cod scurt în tabel sau inscripție | `\SaveVerb{route}!GET /users/{id}?q=a&b%20c!` apoi `\UseVerb{route}` |
 | Imagine numerotată, eticheta pentru referință este `interface.png` | `\insertImage{interface.png}{Inscripție}` |
 | Imagine numerotată, eticheta pentru referință este `interface` | `\insertImage[interface]{interface.png}{Inscripție}` |
 | Imagine nenumerotată | `\insertImage*{interface.png}{Inscripție}` |
