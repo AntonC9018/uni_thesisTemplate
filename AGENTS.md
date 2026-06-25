@@ -10,5 +10,6 @@ The repo contains latex template config for Moldova State University.
 - `/thesis/render.sh` is the build command.
 
 - If you are editing the config or the templates, see `./agents/development.md`.
-- If you are assisting the user in writing their thesis, see `./agents/student.md`.
+- If you are assisting the user in writing their thesis 
+  or converting from another format to latex, see `./agents/student.md`.
 
