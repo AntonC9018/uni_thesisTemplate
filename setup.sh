@@ -16,6 +16,7 @@ texlive_bin="/usr/local/texlive/2025/bin/x86_64-linux"
 
     trap 'kill $sudo_keepalive_pid' EXIT
 
+    sudo add-apt-repository ppa:deadsnakes/ppa -y
     sudo apt update
     sudo apt install -y perl python3.14-venv wget tar fonts-liberation fontconfig
 
