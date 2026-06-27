@@ -22,7 +22,11 @@
 
 - Keep the original comments around the metadata section of the template.
 - Silently insert captions if they are missing in the source but are required.
-- Silently format inline code as such.
+- Silently format inline code as such. For this, prefer commands mentioned in the template.
 - Edit the bibliography file, pasting in the new sources.
 - Never change the text size - any text size other than the template default for a given context is wrong.
+- Document being too long after conversion is totally ok, you should not silently change 
+  the document content or disregard previous instructions to make it fit the required number of pages.
+  You may compress text only upon an explicit request.
+- Unreferenced bibliography or not enough sources is also completely fine after the conversion.
   
