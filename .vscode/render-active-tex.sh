@@ -19,41 +19,25 @@ is_wsl() {
     grep -qiE '(microsoft|wsl)' /proc/version 2>/dev/null
 }
 
-windows_file_uri() {
-    local windows_path
-    windows_path="$(wslpath -w "$1")"
+open_pdf_in_browser() {
+    local pdf_path=$1
+    local uri windows_path
 
-    if command -v python3 >/dev/null 2>&1; then
-        python3 - "$windows_path" <<'PY'
-from pathlib import PureWindowsPath
-import sys
-from urllib.parse import quote
-
-path = PureWindowsPath(sys.argv[1])
-parts = [quote(part, safe='') for part in path.parts[1:]]
-
-if path.drive.startswith('\\\\'):
-    host, share = path.drive.lstrip('\\').split('\\', 1)
-    print(f"file://{host}/{quote(share, safe='')}/{'/'.join(parts)}")
-elif path.drive:
-    drive = path.drive.rstrip(':')
-    print(f"file:///{drive}:/{'/'.join(parts)}")
-else:
-    print('file:///' + '/'.join(quote(part, safe='') for part in path.parts))
-PY
+    if is_wsl && command -v wslpath >/dev/null 2>&1 && command -v explorer.exe >/dev/null 2>&1; then
+        windows_path="$(wslpath -w "$pdf_path")"
+        explorer.exe "$windows_path" >/dev/null 2>&1 &
         return 0
     fi
 
-    printf 'file:///%s\n' "${windows_path//\\//}"
-}
-
-open_pdf_in_browser() {
-    local pdf_path=$1
-    local uri
+    if is_wsl && command -v wslpath >/dev/null 2>&1 && command -v powershell.exe >/dev/null 2>&1; then
+        windows_path="$(wslpath -w "$pdf_path")"
+        powershell.exe -NoProfile -Command "Start-Process -LiteralPath \$args[0]" "$windows_path" >/dev/null 2>&1 &
+        return 0
+    fi
 
     if is_wsl && command -v wslpath >/dev/null 2>&1 && command -v cmd.exe >/dev/null 2>&1; then
-        uri="$(windows_file_uri "$pdf_path")"
-        cmd.exe /C start "" "$uri" >/dev/null 2>&1 &
+        windows_path="$(wslpath -w "$pdf_path")"
+        cmd.exe /C start "" "$windows_path" >/dev/null 2>&1 &
         return 0
     fi
 
@@ -126,8 +110,16 @@ pdf_path="$thesis_dir/${relative_input%.tex}.pdf"
 printf 'Built PDF: %s\n' "$pdf_path"
 
 if [ "${THESIS_VSCODE_NO_BROWSER:-}" = "1" ]; then
+    if [ "$render_status" -eq 4 ]; then
+        exit 0
+    fi
+
     exit "$render_status"
 fi
 
 open_pdf_in_browser "$pdf_path"
+if [ "$render_status" -eq 4 ]; then
+    exit 0
+fi
+
 exit "$render_status"
