@@ -23,21 +23,30 @@ open_pdf_in_browser() {
     local pdf_path=$1
     local uri windows_path
 
-    if is_wsl && command -v wslpath >/dev/null 2>&1 && command -v explorer.exe >/dev/null 2>&1; then
-        windows_path="$(wslpath -w "$pdf_path")"
-        explorer.exe "$windows_path" >/dev/null 2>&1 &
-        return 0
-    fi
-
     if is_wsl && command -v wslpath >/dev/null 2>&1 && command -v powershell.exe >/dev/null 2>&1; then
         windows_path="$(wslpath -w "$pdf_path")"
-        powershell.exe -NoProfile -Command "Start-Process -LiteralPath \$args[0]" "$windows_path" >/dev/null 2>&1 &
-        return 0
+        if powershell.exe -NoProfile -Command "& { param([string]\$path) \$uri = [System.Uri]::new(\$path).AbsoluteUri; Start-Process \$uri }" "$windows_path" >/dev/null 2>&1; then
+            return 0
+        fi
     fi
 
     if is_wsl && command -v wslpath >/dev/null 2>&1 && command -v cmd.exe >/dev/null 2>&1; then
+        windows_path="$(wslpath -m "$pdf_path")"
+        case "$windows_path" in
+            //*|[[:alpha:]]:/*)
+                uri="file:$windows_path"
+                if [ "${windows_path:0:2}" != "//" ]; then
+                    uri="file:///$windows_path"
+                fi
+                cmd.exe /C start "" "$uri" >/dev/null 2>&1 &
+                return 0
+                ;;
+        esac
+    fi
+
+    if is_wsl && command -v wslpath >/dev/null 2>&1 && command -v explorer.exe >/dev/null 2>&1; then
         windows_path="$(wslpath -w "$pdf_path")"
-        cmd.exe /C start "" "$windows_path" >/dev/null 2>&1 &
+        explorer.exe "$windows_path" >/dev/null 2>&1 &
         return 0
     fi
 
