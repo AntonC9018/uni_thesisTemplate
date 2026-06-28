@@ -21,11 +21,38 @@ is_wsl() {
 
 open_pdf_in_browser() {
     local pdf_path=$1
-    local uri windows_path
+    local uri windows_path temp_dir temp_pdf
 
     if is_wsl && command -v wslpath >/dev/null 2>&1 && command -v powershell.exe >/dev/null 2>&1; then
-        windows_path="$(wslpath -w "$pdf_path")"
-        if powershell.exe -NoProfile -Command "& { param([string]\$path) \$uri = [System.Uri]::new(\$path).AbsoluteUri; Start-Process \$uri }" "$windows_path" >/dev/null 2>&1; then
+        temp_dir="$(
+            powershell.exe -NoProfile -Command '[System.IO.Path]::GetTempPath()' 2>/dev/null \
+                | tr -d '\r' \
+                | sed -n '1{s/[[:space:]]*$//;p;}'
+        )"
+        if [ -n "$temp_dir" ]; then
+            temp_dir="$(wslpath -u "$temp_dir")/uni-thesis-template-vscode"
+            mkdir -p "$temp_dir"
+            temp_pdf="$temp_dir/$(basename -- "$pdf_path")"
+            cp -f -- "$pdf_path" "$temp_pdf"
+            windows_path="$(wslpath -w "$temp_pdf")"
+        else
+            windows_path="$(wslpath -w "$pdf_path")"
+        fi
+
+        if powershell.exe -NoProfile -Command "& {
+            param([string]\$path)
+
+            \$uri = [System.Uri]::new(\$path).AbsoluteUri
+            foreach (\$browser in @('msedge.exe', 'chrome.exe', 'firefox.exe')) {
+                \$command = Get-Command \$browser -ErrorAction SilentlyContinue
+                if (\$command) {
+                    Start-Process -FilePath \$command.Source -ArgumentList \$uri
+                    exit 0
+                }
+            }
+
+            Start-Process \$uri
+        }" "$windows_path" >/dev/null 2>&1; then
             return 0
         fi
     fi
