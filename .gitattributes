@@ -1,0 +1,14 @@
+# Normalize text files in the repository and keep checkouts LF by default.
+* text=auto eol=lf
+
+# Windows command files should keep Windows line endings.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary and rich document assets must not be line-ending normalized.
+*.jpg binary
+*.jpeg binary
+*.pdf binary
+*.png binary
+*.rtf binary
+*.ttf binary
