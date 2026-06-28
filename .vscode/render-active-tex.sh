@@ -77,9 +77,25 @@ PY
     printf 'No browser opener was found. Open the PDF manually.\n' >&2
 }
 
+render_args=()
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        -f|--force)
+            render_args+=(--force)
+            shift
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
 active_file=${1:-}
 [ -n "$active_file" ] || die "open a .tex file inside thesis/ and press F5."
 [ -f "$active_file" ] || die "active file does not exist: $active_file"
+if [ "$#" -gt 1 ]; then
+    die "unexpected arguments after active file: ${*:2}"
+fi
 
 script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 workspace_dir="$(cd -- "$script_dir/.." && pwd -P)"
@@ -105,7 +121,7 @@ esac
 
 cd -- "$thesis_dir"
 set +e
-./render.sh --input "$relative_input"
+./render.sh "${render_args[@]}" --input "$relative_input"
 render_status=$?
 set -e
 
