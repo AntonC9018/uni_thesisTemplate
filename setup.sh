@@ -20,6 +20,9 @@ texlive_bin="/usr/local/texlive/2025/bin/x86_64-linux"
     sudo apt update
     sudo apt install -y perl python3.14-venv wget tar fonts-liberation fontconfig
 
+    # git on Windows doesn't see track bits correctly in WSL files
+    git config --local core.filemode false
+
     repo_dir="$PWD"
     temp_dir="$repo_dir/temp"
 
