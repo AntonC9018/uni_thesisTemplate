@@ -1619,6 +1619,14 @@
 \newlength{\config@codeFloatBodyHeightLimit}
 \setlength{\config@codeFloatBodyHeightLimit}{\dimexpr\textheight-5\baselineskip\relax}
 
+\newcommand{\config@typesetBreakableCode}[2]{%
+  \par
+  \addvspace{\intextsep}%
+  #1%
+  \par\unvbox#2\par
+  \addvspace{\intextsep}%
+}
+
 % Regular listings stay as floats. Only code bodies too tall to fit on a text
 % page are unpacked so TeX can break them before the footer/page number.
 \newcommand{\config@typesetMeasuredCode}[3]{%
@@ -1631,8 +1639,7 @@
   }%
   \setlength{\config@codeContentHeight}{\dimexpr\ht\config@codeContentBox+\dp\config@codeContentBox\relax}%
   \ifdim\config@codeContentHeight>\config@codeFloatBodyHeightLimit
-    #2%
-    \par\unvbox\config@codeContentBox\par
+    \config@typesetBreakableCode{#2}{\config@codeContentBox}%
   \else
     \begin{listing}[!htbp]
       #1%
