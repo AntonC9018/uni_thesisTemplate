@@ -19,6 +19,46 @@ def _word_rects(page: fitz.Page, word_prefix: str) -> list[fitz.Rect]:
     ]
 
 
+def _first_word_rect(doc: fitz.Document, word_prefix: str) -> tuple[int, fitz.Rect]:
+    for page_index, page in enumerate(doc):
+        rects = _word_rects(page, word_prefix)
+        if rects:
+            return page_index, min(rects, key=lambda rect: rect.y0)
+    raise AssertionError(f"Missing word starting with {word_prefix!r}")
+
+
+def _last_word_rect(doc: fitz.Document, word_prefix: str) -> tuple[int, fitz.Rect]:
+    for page_index in reversed(range(len(doc))):
+        rects = _word_rects(doc[page_index], word_prefix)
+        if rects:
+            return page_index, max(rects, key=lambda rect: rect.y1)
+    raise AssertionError(f"Missing word starting with {word_prefix!r}")
+
+
+def _vertical_gap_between_words(
+    doc: fitz.Document,
+    upper_word_prefix: str,
+    lower_word_prefix: str,
+) -> float:
+    upper_page, upper_rect = _last_word_rect(doc, upper_word_prefix)
+    lower_page, lower_rect = _first_word_rect(doc, lower_word_prefix)
+    assert upper_page == lower_page
+    return lower_rect.y0 - upper_rect.y1
+
+
+def _assert_separated_by_gap_or_page_break(
+    doc: fitz.Document,
+    upper_word_prefix: str,
+    lower_word_prefix: str,
+    min_gap: float,
+) -> None:
+    upper_page, upper_rect = _last_word_rect(doc, upper_word_prefix)
+    lower_page, lower_rect = _first_word_rect(doc, lower_word_prefix)
+    assert lower_page >= upper_page
+    if lower_page == upper_page:
+        assert lower_rect.y0 - upper_rect.y1 >= min_gap
+
+
 def test_oversized_code_blocks_break_before_footer(tmp_path: Path):
     case_dir = tmp_path / "case"
     case_dir.mkdir()
@@ -39,12 +79,18 @@ def test_oversized_code_blocks_break_before_footer(tmp_path: Path):
 Long file code reference: \\ref{{code:long-file}}.
 Long direct code reference: \\ref{{code:long-direct}}.
 
-\\insertCodeFile[code:long-file][linenos=false]{{text}}{{long-source.txt}}{{Long file listing}}
+LongFileBefore.
 
-\\begin{{code}}[code:long-direct][linenos=false]{{text}}{{Long direct listing}}
+\\insertCodeFile[code:long-file][linenos=false]{{text}}{{long-source.txt}}{{LongFileListing}}
+
+LongFileAfter.
+
+LongDirectBefore.
+
+\\begin{{code}}[code:long-direct][linenos=false]{{text}}{{LongDirectListing}}
 {direct_code}
 \\end{{code}}
-After long direct code.
+LongDirectAfter.
 \\end{{document}}
 """,
         encoding="utf-8",
@@ -59,7 +105,7 @@ After long direct code.
     assert_pdf_contains(result, "file-code-line-140")
     assert_pdf_contains(result, "direct-code-line-001")
     assert_pdf_contains(result, "direct-code-line-140")
-    assert_pdf_contains(result, "After long direct code.")
+    assert_pdf_contains(result, "LongDirectAfter.")
     assert_log_not_contains(result, "Float too large")
 
     code_line_pages_by_prefix = {"file-code-line-": set(), "direct-code-line-": set()}
@@ -82,24 +128,18 @@ After long direct code.
                 code_line_pages_by_prefix[matching_prefix].add(page_index)
                 assert fitz.Rect(word[:4]).y1 <= text_bottom
 
-        first_page_words = [fitz.Rect(word[:4]) for word in doc[0].get_text("words")]
-        first_caption_top = min(rect.y0 for rect in _word_rects(doc[0], "Codul"))
-        preceding_text_bottom = max(
-            rect.y1 for rect in first_page_words if rect.y1 < first_caption_top
+        long_file_before_gap = _vertical_gap_between_words(
+            doc, "LongFileBefore", "LongFileListing"
         )
-        assert first_caption_top - preceding_text_bottom >= min_listing_separation
+        assert long_file_before_gap >= min_listing_separation
 
-        first_listing_bottom = max(
-            rect.y1 for rect in _word_rects(doc[1], "file-code-line-140")
+        _assert_separated_by_gap_or_page_break(
+            doc, "file-code-line-140", "LongFileAfter", min_listing_separation
         )
-        second_caption_top = min(rect.y0 for rect in _word_rects(doc[1], "Codul"))
-        assert second_caption_top - first_listing_bottom >= min_listing_separation
 
-        final_listing_bottom = max(
-            rect.y1 for rect in _word_rects(doc[3], "direct-code-line-140")
+        _assert_separated_by_gap_or_page_break(
+            doc, "direct-code-line-140", "LongDirectAfter", min_listing_separation
         )
-        following_text_top = min(rect.y0 for rect in _word_rects(doc[3], "After"))
-        assert following_text_top - final_listing_bottom >= min_listing_separation
 
     assert pdf.page_count(result.pdf_path) > 1
     assert all(len(pages) > 1 for pages in code_line_pages_by_prefix.values())

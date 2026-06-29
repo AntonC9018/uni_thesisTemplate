@@ -1609,8 +1609,11 @@
 \NewDocumentCommand{\configOptionalCodeCaption}{o}{%
   \IfNoValueF{#1}{\caption*{#1}}%
 }
+\NewDocumentCommand{\configBreakableCodeCaption}{s m}{%
+  \IfBooleanTF{#1}{\captionof*{listing}{#2}}{\captionof{listing}{#2}}%
+}
 \NewDocumentCommand{\configOptionalBreakableCodeCaption}{o}{%
-  \IfNoValueF{#1}{\captionof*{listing}{#1}}%
+  \IfNoValueF{#1}{\configBreakableCodeCaption*{#1}}%
 }
 
 \newsavebox{\config@codeContentBox}
@@ -1619,12 +1622,17 @@
 \newlength{\config@codeFloatBodyHeightLimit}
 \setlength{\config@codeFloatBodyHeightLimit}{\dimexpr\textheight-5\baselineskip\relax}
 
+% Match LaTeX's here-float spacing from \@addtocurcol around breakable listings.
 \newcommand{\config@typesetBreakableCode}[2]{%
   \par
-  \addvspace{\intextsep}%
+  \addpenalty\interlinepenalty
+  \vskip\intextsep
   #1%
   \par\unvbox#2\par
-  \addvspace{\intextsep}%
+  \penalty\interlinepenalty
+  \vskip\intextsep
+  \ifnum\outputpenalty<-\@Mii\vskip-\parskip\fi
+  \outputpenalty\z@
 }
 
 % Regular listings stay as floats. Only code bodies too tall to fit on a text
@@ -1690,7 +1698,7 @@
       \caption{#4}%
       \config@codeEnvironmentNumberedLabel{#1}%
     }{%
-      \captionof{listing}{#4}%
+      \configBreakableCodeCaption{#4}%
       \config@codeEnvironmentNumberedLabel{#1}%
     }{%
       \inputminted[#2]{#3}{\config@directCodeFilePath}%
@@ -1730,7 +1738,7 @@
       \caption{#5}%
       \config@codeFileNumberedLabel{#1}{#2}{#4}%
     }{%
-      \captionof{listing}{#5}%
+      \configBreakableCodeCaption{#5}%
       \config@codeFileNumberedLabel{#1}{#2}{#4}%
     }{%
       \inputminted[#2]{#3}{#4}%
@@ -1768,7 +1776,7 @@
       \caption{#5}%
       \config@codeSegmentNumberedLabel{#1}%
     }{%
-      \captionof{listing}{#5}%
+      \configBreakableCodeCaption{#5}%
       \config@codeSegmentNumberedLabel{#1}%
     }{%
       \inputMintedSegment[#2]{#3}{#4}%
