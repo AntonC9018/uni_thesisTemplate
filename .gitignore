@@ -13,3 +13,4 @@ __pycache__/
 *.py[cod]
 *-config-code-*.tmp
 tests/reference-output/current/
+*:Zone.Identifier

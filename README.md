@@ -81,7 +81,7 @@ Run `source ./setup.sh`. It is going to:
 
 This repository includes a VS Code launch configuration. Open any `.tex`
 file inside `thesis/` and press `F5` to render it with `thesis/render.sh`
-and open the generated PDF in your browser automatically.
+and open the generated PDF automatically.
 This also works when VS Code is opened on Windows through a WSL path.
 
 The same command is available as the default build task, so `Ctrl+Shift+B`

@@ -6,102 +6,11 @@ die() {
     exit 1
 }
 
-file_uri() {
-    python3 - "$1" <<'PY'
-from pathlib import Path
-import sys
-
-print(Path(sys.argv[1]).resolve().as_uri())
-PY
-}
-
-is_wsl() {
-    grep -qiE '(microsoft|wsl)' /proc/version 2>/dev/null
-}
-
-open_pdf_in_browser() {
+start_pdf_opener() {
     local pdf_path=$1
-    local uri windows_path temp_dir temp_pdf
+    local opener_script=$2
 
-    if is_wsl && command -v wslpath >/dev/null 2>&1 && command -v powershell.exe >/dev/null 2>&1; then
-        temp_dir="$(
-            powershell.exe -NoProfile -Command '[System.IO.Path]::GetTempPath()' 2>/dev/null \
-                | tr -d '\r' \
-                | sed -n '1{s/[[:space:]]*$//;p;}'
-        )"
-        if [ -n "$temp_dir" ]; then
-            temp_dir="$(wslpath -u "$temp_dir")/uni-thesis-template-vscode"
-            mkdir -p "$temp_dir"
-            temp_pdf="$temp_dir/$(basename -- "$pdf_path")"
-            cp -f -- "$pdf_path" "$temp_pdf"
-            windows_path="$(wslpath -w "$temp_pdf")"
-        else
-            windows_path="$(wslpath -w "$pdf_path")"
-        fi
-
-        if powershell.exe -NoProfile -Command "& {
-            param([string]\$path)
-
-            \$uri = [System.Uri]::new(\$path).AbsoluteUri
-            foreach (\$browser in @('msedge.exe', 'chrome.exe', 'firefox.exe')) {
-                \$command = Get-Command \$browser -ErrorAction SilentlyContinue
-                if (\$command) {
-                    Start-Process -FilePath \$command.Source -ArgumentList \$uri
-                    exit 0
-                }
-            }
-
-            Start-Process \$uri
-        }" "$windows_path" >/dev/null 2>&1; then
-            return 0
-        fi
-    fi
-
-    if is_wsl && command -v wslpath >/dev/null 2>&1 && command -v cmd.exe >/dev/null 2>&1; then
-        windows_path="$(wslpath -m "$pdf_path")"
-        case "$windows_path" in
-            //*|[[:alpha:]]:/*)
-                uri="file:$windows_path"
-                if [ "${windows_path:0:2}" != "//" ]; then
-                    uri="file:///$windows_path"
-                fi
-                cmd.exe /C start "" "$uri" >/dev/null 2>&1 &
-                return 0
-                ;;
-        esac
-    fi
-
-    if is_wsl && command -v wslpath >/dev/null 2>&1 && command -v explorer.exe >/dev/null 2>&1; then
-        windows_path="$(wslpath -w "$pdf_path")"
-        explorer.exe "$windows_path" >/dev/null 2>&1 &
-        return 0
-    fi
-
-    if command -v python3 >/dev/null 2>&1; then
-        uri="$(file_uri "$pdf_path")"
-        if python3 - "$uri" <<'PY'
-import sys
-import webbrowser
-
-raise SystemExit(0 if webbrowser.open_new_tab(sys.argv[1]) else 1)
-PY
-        then
-            return 0
-        fi
-    fi
-
-    if command -v xdg-open >/dev/null 2>&1; then
-        xdg-open "$pdf_path" >/dev/null 2>&1 &
-        return 0
-    fi
-
-    if command -v open >/dev/null 2>&1; then
-        open "$pdf_path" >/dev/null 2>&1 &
-        return 0
-    fi
-
-    printf 'Built PDF: %s\n' "$pdf_path"
-    printf 'No browser opener was found. Open the PDF manually.\n' >&2
+    "$opener_script" "$pdf_path" >/dev/null 2>&1 || true
 }
 
 render_args=()
@@ -169,7 +78,9 @@ if [ "${THESIS_VSCODE_NO_BROWSER:-}" = "1" ]; then
     exit "$render_status"
 fi
 
-open_pdf_in_browser "$pdf_path"
+opener_script="$script_dir/open-pdf.sh"
+[ -x "$opener_script" ] || die "PDF opener script is not executable: $opener_script"
+start_pdf_opener "$pdf_path" "$opener_script"
 if [ "$render_status" -eq 4 ]; then
     exit 0
 fi
