@@ -12,3 +12,6 @@ end_of_line = crlf
 charset = unset
 end_of_line = unset
 insert_final_newline = unset
+
+[*.tex]
+max_line_length = 120

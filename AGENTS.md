@@ -13,3 +13,5 @@ The repo contains latex template config for Moldova State University.
 - If you are assisting the user in writing their thesis 
   or converting from another format to latex, see `./agents/student.md`.
 
+- Make sure to consider the line length from `.editorconfig`.
+
