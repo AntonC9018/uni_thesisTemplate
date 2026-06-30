@@ -158,6 +158,7 @@
 \newcommand{\config@bibliographyReferenceWarningRo}[1]{ATENȚIE: aceste surse nu sunt citate în text: #1.}
 \newcommand{\config@codeSegmentReferenceWarningRo}[2]{ATENȚIE: segmentul de cod nu a fost găsit: #1 în #2.}
 \newcommand{\config@codeSegmentUnsupportedLanguageWarningRo}[2]{ATENȚIE: limbajul pentru segmentul de cod nu este suportat: #1 în #2.}
+\newcommand{\config@largeCodeAppendixWarningRo}{ATENȚIE: acest bloc de cod este prea mare pentru textul principal. Mutați-l într-o anexă și păstrați în text doar referința.}
 \newcommand{\config@volumePageRangeWarningRo}[4]{ATENȚIE: #1 trebuie să aibă #3-#4 pagini, acum are #2.}
 \newcommand{\config@volumeMinimumWarningRo}[3]{ATENȚIE: #1 trebuie să aibă cel puțin #3, acum are #2.}
 \newcommand{\config@appendixReferenceWarningRu}[1]{ВНИМАНИЕ: это приложение или элемент приложения не упоминается в тексте: #1.}
@@ -165,6 +166,7 @@
 \newcommand{\config@bibliographyReferenceWarningRu}[1]{ВНИМАНИЕ: эти источники не упоминаются в тексте: #1.}
 \newcommand{\config@codeSegmentReferenceWarningRu}[2]{ВНИМАНИЕ: сегмент кода не найден: #1 в #2.}
 \newcommand{\config@codeSegmentUnsupportedLanguageWarningRu}[2]{ВНИМАНИЕ: язык сегмента кода не поддерживается: #1 в #2.}
+\newcommand{\config@largeCodeAppendixWarningRu}{ВНИМАНИЕ: этот блок кода слишком большой для основного текста. Перенесите его в приложение и оставьте в тексте только ссылку.}
 \newcommand{\config@volumePageRangeWarningRu}[4]{ВНИМАНИЕ: #1 должен занимать #3-#4 страницы, сейчас #2.}
 \newcommand{\config@volumeMinimumWarningRu}[3]{ВНИМАНИЕ: #1 должен содержать минимум #3, сейчас #2.}
 \newcommand{\configVisibleWarningMarker}{%
@@ -194,6 +196,7 @@
   \let\bibliographyReferenceWarning\config@bibliographyReferenceWarningRo
   \let\codeSegmentReferenceWarning\config@codeSegmentReferenceWarningRo
   \let\codeSegmentUnsupportedLanguageWarningText\config@codeSegmentUnsupportedLanguageWarningRo
+  \let\largeCodeAppendixWarning\config@largeCodeAppendixWarningRo
   \let\volumePageRangeWarning\config@volumePageRangeWarningRo
   \let\volumeMinimumWarning\config@volumeMinimumWarningRo
 }
@@ -225,6 +228,7 @@
   \let\bibliographyReferenceWarning\config@bibliographyReferenceWarningRu
   \let\codeSegmentReferenceWarning\config@codeSegmentReferenceWarningRu
   \let\codeSegmentUnsupportedLanguageWarningText\config@codeSegmentUnsupportedLanguageWarningRu
+  \let\largeCodeAppendixWarning\config@largeCodeAppendixWarningRu
   \let\volumePageRangeWarning\config@volumePageRangeWarningRu
   \let\volumeMinimumWarning\config@volumeMinimumWarningRu
 }
@@ -1635,6 +1639,15 @@
   \outputpenalty\z@
 }
 
+\newcommand{\config@largeCodeAppendixWarning}{%
+  \ifconfig@inappendix
+  \else
+    \configVisibleWarningMarker
+    \PackageWarning{config}{Large code listing in main text should be moved to an appendix}%
+    \par\noindent\textbf{\textcolor{red}{\largeCodeAppendixWarning}}\par
+  \fi
+}
+
 % Regular listings stay as floats. Only code bodies too tall to fit on a text
 % page are unpacked so TeX can break them before the footer/page number.
 \newcommand{\config@typesetMeasuredCode}[3]{%
@@ -1647,6 +1660,7 @@
   }%
   \setlength{\config@codeContentHeight}{\dimexpr\ht\config@codeContentBox+\dp\config@codeContentBox\relax}%
   \ifdim\config@codeContentHeight>\config@codeFloatBodyHeightLimit
+    \config@largeCodeAppendixWarning
     \config@typesetBreakableCode{#2}{\config@codeContentBox}%
   \else
     \begin{listing}[!htbp]

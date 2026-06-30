@@ -14,4 +14,13 @@ cd thesis
 Manually compare the newly generated PDFs against
 `tests/reference-output/previous/*.pdf`.
 
+For code-block spacing visual checks, render the dedicated spacing PDFs:
+
+```bash
+python3 tests/reference-output/render_code_spacing.py
+```
+
+Manually compare the generated `tests/reference-output/current/code-spacing/*.pdf`
+files against `tests/reference-output/previous/code-spacing/*.pdf`.
+
 Replace the previous PDFs only when the output change is intentional and reviewed.

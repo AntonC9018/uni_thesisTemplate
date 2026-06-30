@@ -4,9 +4,12 @@ import fitz
 
 from tests.lib import pdf
 from tests.lib.assertions import (
+    assert_build_failed,
     assert_build_succeeded,
+    assert_log_contains,
     assert_log_not_contains,
     assert_pdf_contains,
+    assert_pdf_not_contains,
 )
 from tests.lib.latex import build_latex_case
 
@@ -98,15 +101,25 @@ LongDirectAfter.
 
     result = build_latex_case(case_dir, build_dir)
 
-    assert_build_succeeded(result)
+    assert_build_failed(result)
     assert_pdf_contains(result, "Long file code reference: 1.1.")
     assert_pdf_contains(result, "Long direct code reference: 1.2.")
+    assert_pdf_contains(result, "Mutați-l într-o anexă")
     assert_pdf_contains(result, "file-code-line-001")
     assert_pdf_contains(result, "file-code-line-140")
     assert_pdf_contains(result, "direct-code-line-001")
     assert_pdf_contains(result, "direct-code-line-140")
     assert_pdf_contains(result, "LongDirectAfter.")
+    assert_log_contains(
+        result,
+        "Package config Warning: Large code listing in main text should be moved to an appendix",
+    )
     assert_log_not_contains(result, "Float too large")
+    spans = pdf.text_spans(result.pdf_path)
+    assert any(
+        "ATENȚIE:" in span["text"] and span.get("color") == 0xFF0000
+        for span in spans
+    )
 
     code_line_pages_by_prefix = {"file-code-line-": set(), "direct-code-line-": set()}
     text_bottom_tolerance = 5
@@ -143,3 +156,39 @@ LongDirectAfter.
 
     assert pdf.page_count(result.pdf_path) > 1
     assert all(len(pages) > 1 for pages in code_line_pages_by_prefix.values())
+
+
+def test_oversized_code_blocks_in_appendix_do_not_warn(tmp_path: Path):
+    case_dir = tmp_path / "case"
+    case_dir.mkdir()
+    build_dir = tmp_path / "build"
+    build_dir.mkdir()
+
+    (case_dir / "long-source.txt").write_text(
+        "\n".join(f"appendix-code-line-{line:03d}" for line in range(1, 141)) + "\n",
+        encoding="utf-8",
+    )
+    (case_dir / "main.tex").write_text(
+        r"""\documentclass[a4paper,12pt]{report}
+\usepackage[romanian,custom]{config}
+
+\begin{document}
+\chapter{Main}
+Appendix-only large listing.
+
+\appendixChapter
+\section{Appendix Large Code}
+\insertCodeFile*[linenos=false]{text}{long-source.txt}
+\end{document}
+""",
+        encoding="utf-8",
+    )
+
+    result = build_latex_case(case_dir, build_dir)
+
+    assert_build_succeeded(result)
+    assert_pdf_contains(result, "appendix-code-line-001")
+    assert_pdf_contains(result, "appendix-code-line-140")
+    assert_pdf_not_contains(result, "Mutați-l într-o anexă")
+    assert_log_not_contains(result, "Large code listing in main text should be moved to an appendix")
+    assert_log_not_contains(result, "CONFIG_VISIBLE_WARNING")
