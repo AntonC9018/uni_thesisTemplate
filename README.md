@@ -29,18 +29,30 @@ For installation instructions, see [this](https://learn.microsoft.com/en-us/wind
 
 Once you got WSL, refer to the [Ubuntu](#Ubuntu) section for further instructions.
 
+The setup script also enables Windows interop in `/etc/wsl.conf` and
+configures Git to use Windows Git Credential Manager.
+
 Now, the template may work on Windows without WSL.
 The reason it's not recommended is because Latex is known
 to cause issues on Windows because of incorrect package versions.
 Latex on Linux is more stable in this regard.
 
+Also, an official setup script is not provided for systems other than Ubuntu.
+
 ### Ubuntu
 
 Run `source ./setup.sh`. It is going to:
+- Configure WSL interop and Windows Git Credential Manager;
 - Install a minimal Latex distro globally;
 - Install the required packages;
 - Add the Times New Roman font;
 - Add the Latex directory to `PATH` and to `.bashrc`.
+
+To skip WSL interop and Windows Git Credential Manager setup, run:
+
+```shell
+SETUP_WSL=0 source ./setup.sh
+```
 
 > Modify the setup script and rerun it if you need more Latex packages.
 > It's not going to reinstall the Latex distro if it's already installed.

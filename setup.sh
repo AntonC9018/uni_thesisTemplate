@@ -16,6 +16,12 @@ texlive_bin="/usr/local/texlive/2025/bin/x86_64-linux"
 
     trap 'kill $sudo_keepalive_pid' EXIT
 
+    if [ "${SETUP_WSL:-1}" != "0" ]; then
+        ./setup-wsl-git.sh
+    else
+        echo "Skipping WSL interop and Git Credential Manager setup."
+    fi
+
     sudo add-apt-repository ppa:deadsnakes/ppa -y
     sudo apt update
     sudo apt install -y perl python3.14-venv wget tar fonts-liberation fontconfig
