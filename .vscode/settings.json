@@ -21,7 +21,7 @@
         "src": true,
         "temp": true,
         "tests": true,
-        "thesis/.gitignore": true,
+        "**/.gitignore": true,
         "thesis/**/*.aux": true,
         "thesis/**/*.tmp": true,
         "thesis/**/*.acn": true,
@@ -54,7 +54,10 @@
         "thesis/**/_minted*": true,
         "thesis/**/errors.txt": true,
         "thesis/**/generated-code-segments": true,
-        "thesis/**/output": true
+        "thesis/**/output": true,
+        ".render-venv": true,
+        "*/__pycache__": true,
+        "**/*requirements.txt": true,
     },
     "search.exclude": {
         ".pytest_cache": true,

@@ -38,11 +38,13 @@ class LatexBuildResult:
         return path.read_text(encoding="utf-8", errors="replace")
 
 
-def _build_env() -> dict[str, str]:
+def _build_env(render_venv: Path | None = None) -> dict[str, str]:
     env = os.environ.copy()
     current_path = env.get("PATH", "")
     if TEXLIVE_BIN.is_dir():
         env["PATH"] = f"{current_path}{os.pathsep}{TEXLIVE_BIN}"
+    if render_venv is not None:
+        env["THESIS_RENDER_VENV"] = str(render_venv)
     return env
 
 
@@ -73,14 +75,20 @@ def _copy_case_files(case_dir: Path, thesis_dir: Path) -> None:
 
 
 def build_latex_case(case_dir: Path, tmp_path: Path, input_file: str = "main.tex") -> LatexBuildResult:
-    env = _build_env()
+    env = _build_env(tmp_path.parent / ".render-venv")
     _preflight(env)
     input_stem = Path(input_file).stem
 
     thesis_dir = tmp_path / "thesis"
     thesis_dir.mkdir()
 
-    for name in ("config.sty", "render.sh", "findSegment.py", "bibliography.bib"):
+    for name in (
+        "config.sty",
+        "render.sh",
+        "render-requirements.txt",
+        "findSegment.py",
+        "bibliography.bib",
+    ):
         shutil.copy2(SOURCE_THESIS_DIR / name, thesis_dir / name)
 
     for name in ("parts", "images"):

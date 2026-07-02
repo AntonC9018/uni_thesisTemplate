@@ -1,2 +1,3 @@
+-r ../thesis/render-requirements.txt
 pytest
 pymupdf

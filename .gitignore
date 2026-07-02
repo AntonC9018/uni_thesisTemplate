@@ -9,6 +9,7 @@ docker
 .DS_Store
 temp
 .venv/
+.render-venv/
 __pycache__/
 *.py[cod]
 *-config-code-*.tmp
