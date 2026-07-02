@@ -3,18 +3,10 @@ import os
 import hashlib
 from pathlib import Path
 
-COMMENT_STYLES = {
-    "zig": ("//", ""),
-    "js": ("//", ""),
-    "cpp": ("//", ""),
-    "c": ("//", ""),
-    "cs": ("//", ""),
-    "java": ("//", ""),
-    "go": ("//", ""),
-    "bash": ("#", ""),
-    "py": ("#", ""),
-    "lua": ("%", ""),
-}
+from pygments.lexers import get_lexer_by_name, get_lexer_for_filename
+from pygments.util import ClassNotFound
+
+MINTED_ALIAS_UNSAFE_CHARS = set("\\{}#$%&_~^/")
 
 
 def latex_escape(value):
@@ -59,23 +51,63 @@ def generated_segment_path(file_path, segment_name, language):
     return segment_dir / f"{file_hash}.{language}"
 
 
+def safe_minted_alias(lexer, preferred_alias=None):
+    aliases = getattr(lexer, "aliases", ())
+    if preferred_alias in aliases and is_safe_minted_alias(preferred_alias):
+        return preferred_alias
+
+    for alias in aliases:
+        if is_safe_minted_alias(alias):
+            return alias
+
+    return aliases[0] if aliases else None
+
+
+def is_safe_minted_alias(alias):
+    return not any(char in MINTED_ALIAS_UNSAFE_CHARS for char in alias)
+
+
+def minted_language_for_file(file_path):
+    path = Path(file_path)
+    extension = path.suffix.lstrip(".").lower()
+
+    if extension:
+        try:
+            lexer = get_lexer_by_name(extension)
+            alias = safe_minted_alias(lexer, extension)
+            if alias:
+                return alias, extension
+        except ClassNotFound:
+            pass
+
+    try:
+        lexer = get_lexer_for_filename(str(path))
+    except ClassNotFound:
+        return None, extension or "unknown"
+
+    alias = safe_minted_alias(lexer)
+    if not alias:
+        return None, extension or "unknown"
+
+    return alias, extension or alias
+
+
 def main():
     filePath = sys.argv[1]
     segmentName = sys.argv[2]
     extraOptions = sys.argv[3].strip() if len(sys.argv) > 3 else ""
-    language = os.path.splitext(filePath)[1].lstrip(".").lower()
+    language, requested_language = minted_language_for_file(filePath)
 
-    if language not in COMMENT_STYLES:
-        print_unsupported_language_warning(language or "unknown", filePath)
+    if language is None:
+        print_unsupported_language_warning(requested_language, filePath)
         return 0
 
     if not os.path.exists(filePath):
         print_warning(segmentName, filePath)
         return 0
 
-    commentStringStart, commentStringEnd = COMMENT_STYLES[language]
-    segmentBeginString = f"{commentStringStart} Segment {segmentName} begin{commentStringEnd}"
-    segmentEndString = f"{commentStringStart} Segment {segmentName} end{commentStringEnd}"
+    segmentBeginString = f"Segment {segmentName} begin"
+    segmentEndString = f"Segment {segmentName} end"
 
     segmentBegin = -1
     segmentEnd = -1
@@ -103,7 +135,8 @@ def main():
     return 0
 
 
-try:
-    raise SystemExit(main())
-except BrokenPipeError:
-    sys.stderr.close()
+if __name__ == "__main__":
+    try:
+        raise SystemExit(main())
+    except BrokenPipeError:
+        sys.stderr.close()

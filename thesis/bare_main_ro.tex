@@ -377,8 +377,9 @@ Această funcționalitate este implementată cu ajutorul scriptului \texttt{find
 \verb|minted| oferă o funcționalitate similară (\verb|rangestartafterstring|, \verb|rangestopbeforestring|),
 însă nu suportă afișarea numerelor de linie din fișier și inserează o linie goală la începutul segmentului.
 
-Limbajul de programare este determinat pe baza extensiei fișierului.
-Pentru a adăuga extensii care nu sunt încă suportate, modificați \texttt{findSegment.py}.
+Limbajul de programare este determinat pornind de la extensia numelui fișierului.
+Delimitatoarele sunt linii care conțin \verb|Segment <nume> begin| și \verb|Segment <nume> end|,
+scrise ca comentarii în limbajul sursă.
 
 \Obiectul{code_segment_example} inserează un segment delimitat prin comentarii în fișierul sursă.
 
