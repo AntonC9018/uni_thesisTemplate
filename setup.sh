@@ -60,6 +60,7 @@ EOF
         sudo perl ./install-tl -profile "$temp_dir/texlive.profile"
     fi
 
+    sudo "$texlive_bin/tlmgr update --self"
     # Install only the packages required by this project
     # Issue: cannot pin package versions
     sudo "$texlive_bin/tlmgr" install \
